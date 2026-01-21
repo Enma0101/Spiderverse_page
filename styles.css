@@ -847,9 +847,17 @@ body {
   color: var(--text-secondary);
   text-decoration: none;
   transition: var(--transition-smooth);
-  font-size: clamp(0.85rem, 1.5vw, 1rem);
+  font-size
+  
+  : clamp(0.85rem, 1.5vw, 1rem);
 }
 
+[data-theme="light"] .footer .platform-badges .badge {
+  background: var(--ps-blue) !important; /* Fuerza el fondo Azul PlayStation */
+  color: white !important;               /* Mantiene las letras blancas */
+  border: 1px solid var(--ps-blue);      /* Borde azul para que se vea sólido */
+  box-shadow: 0 4px 6px rgba(0, 112, 209, 0.3); /* Una sombra suave azulada */
+}
 .footer-links a:hover,
 .footer-links a:focus {
   color: var(--text-primary);
