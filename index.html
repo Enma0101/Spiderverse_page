@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Descubre los increíbles juegos de Spider-Man para PlayStation 4 y PlayStation 5">
+    <title>Spider-Man PlayStation Games - Marvel's Spider-Man</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Google Fonts - Brutalist Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body data-theme="dark">
+    
+    <!-- Header Navigation -->
+    <header class="header-nav" role="banner">
+        <nav class="navbar navbar-expand-lg" aria-label="Main navigation">
+            <div class="container-fluid px-4">
+                <a class="navbar-brand brutalist-text" href="#home">
+                    <i class="fas fa-spider" aria-hidden="true"></i>
+                    <span>SPIDER-MAN</span>
+                </a>
+                
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
+                        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto align-items-center">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#games">Juegos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#features">Características</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#gallery">Galería</a>
+                        </li>
+                        <li class="nav-item ms-3">
+                            <button id="themeToggle" class="theme-toggle-btn neomorph" 
+                                    aria-label="Cambiar tema de color" title="Cambiar tema">
+                                <i class="fas fa-sun" aria-hidden="true"></i>
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+    
+           <!-- Hero Section con imagen de fondo SIN FILTROS -->
+        <section id="home" class="hero-section" role="region" aria-labelledby="hero-title">
+            <!-- Contenedor independiente para Spider-Man -->
+            <div class="hero-image-container"></div>
+            
+            <div class="hero-content container">
+                <div class="row align-items-center min-vh-100">
+                    <div class="col-lg-6 hero-text" data-aos="fade-right">
+                        <h1 id="hero-title" class="display-1 brutalist-text mb-4">
+                             <span class="text-gradient">TU VECINO <br> AMIGABLE</span>
+                        </h1>
+                        <p class="lead mb-5">
+                            Experimenta la emoción de ser Spider-Man con la trilogía completa 
+                            disponible en PlayStation 4 y PlayStation 5. Gráficos increíbles, 
+                            historia envolvente y acción sin límites.
+                        </p>
+                        <div class="cta-buttons">
+                            <a href="#games" class="btn btn-primary btn-lg neomorph me-3">
+                                <i class="fab fa-playstation me-2" aria-hidden="true"></i>
+                                Ver Juegos
+                            </a>
+                            <a href="#gallery" class="btn btn-outline-light btn-lg neomorph">
+                                <i class="fas fa-images me-2" aria-hidden="true"></i>
+                                Galería
+                            </a>
+                        </div>
+                        
+                        <!-- PlayStation Logos -->
+                        <div class="platform-badges mt-5">
+                            <span class="badge neomorph me-2">
+                                <i class="fab fa-playstation" aria-hidden="true"></i> PS4
+                            </span>
+                            <span class="badge neomorph">
+                                <i class="fab fa-playstation" aria-hidden="true"></i> PS5
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Scroll Indicator -->
+            <div class="scroll-indicator">
+                <a href="#games" aria-label="Scroll to games section">
+                    <i class="fas fa-chevron-down" aria-hidden="true"></i>
+                </a>
+            </div>
+        </section>
+
+        <!-- Games Section -->
+        <section id="games" class="games-section py-5" role="region" aria-labelledby="games-title">
+            <div class="container py-5">
+                <h2 id="games-title" class="section-title brutalist-text text-center mb-5" data-aos="fade-up">
+                    LA TRILOGÍA COMPLETA
+                </h2>
+                
+                <div id="gamesContainer" class="row g-4">
+                    <!-- Games will be loaded from API -->
+                    <div class="col-12 text-center">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Cargando juegos...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+ 
+        <section id="3d-suits" class="three-d-suits-section py-5" role="region" aria-labelledby="suits-3d-title">
+            <div class="container py-5">
+                <h2 id="games-title" class="section-title brutalist-text text-center mb-5" data-aos="fade-up">
+                    JUEGOS DE CONSOLAS
+                </h2>
+                <!-- Carrusel 3D -->
+                <div class="cartgames-wrapper mb-5">
+                    <div class="wrapper">
+                        <div class="inner" style="--quantity: 10;">
+                            <div class="card" style="--index: 0;--color-card: 229, 9, 20;">
+                                <img src="./games/miles morales.webp" alt="Traje Clásico" class="img">
+                            </div>
+                            <div class="card" style="--index: 1;--color-card: 0, 102, 204;">
+                                <img src="./games/play31.webp" alt="Traje Avanzado" class="img">
+                            </div>
+                            <div class="card" style="--index: 2;--color-card: 255, 215, 0;">
+                                <img src="./games/ps5-msm2-box-front-uk.webp" alt="Iron Spider" class="img">
+                            </div>
+                            <div class="card" style="--index: 3;--color-card: 34, 34, 34;">
+                                <img src="./games/Spideman2.webp" alt="Traje Noir" class="img">
+                            </div>
+                            <div class="card" style="--index: 4;--color-card: 138, 43, 226;">
+                                <img src="./games/Spiderman-PS5.webp" alt="Traje 2099" class="img">
+                            </div>
+                            <div class="card" style="--index: 5;--color-card: 255, 140, 0;">
+                                <img src="./games/wii1.webp" alt="Scarlet Spider" class="img">
+                            </div>
+                            <div class="card" style="--index: 6;--color-card: 220, 20, 60;">
+                                <img src="./games/xbox.webp" alt="Traje Simbionte" class="img">
+                            </div>
+                            <div class="card" style="--index: 7;--color-card: 30, 144, 255;">
+                                <img src="./games/xbox1.webp" alt="Traje Big Time" class="img">
+                            </div>
+                            <div class="card" style="--index: 8;--color-card: 255, 69, 0;">
+                                <img src="./games/wii1.webp" alt="Traje Velocity" class="img">
+                            </div>
+                            <div class="card" style="--index: 9;--color-card: 0, 191, 255;">
+                                <img src="./games/play31.webp" alt="Traje Anti-Electro" class="img">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section id="features" class="features-section py-5" role="region" aria-labelledby="features-title">
+            <div class="container py-5">
+                <h2 id="features-title" class="section-title brutalist-text text-center mb-5" data-aos="fade-up">
+                    CARACTERÍSTICAS DESTACADAS
+                </h2>
+                
+                <div class="row g-4">
+                    <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="100">
+                        <div class="feature-card neomorph h-100">
+                            <div class="feature-icon">
+                                <i class="fas fa-gamepad" aria-hidden="true"></i>
+                            </div>
+                            <h3 class="h5 mt-3">Jugabilidad Fluida</h3>
+                            <p>Sistema de combate refinado y mecánicas de balanceo revolucionarias</p>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="200">
+                        <div class="feature-card neomorph h-100">
+                            <div class="feature-icon">
+                                <i class="fas fa-city" aria-hidden="true"></i>
+                            </div>
+                            <h3 class="h5 mt-3">Nueva York Abierto</h3>
+                            <p>Explora una ciudad vibrante y detallada con total libertad</p>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="300">
+                        <div class="feature-card neomorph h-100">
+                            <div class="feature-icon">
+                                <i class="fas fa-book-open" aria-hidden="true"></i>
+                            </div>
+                            <h3 class="h5 mt-3">Historia Épica</h3>
+                            <p>Narrativa cinematográfica con tus villanos y héroes favoritos</p>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="400">
+                        <div class="feature-card neomorph h-100">
+                            <div class="feature-icon">
+                                <i class="fas fa-trophy" aria-hidden="true"></i>
+                            </div>
+                            <h3 class="h5 mt-3">Ray Tracing</h3>
+                            <p>Gráficos de nueva generación con tecnología de trazado de rayos</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Gallery Section -->
+        <section id="gallery" class="gallery-section py-5" role="region" aria-labelledby="gallery-title">
+            <div class="container py-5">
+                <h2 id="gallery-title" class="section-title brutalist-text text-center mb-5" data-aos="fade-up">
+                    GALERÍA DE IMÁGENES
+                </h2>
+                
+                <div id="galleryContainer" class="row g-4">
+                    <!-- Gallery images will be loaded from API -->
+                    <div class="col-12 text-center">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Cargando galería...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer py-5" role="contentinfo">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-lg-4">
+                    <h3 class="brutalist-text mb-3">
+                        <i class="fas fa-spider me-2" aria-hidden="true"></i>
+                        SPIDER-MAN
+                    </h3>
+                    <p class="mb-3">
+                        Sumérgete en el universo de Marvel's Spider-Man. 
+                        Disponible exclusivamente en PlayStation.
+                    </p>
+                    <div class="social-links">
+                        <a href="#" class="social-link neomorph" aria-label="Twitter">
+                            <i class="fab fa-twitter" aria-hidden="true"></i>
+                        </a>
+                        <a href="#" class="social-link neomorph" aria-label="Facebook">
+                            <i class="fab fa-facebook" aria-hidden="true"></i>
+                        </a>
+                        <a href="#" class="social-link neomorph" aria-label="Instagram">
+                            <i class="fab fa-instagram" aria-hidden="true"></i>
+                        </a>
+                        <a href="#" class="social-link neomorph" aria-label="YouTube">
+                            <i class="fab fa-youtube" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="col-lg-2 col-md-4">
+                    <h4 class="h6 mb-3">Juegos</h4>
+                    <ul class="list-unstyled footer-links">
+                        <li><a href="#games">Spider-Man</a></li>
+                        <li><a href="#games">Miles Morales</a></li>
+                        <li><a href="#games">Spider-Man 2</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-2 col-md-4">
+                    <h4 class="h6 mb-3">Enlaces</h4>
+                    <ul class="list-unstyled footer-links">
+                        <li><a href="#features">Características</a></li>
+                        <li><a href="#gallery">Galería</a></li>
+                        <li><a href="#home">Inicio</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-4 col-md-4">
+                    <h4 class="h6 mb-3">PlayStation</h4>
+                    <p class="small mb-3">
+                        Exclusivo de PlayStation. Experimenta el poder de PS5 con 
+                        gráficos de nueva generación y tiempos de carga ultra rápidos.
+                    </p>
+                    <div class="platform-badges">
+                        <span class="badge neomorph me-2">
+                            <i class="fab fa-playstation" aria-hidden="true"></i> PS4
+                        </span>
+                        <span class="badge neomorph">
+                            <i class="fab fa-playstation" aria-hidden="true"></i> PS5
+                        </span>
+                    </div>
+                </div>
+            </div>
+            
+            <hr class="my-4">
+            
+            <div class="row">
+                <div class="col-12 text-center">
+                    <p class="small mb-0">
+                        &copy; 2026 Spider-Man PlayStation. Todos los derechos reservados. 
+                        Marvel, Spider-Man y PlayStation son marcas registradas.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    
+    <!-- Custom JavaScript -->
+    <script src="api.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
