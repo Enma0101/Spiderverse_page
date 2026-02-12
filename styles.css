@@ -619,8 +619,9 @@ body {
 /* ================================
    3D CAROUSEL
    ================================ */
+
 .three-d-suits-section {
-  background: var(--bg-primary);
+  background: var(--bg-tertiary);
   position: relative;
   overflow: hidden;
   padding: 3rem 0;
