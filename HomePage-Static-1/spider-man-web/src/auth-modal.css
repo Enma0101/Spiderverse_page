@@ -2,6 +2,35 @@
    AUTH MODAL STYLES
    ================================ */
 
+.logout-card {
+    max-width: 340px;
+    padding: 2rem;
+    animation: logoutSlideIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.logout-card .fa-spider {
+    animation: spiderSwing 0.6s ease 0.3s both;
+}
+
+@keyframes logoutSlideIn {
+    0% {
+        opacity: 0;
+        transform: translateY(-40px) scale(0.9);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes spiderSwing {
+    0% { transform: rotate(0deg); }
+    25% { transform: rotate(15deg); }
+    50% { transform: rotate(-10deg); }
+    75% { transform: rotate(5deg); }
+    100% { transform: rotate(0deg); }
+}
+
 .auth-modal-overlay {
     position: fixed;
     top: 0;
