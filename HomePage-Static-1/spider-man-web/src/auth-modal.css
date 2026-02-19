@@ -201,3 +201,14 @@
 [data-theme="light"] .auth-card .btn-outline-light:hover {
     background: rgba(0, 0, 0, 0.05) !important;
 }
+
+[data-theme="light"] .auth-card .btn-danger {
+    background: var(--accent-primary) !important;
+    border-color: var(--accent-primary) !important;
+    color: white !important;
+}
+
+[data-theme="light"] .auth-card .btn-danger:hover {
+    background: #b00010 !important;
+    box-shadow: 0 5px 15px rgba(229, 9, 20, 0.4);
+}
