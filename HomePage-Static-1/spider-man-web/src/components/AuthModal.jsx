@@ -53,9 +53,14 @@ const AuthModal = ({ isOpen, onClose }) => {
                     {isLogin ? 'INICIAR SESIÓN' : 'CREAR CUENTA'}
                 </h2>
 
-                {error && <div className="alert alert-danger text-center small p-2 mb-3">{error}</div>}
+                <form className="auth-form" onSubmit={(e) => e.preventDefault()}>
+                    {!isLogin && (
+                        <div className="input-group neomorph-input-group mb-3">
+                            <span className="input-group-text"><i className="fas fa-user"></i></span>
+                            <input type="text" className="form-control" placeholder="Nombre de Usuario" required />
+                        </div>
+                    )}
 
-                <form className="auth-form" onSubmit={handleSubmit}>
                     <div className="input-group neomorph-input-group mb-3">
                         <span className="input-group-text"><i className="fas fa-envelope"></i></span>
                         <input
