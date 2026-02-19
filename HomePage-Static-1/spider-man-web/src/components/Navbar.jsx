@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../context/useAuth';
+import LogoutModal from './LogoutModal';
 
 const Navbar = ({ onOpenAuth }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [theme, setTheme] = useState(localStorage.getItem('theme') || 'dark');
     const [activeSection, setActiveSection] = useState('home');
+    const [showLogout, setShowLogout] = useState(false);
     const location = useLocation();
     const navigate = useNavigate();
-    const { user, signOut } = useAuth();
+    const { user } = useAuth();
 
     // Sync theme
     useEffect(() => {
@@ -93,6 +95,7 @@ const Navbar = ({ onOpenAuth }) => {
     ];
 
     return (
+        <>
         <header className="header-nav" role="banner">
             {/*
          Standard Bootstrap 5 navbar structure
@@ -183,11 +186,9 @@ const Navbar = ({ onOpenAuth }) => {
                                         </div>
                                         <button
                                             className="btn btn-outline-danger btn-sm neomorph px-2"
-                                            onClick={async () => {
-                                                await signOut();
+                                            onClick={() => {
+                                                setShowLogout(true);
                                                 setIsOpen(false);
-                                                // Forzar recarga para limpiar estado en todos los navegadores
-                                                window.location.reload();
                                             }}
                                             title="Cerrar Sesión"
                                             style={{ borderRadius: '50%', width: '32px', height: '32px', padding: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
@@ -213,6 +214,8 @@ const Navbar = ({ onOpenAuth }) => {
                 </div>
             </nav>
         </header>
+        <LogoutModal isOpen={showLogout} onClose={() => setShowLogout(false)} />
+        </>
     );
 };
 
