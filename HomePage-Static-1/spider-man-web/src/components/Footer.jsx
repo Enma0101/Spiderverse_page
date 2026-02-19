@@ -28,7 +28,7 @@ const Footer = () => {
                                 <i className="fab fa-instagram" aria-hidden="true"></i>
                             </a>
                             <a href="#" className="social-link neomorph" aria-label="YouTube">
-                                <i class="fab fa-youtube" aria-hidden="true"></i>
+                                <i className="fab fa-youtube" aria-hidden="true"></i>
                             </a>
                         </div>
                     </div>
