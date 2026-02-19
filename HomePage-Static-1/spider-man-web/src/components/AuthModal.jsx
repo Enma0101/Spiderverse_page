@@ -1,17 +1,46 @@
 import React, { useState } from 'react';
+import { useAuth } from '../context/AuthContext';
 
 const AuthModal = ({ isOpen, onClose }) => {
     const [isLogin, setIsLogin] = useState(true);
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
+
+    const { signIn, signUp, signInWithGoogle } = useAuth();
 
     if (!isOpen) return null;
 
-    // The overlay class in auth-modal.css is .auth-modal-overlay
-    // It usually has display: none; and becomes display: flex; with .active
-    // In React, we conditionally render, so we can just use the class or force display.
-    // actually auth-modal.css might have:
-    // .auth-modal-overlay.active { display: flex; ... }
-    // Since we render based on isOpen, we can just add 'active' class always if rendered, 
-    // OR just render the div with correct classes.
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setError('');
+        setLoading(true);
+
+        try {
+            const { error } = isLogin
+                ? await signIn(email, password)
+                : await signUp(email, password);
+
+            if (error) throw error;
+
+            // If success, close modal
+            onClose();
+        } catch (err) {
+            setError(err.message);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleGoogleLogin = async () => {
+        try {
+            const { error } = await signInWithGoogle();
+            if (error) throw error;
+        } catch (err) {
+            setError(err.message);
+        }
+    };
 
     return (
         <div className={`auth-modal-overlay ${isOpen ? 'active' : ''}`} style={{ display: isOpen ? 'flex' : 'none' }}>
@@ -24,26 +53,35 @@ const AuthModal = ({ isOpen, onClose }) => {
                     {isLogin ? 'INICIAR SESIÓN' : 'CREAR CUENTA'}
                 </h2>
 
-                <form className="auth-form" onSubmit={(e) => e.preventDefault()}>
-                    {!isLogin && (
-                        <div className="input-group neomorph-input-group mb-3">
-                            <span className="input-group-text"><i className="fas fa-user"></i></span>
-                            <input type="text" className="form-control" placeholder="Nombre de Usuario" required />
-                        </div>
-                    )}
+                {error && <div className="alert alert-danger text-center small p-2 mb-3">{error}</div>}
 
+                <form className="auth-form" onSubmit={handleSubmit}>
                     <div className="input-group neomorph-input-group mb-3">
                         <span className="input-group-text"><i className="fas fa-envelope"></i></span>
-                        <input type="email" className="form-control" placeholder="Correo Electrónico" required />
+                        <input
+                            type="email"
+                            className="form-control"
+                            placeholder="Correo Electrónico"
+                            required
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                        />
                     </div>
 
                     <div className="input-group neomorph-input-group mb-4">
                         <span className="input-group-text"><i className="fas fa-lock"></i></span>
-                        <input type="password" className="form-control" placeholder="Contraseña" required />
+                        <input
+                            type="password"
+                            className="form-control"
+                            placeholder="Contraseña"
+                            required
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                        />
                     </div>
 
-                    <button type="submit" className="btn btn-primary w-100 neomorph-btn">
-                        {isLogin ? 'INGRESAR' : 'REGISTRARSE'}
+                    <button type="submit" className="btn btn-primary w-100 neomorph-btn" disabled={loading}>
+                        {loading ? 'Procesando...' : (isLogin ? 'INGRESAR' : 'REGISTRARSE')}
                     </button>
                 </form>
 
@@ -51,7 +89,10 @@ const AuthModal = ({ isOpen, onClose }) => {
                     <span>O continúa con</span>
                 </div>
 
-                <button className="btn btn-google w-100 mb-4 neomorph-btn">
+                <button
+                    className="btn btn-google w-100 mb-4 neomorph-btn"
+                    onClick={handleGoogleLogin}
+                >
                     <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" width="20" className="me-2" />
                     Google
                 </button>
@@ -64,6 +105,7 @@ const AuthModal = ({ isOpen, onClose }) => {
                         onClick={(e) => {
                             e.preventDefault();
                             setIsLogin(!isLogin);
+                            setError('');
                         }}
                     >
                         {isLogin ? 'Regístrate' : 'Inicia Sesión'}
