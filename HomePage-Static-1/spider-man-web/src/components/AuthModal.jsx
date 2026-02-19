@@ -28,7 +28,9 @@ const AuthModal = ({ isOpen, onClose }) => {
                     {!isLogin && (
                         <div className="input-group neomorph-input-group mb-3">
                             <span className="input-group-text"><i className="fas fa-user"></i></span>
-                            <input type="text" className="form-control" placeholder="Nombre de Usuario" required />
+                            <input type="text" className="form-control" placeholder="Nombre de Usuario" required /> {
+                                /*Nombre de usuario*/
+                            }
                         </div>
                     )}
 
