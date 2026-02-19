@@ -22,25 +22,33 @@ const Navbar = ({ onOpenAuth }) => {
             return;
         }
 
-        const handleScroll = () => {
-            const sections = ['home', 'games', '3d-suits', 'features', 'gallery'];
+        const sections = ['home', 'games', '3d-suits', 'features', 'gallery'];
 
-            // Find the current section
-            for (const section of sections) {
-                const element = document.getElementById(section);
-                if (element) {
-                    const rect = element.getBoundingClientRect();
-                    // Check if section is somewhat in the middle of viewport or top
-                    if (rect.top <= 150 && rect.bottom >= 150) {
-                        setActiveSection(section);
-                        break;
-                    }
-                }
+        // Absolute offset from document top (handles nested elements)
+        const getTop = (el) => {
+            let top = 0;
+            while (el) {
+                top += el.offsetTop;
+                el = el.offsetParent;
             }
+            return top;
         };
 
-        window.addEventListener('scroll', handleScroll);
-        // Call once on mount to set initial active section
+        const handleScroll = () => {
+            const scrollPos = window.scrollY + 250;
+            let current = sections[0];
+
+            for (const id of sections) {
+                const el = document.getElementById(id);
+                if (el && getTop(el) <= scrollPos) {
+                    current = id;
+                }
+            }
+
+            setActiveSection(current);
+        };
+
+        window.addEventListener('scroll', handleScroll, { passive: true });
         handleScroll();
 
         return () => window.removeEventListener('scroll', handleScroll);
@@ -119,7 +127,6 @@ const Navbar = ({ onOpenAuth }) => {
                     <div className={`collapse navbar-collapse ${isOpen ? 'show' : ''}`} id="navbarNav">
                         <ul className="navbar-nav ms-auto align-items-center">
                             {navLinks.map((link) => {
-                                // Active check: simple for hash, strictly for route
                                 let isActive = false;
                                 if (link.href.startsWith('#')) {
                                     isActive = location.pathname === '/' && link.href === `#${activeSection}`;
@@ -144,20 +151,48 @@ const Navbar = ({ onOpenAuth }) => {
                                 );
                             })}
 
-                            <li className="nav-item ms-3">
+                            {/* Separador visual */}
+                            <li className="nav-item d-none d-lg-block" style={{ margin: '0 12px' }}>
+                                <span style={{ color: 'rgba(255,255,255,0.2)', fontSize: '1.2rem' }}>|</span>
+                            </li>
+
+                            {/* Toggle de tema */}
+                            <li className="nav-item">
+                                <button
+                                    id="themeToggle"
+                                    className={`spider-switch ${theme}`}
+                                    onClick={toggleTheme}
+                                >
+                                    <span className="icon sun"><i className="fas fa-sun"></i></span>
+                                    <span className="icon moon"><i className="fas fa-moon"></i></span>
+                                    <div className="spider-knob">
+                                        <i className="fas fa-spider"></i>
+                                    </div>
+                                </button>
+                            </li>
+
+                            {/* Botón de Auth / Usuario */}
+                            <li className="nav-item" style={{ marginLeft: '16px' }}>
                                 {user ? (
                                     <div className="d-flex align-items-center gap-2">
-                                        <span className="text-white small fw-bold d-none d-lg-block">
-                                            {user.email.split('@')[0]}
-                                        </span>
+                                        <div className="d-flex align-items-center gap-2" style={{ padding: '4px 12px', borderRadius: '20px', background: 'var(--bg-tertiary)', color: 'var(--text-primary)' }}>
+                                            <i className="fas fa-user-circle" style={{ color: 'var(--accent-primary)', fontSize: '1.1rem' }}></i>
+                                            <span className="small fw-bold">
+                                                {(user.user_metadata?.full_name || user.email?.split('@')[0] || '').split(' ')[0]}
+                                            </span>
+                                        </div>
                                         <button
-                                            className="btn btn-outline-danger btn-sm neomorph px-3"
-                                            onClick={() => {
-                                                signOut();
+                                            className="btn btn-outline-danger btn-sm neomorph px-2"
+                                            onClick={async () => {
+                                                await signOut();
                                                 setIsOpen(false);
+                                                // Forzar recarga para limpiar estado en todos los navegadores
+                                                window.location.reload();
                                             }}
+                                            title="Cerrar Sesión"
+                                            style={{ borderRadius: '50%', width: '32px', height: '32px', padding: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
                                         >
-                                            <i className="fas fa-sign-out-alt"></i>
+                                            <i className="fas fa-sign-out-alt" style={{ fontSize: '0.8rem' }}></i>
                                         </button>
                                     </div>
                                 ) : (
@@ -172,20 +207,6 @@ const Navbar = ({ onOpenAuth }) => {
                                         <i className="fas fa-user me-2"></i>Acceder
                                     </button>
                                 )}
-                            </li>
-
-                            <li className="nav-item ms-2">
-                                <button
-                                    id="themeToggle"
-                                    className={`spider-switch ${theme}`}
-                                    onClick={toggleTheme}
-                                >
-                                    <span className="icon sun"><i className="fas fa-sun"></i></span>
-                                    <span className="icon moon"><i className="fas fa-moon"></i></span>
-                                    <div className="spider-knob">
-                                        <i className="fas fa-spider"></i>
-                                    </div>
-                                </button>
                             </li>
                         </ul>
                     </div>

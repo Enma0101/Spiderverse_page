@@ -5,37 +5,37 @@ const galleryImages = [
         id: 1,
         title: "Spider-Man Swinging",
         category: "gameplay",
-        image: "/public/spider-man-swinging-between-buildings-manhattan-sk.webp"
+        image: "/spider-man-swinging-between-buildings-manhattan-sk.webp"
     },
     {
         id: 2,
         title: "Miles Morales Powers",
         category: "powers",
-        image: "/public/miles-morales-electric-venom-powers-glowing.webp"
+        image: "/miles-morales-electric-venom-powers-glowing.webp"
     },
     {
         id: 3,
         title: "Combat System",
         category: "combat",
-        image: "/public/spider-man-combat-fighting-enemies-acrobatic.webp"
+        image: "/spider-man-combat-fighting-enemies-acrobatic.webp"
     },
     {
         id: 4,
         title: "New York City",
         category: "world",
-        image: "/public/new-york-city-skyline-sunset-spider-man-game.webp"
+        image: "/new-york-city-skyline-sunset-spider-man-game.webp"
     },
     {
         id: 5,
         title: "Symbiote Suit",
         category: "suits",
-        image: "/public/spider-man-black-symbiote-suit-venom-dark.webp"
+        image: "/spider-man-black-symbiote-suit-venom-dark.webp"
     },
     {
         id: 6,
         title: "Villains",
         category: "villains",
-        image: "/public/spider-man-villains-confrontation-epic-battle.webp"
+        image: "/spider-man-villains-confrontation-epic-battle.webp"
     }
 ];
 
