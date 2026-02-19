@@ -47,6 +47,14 @@ create policy "Users can view own profile."
   on profiles for select
   using ( auth.uid() = id );
 
+create policy "Users can insert own profile."
+  on profiles for insert
+  with check ( auth.uid() = id );
+
+create policy "Users can update own profile."
+  on profiles for update
+  using ( auth.uid() = id );
+
 -- Policies for COMICS (Read-only for users, Admin manages content)
 create policy "Comics are viewable by everyone."
   on comics for select
@@ -70,8 +78,21 @@ create policy "Users can remove own favorites."
 create or replace function public.handle_new_user()
 returns trigger as $$
 begin
-  insert into public.profiles (id, email)
-  values (new.id, new.email);
+  insert into public.profiles (id, email, nombre, updated_at)
+  values (
+    new.id,
+    new.email,
+    coalesce(
+      new.raw_user_meta_data->>'full_name',
+      new.raw_user_meta_data->>'name',
+      split_part(new.email, '@', 1)
+    ),
+    now()
+  )
+  on conflict (id) do update set
+    email = excluded.email,
+    nombre = coalesce(excluded.nombre, public.profiles.nombre),
+    updated_at = now();
   return new;
 end;
 $$ language plpgsql security definer;
