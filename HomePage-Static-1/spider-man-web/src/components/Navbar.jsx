@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../context/useAuth';
 
 const Navbar = ({ onOpenAuth }) => {
     const [isOpen, setIsOpen] = useState(false);
@@ -186,8 +186,6 @@ const Navbar = ({ onOpenAuth }) => {
                                             onClick={async () => {
                                                 await signOut();
                                                 setIsOpen(false);
-                                                // Forzar recarga para limpiar estado en todos los navegadores
-                                                window.location.reload();
                                             }}
                                             title="Cerrar Sesión"
                                             style={{ borderRadius: '50%', width: '32px', height: '32px', padding: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}

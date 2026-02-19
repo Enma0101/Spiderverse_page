@@ -8,4 +8,15 @@ if (!supabaseUrl || !supabaseAnonKey) {
   alert('Error: Supabase credentials (VITE_SUPABASE_URL, VITE_SUPABASE_ANON_KEY) are missing. check your .env file.');
 }
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
+  auth: {
+    flowType: 'implicit',
+    detectSessionInUrl: true,
+    persistSession: true,
+    autoRefreshToken: true,
+    // Bypass navigator.locks to prevent NavigatorLockAcquireTimeoutError
+    lock: async (name, acquireTimeout, fn) => {
+      return await fn();
+    },
+  },
+});
