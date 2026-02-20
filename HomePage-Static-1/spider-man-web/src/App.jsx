@@ -12,6 +12,7 @@ import Features from './components/Features';
 import Gallery from './components/Gallery';
 import AuthModal from './components/AuthModal';
 import Comics from './pages/Comics';
+import Chatbot from './components/chatbot/Chatbot';
 
 function Home() {
   return (
@@ -34,6 +35,12 @@ function App() {
       once: true,
       mirror: false,
     });
+
+    // Forzar que la página siempre cargue desde arriba y desactivar restauracion automatica del navegador
+    if ('scrollRestoration' in history) {
+      history.scrollRestoration = 'manual';
+    }
+    window.scrollTo(0, 0);
   }, []);
 
   return (
@@ -43,6 +50,7 @@ function App() {
         <Route path="/comics" element={<Comics />} />
       </Routes>
       <AuthModal isOpen={isAuthOpen} onClose={() => setIsAuthOpen(false)} />
+      <Chatbot />
     </Layout>
   );
 }

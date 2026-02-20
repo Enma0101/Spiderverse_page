@@ -1496,3 +1496,25 @@ body {
   outline: 3px solid var(--accent-primary);
   outline-offset: 3px;
 }
+/* LIGHTBOX CUSTOM BUTTONS */
+.lightbox-btn {
+    background: var(--bg-tertiary);
+    color: var(--text-primary) !important;
+    border: 2px solid var(--text-muted);
+    transition: all 0.3s ease;
+}
+.lightbox-btn:hover {
+    background: var(--text-primary);
+    color: var(--bg-primary) !important;
+    transform: scale(1.1);
+    border-color: var(--text-primary);
+}
+[data-theme="light"] .lightbox-btn {
+    background: var(--bg-secondary);
+    border-color: var(--text-primary);
+}
+[data-theme="light"] .lightbox-btn:hover {
+    background: var(--text-primary);
+    color: white !important;
+}
+

@@ -1,6 +1,6 @@
-import React, { useRef, useMemo, Suspense } from 'react';
+import React, { useRef, useMemo, Suspense, useState } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { useGLTF, Environment, ContactShadows } from '@react-three/drei';
+import { useGLTF, Environment, ContactShadows, Html, useProgress } from '@react-three/drei';
 import * as THREE from 'three';
 import spideyUrl from '../assets/Untitled.glb?url';
 import moralesUrl from '../assets/Morales.glb?url';
@@ -38,9 +38,13 @@ const SLOT_URLS = {
     6: morales6Url,
 };
 
-function ModelInstance({ position, yRotation, url }) {
+function ModelInstance({ position, yRotation, url, setGlobalHover }) {
     const { scene } = useGLTF(url);
     const { xRot, yRot, zRot } = MODEL_CFG[url] ?? MODEL_CFG[spideyUrl];
+    const groupRef = useRef();
+    const modelRotRef = useRef();
+    const [hovered, setHovered] = useState(false);
+    const [isFlipped, setIsFlipped] = useState(false);
 
     const clonedScene = useMemo(() => {
         const clone = scene.clone(true);
@@ -54,7 +58,7 @@ function ModelInstance({ position, yRotation, url }) {
         const size = new THREE.Vector3();
         box1.getSize(size);
         const maxDim = Math.max(size.x, size.y, size.z);
-        const scale = 2.6 / maxDim;
+        const scale = 2.4 / maxDim;
         clone.scale.setScalar(scale);
         clone.updateMatrixWorld(true);
 
@@ -67,19 +71,70 @@ function ModelInstance({ position, yRotation, url }) {
         return clone;
     }, [scene, xRot, yRot, zRot]);
 
+    useFrame((_state, delta) => {
+        // Reducir la escala máxima de 1.10 a 1.05 para que no se corte
+        const targetScale = hovered ? 1.05 : 1.0;
+        if (groupRef.current) {
+            groupRef.current.scale.lerp(new THREE.Vector3(targetScale, targetScale, targetScale), 0.15);
+        }
+
+        // Animación suave del giro sobre sí mismo de 0 a 180 (Math.PI)
+        if (modelRotRef.current) {
+            const targetRot = isFlipped ? Math.PI : 0;
+
+            // Si no estamos en hover, forzamos la rotación a 0 para quitar el efecto al salir
+            if (!hovered) {
+                modelRotRef.current.rotation.y = 0;
+            } else {
+                modelRotRef.current.rotation.y = THREE.MathUtils.lerp(
+                    modelRotRef.current.rotation.y,
+                    targetRot,
+                    0.1 // Velocidad de la animación (menor es más lento)
+                );
+            }
+        }
+    });
+
     // El group solo maneja posición + orientación radial del anillo
     return (
-        <group position={position} rotation={[0, yRotation, 0]}>
-            <primitive object={clonedScene} />
+        <group
+            position={position}
+            rotation={[0, yRotation, 0]}
+            ref={groupRef}
+            onPointerOver={(e) => {
+                e.stopPropagation();
+                setHovered(true);
+                setGlobalHover(true);
+                document.body.style.cursor = 'pointer';
+            }}
+            onPointerOut={(e) => {
+                e.stopPropagation();
+                setHovered(false);
+                setGlobalHover(false);
+                setIsFlipped(false); // Vuelve a su estado normal
+                document.body.style.cursor = 'auto';
+            }}
+            onClick={(e) => {
+                e.stopPropagation();
+                // Alternar el estado volteado
+                setIsFlipped((prev) => !prev);
+            }}
+        >
+            <group ref={modelRotRef} rotation={[0, 0, 0]}>
+                <primitive object={clonedScene} />
+            </group>
         </group>
     );
 }
 
 function CarouselRing() {
     const groupRef = useRef();
+    const [isHovered, setIsHovered] = useState(false);
 
     useFrame((_state, delta) => {
-        if (groupRef.current) groupRef.current.rotation.y += delta * 0.25;
+        if (groupRef.current && !isHovered) {
+            groupRef.current.rotation.y += delta * 0.25;
+        }
     });
 
     const slots = useMemo(() =>
@@ -101,16 +156,36 @@ function CarouselRing() {
                     position={slot.position}
                     yRotation={slot.yRotation}
                     url={slot.url}
+                    setGlobalHover={setIsHovered}
                 />
             ))}
         </group>
     );
 }
 
+function CanvasLoader() {
+    const { progress } = useProgress();
+    return (
+        <Html center>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', color: 'white', fontWeight: 'bold' }}>
+                <div style={{
+                    width: '40px', height: '40px',
+                    border: '4px solid #e50914', borderTopColor: 'transparent',
+                    borderRadius: '50%', animation: 'spin 1s linear infinite', marginBottom: '1rem'
+                }}></div>
+                <p>{progress.toFixed(0)}% Cargando...</p>
+                <style>{`
+                    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+                `}</style>
+            </div>
+        </Html>
+    );
+}
+
 const Carousel3D = () => (
     <section id="3d-suits" className="three-d-suits-section">
-        <div className="container mb-1">
-            <h2 className="section-title text-center brutalist-text" data-aos="fade-up">
+        <div className="container mb-12">
+            <h2 className="mb-10 section-title text-center brutalist-text" data-aos="fade-up">
                 JUEGOS DE CONSOLA
             </h2>
         </div>
@@ -127,7 +202,7 @@ const Carousel3D = () => (
                 <pointLight position={[0, 6, 0]} intensity={1.2} color="#e50914" />
                 <pointLight position={[0, -3, 0]} intensity={0.4} color="#ffffff" />
 
-                <Suspense fallback={null}>
+                <Suspense fallback={<CanvasLoader />}>
                     <CarouselRing />
                     <Environment preset="city" />
                     <ContactShadows position={[0, -1.8, 0]} opacity={0.3} scale={16} blur={2.5} />

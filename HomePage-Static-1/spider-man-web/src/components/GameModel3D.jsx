@@ -19,7 +19,7 @@ function SpiderModel() {
         const size = new THREE.Vector3();
         box.getSize(size);
         const maxDim = Math.max(size.x, size.y, size.z);
-        const scale = 2.2 / maxDim;
+        const scale = 1 / maxDim;
         scene.scale.setScalar(scale);
         scene.updateMatrixWorld(true);
 

@@ -1,6 +1,14 @@
 import React from 'react';
 
 const Hero = () => {
+    const handleScrollClick = (e, targetId) => {
+        e.preventDefault();
+        const element = document.getElementById(targetId);
+        if (element) {
+            element.scrollIntoView({ behavior: 'smooth' });
+        }
+    };
+
     return (
         /* Original ID and Classes */
         <section id="home" className="hero-section" role="region" aria-labelledby="hero-title">
@@ -19,11 +27,19 @@ const Hero = () => {
                             historia envolvente y acción sin límites.
                         </p>
                         <div className="cta-buttons">
-                            <a href="#games" className="btn btn-primary btn-lg neomorph me-3">
+                            <a
+                                href="#games"
+                                onClick={(e) => handleScrollClick(e, 'games')}
+                                className="btn btn-primary btn-lg neomorph me-3"
+                            >
                                 <i className="fab fa-playstation me-2" aria-hidden="true"></i>
                                 Ver Juegos
                             </a>
-                            <a href="#gallery" className="btn btn-outline-light btn-lg neomorph">
+                            <a
+                                href="#gallery"
+                                onClick={(e) => handleScrollClick(e, 'gallery')}
+                                className="btn btn-outline-light btn-lg neomorph"
+                            >
                                 <i className="fas fa-images me-2" aria-hidden="true"></i>
                                 Galería
                             </a>
@@ -44,7 +60,11 @@ const Hero = () => {
 
             {/* Scroll Indicator */}
             <div className="scroll-indicator">
-                <a href="#games" aria-label="Scroll to games section">
+                <a
+                    href="#games"
+                    onClick={(e) => handleScrollClick(e, 'games')}
+                    aria-label="Scroll to games section"
+                >
                     <i className="fas fa-chevron-down" aria-hidden="true"></i>
                 </a>
             </div>

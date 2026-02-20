@@ -607,3 +607,5 @@
         font-size: 0.8rem;
     }
 }
+.chatbot-message { flex-shrink: 0; margin-bottom: 4px; }
+
