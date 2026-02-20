@@ -934,7 +934,9 @@ body {
   background: var(--bg-console-section);
   position: relative;
   overflow: hidden;
-  padding: 3rem 0 8rem;
+  padding: 5rem 0 5rem;
+  scroll-margin-top: 70px;
+  /* compensa la altura del navbar fijo */
 }
 
 .cartgames-wrapper {
