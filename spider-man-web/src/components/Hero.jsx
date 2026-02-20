@@ -1,0 +1,55 @@
+import React from 'react';
+
+const Hero = () => {
+    return (
+        /* Original ID and Classes */
+        <section id="home" className="hero-section" role="region" aria-labelledby="hero-title">
+            {/* Contenedor independiente para Spider-Man */}
+            <div className="hero-image-container"></div>
+
+            <div className="hero-content container">
+                <div className="row align-items-start min-vh-100" style={{ paddingTop: '120px' }}>
+                    <div className="col-lg-6 hero-text" data-aos="fade-right">
+                        <h1 id="hero-title" className="display-1 brutalist-text mb-4">
+                            <span className="text-gradient">TU VECINO <br /> AMIGABLE</span>
+                        </h1>
+                        <p className="lead mb-5">
+                            Experimenta la emoción de ser Spider-Man con la trilogía completa
+                            disponible en PlayStation 4 y PlayStation 5. Gráficos increíbles,
+                            historia envolvente y acción sin límites.
+                        </p>
+                        <div className="cta-buttons">
+                            <a href="#games" className="btn btn-primary btn-lg neomorph me-3">
+                                <i className="fab fa-playstation me-2" aria-hidden="true"></i>
+                                Ver Juegos
+                            </a>
+                            <a href="#gallery" className="btn btn-outline-light btn-lg neomorph">
+                                <i className="fas fa-images me-2" aria-hidden="true"></i>
+                                Galería
+                            </a>
+                        </div>
+
+                        {/* PlayStation Logos */}
+                        <div className="platform-badges mt-5">
+                            <span className="badge neomorph me-2">
+                                <i className="fab fa-playstation" aria-hidden="true"></i> PS4
+                            </span>
+                            <span className="badge neomorph">
+                                <i className="fab fa-playstation" aria-hidden="true"></i> PS5
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {/* Scroll Indicator */}
+            <div className="scroll-indicator">
+                <a href="#games" aria-label="Scroll to games section">
+                    <i className="fas fa-chevron-down" aria-hidden="true"></i>
+                </a>
+            </div>
+        </section>
+    );
+};
+
+export default Hero;
