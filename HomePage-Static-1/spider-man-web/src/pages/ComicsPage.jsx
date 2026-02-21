@@ -532,6 +532,27 @@ const ComicsPage = () => {
         setCurrentPage(1);
     }, [filter, searchQuery, sortOrder]);
 
+
+    useEffect(() => {
+        if (!window.$) return;
+
+        const handleScroll = () => {
+            const scrollPos = window.$(window).scrollTop();
+            // Movemos el fondo del banner hacia abajo un 40% de la velocidad de scroll normal
+            window.$('.comics-hero').css({
+                'background-position-y': `calc(105% + ${scrollPos * 0.4}px)`
+            });
+        };
+
+        window.$(window).on('scroll', handleScroll);
+
+        // Limpieza: Cuando cambiamos de página, quitamos el evento para no causar bugs de memoria
+        return () => {
+            window.$(window).off('scroll', handleScroll);
+        };
+    }, []);
+    // ─────────────────────────────────────────────────────────
+
     const goToPage = (page) => {
         setCurrentPage(page);
         const grid = document.querySelector('.comics-grid-section');

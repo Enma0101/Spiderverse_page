@@ -316,13 +316,23 @@ function ModelInstance({ offset, angleRef, url, gameData, onSelect, setGlobalHov
 function CarouselRing({ isPausedRef, onSelect, onAllLoaded }) {
     const angleRef = useRef(0);
     const [loadedCount, setLoadedCount] = useState(0);
+    const [visibleCount, setVisibleCount] = useState(0);
+
+    // Stagger mount to avoid freezing the main WebGL thread (romper la página)
+    useEffect(() => {
+        if (visibleCount >= NUM_MODELS) return;
+        const timer = setTimeout(() => {
+            setVisibleCount(prev => prev + 1);
+        }, visibleCount === 0 ? 0 : 200); // 200ms breathe time between each heavy asset
+        return () => clearTimeout(timer);
+    }, [visibleCount]);
 
     // Track when each model finishes parsing/mounting
     const handleModelLoaded = useCallback(() => {
         setLoadedCount(prev => {
             const next = prev + 1;
             if (next === NUM_MODELS && onAllLoaded) {
-                // All parsed simultaneously! Tiny delay to flush frame
+                // All parsed! Tiny delay to safely flush the final frame to the GPU
                 setTimeout(onAllLoaded, 100);
             }
             return next;
@@ -345,7 +355,7 @@ function CarouselRing({ isPausedRef, onSelect, onAllLoaded }) {
 
     return (
         <>
-            {slots.map((slot, i) => (
+            {slots.slice(0, visibleCount).map((slot, i) => (
                 <Suspense key={i} fallback={null}>
                     <ModelInstance
                         offset={slot.offset}
@@ -440,7 +450,8 @@ function Carousel3D() {
                     }}>
                         <Canvas
                             camera={{ position: [0, 0, 6.5], fov: 90 }}
-                            gl={{ antialias: true, alpha: true }}
+                            dpr={[1, 1.5]}
+                            gl={{ powerPreference: "high-performance", antialias: false, alpha: true }}
                             style={{ width: '100%', height: '100%', background: 'transparent' }}
                         >
                             <ambientLight intensity={0.6} />

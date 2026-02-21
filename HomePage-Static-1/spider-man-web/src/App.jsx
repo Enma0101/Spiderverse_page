@@ -59,6 +59,15 @@ function App() {
     if ('scrollRestoration' in history) {
       history.scrollRestoration = 'manual';
     }
+
+    // ─────────────────────────────────────────────────────────
+    // Demosración de integración con jQuery solicitada
+    // Se utiliza el CDN cargado en index.html (window.$)
+    // ─────────────────────────────────────────────────────────
+    if (window.$) {
+      console.log('✅ jQuery está cargado y funcionando versión:', window.$.fn.jquery);
+    }
+    // ─────────────────────────────────────────────────────────
   }, []);
 
   // Sync scroll to top only when we transition pages, not on initial load
