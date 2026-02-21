@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Footer = () => {
     return (
@@ -37,11 +38,17 @@ const Footer = () => {
                     <div className="col-lg-4">
                         <h4 className="brutalist-text mb-3">Explorar</h4>
                         <ul className="list-unstyled footer-links">
-                            <li><a href="#">Inicio</a></li>
+                            <li><a href="#home" onClick={(e) => {
+                                if (window.location.pathname !== '/') {
+                                    e.preventDefault();
+                                    window.location.href = '/#home';
+                                }
+                            }}>Inicio</a></li>
                             <li><a href="#games">Trilogía</a></li>
                             <li><a href="#3d-suits">Juegos de Consola</a></li>
                             <li><a href="#features">Características</a></li>
                             <li><a href="#gallery">Galería</a></li>
+                            <li><Link to="/comics">Cómics</Link></li>
                         </ul>
                     </div>
 

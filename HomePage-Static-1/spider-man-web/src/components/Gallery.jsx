@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
+// eslint-disable-next-line no-unused-vars
 import { motion, AnimatePresence } from 'framer-motion';
 
 const galleryImages = [
@@ -53,12 +54,10 @@ const Gallery = () => {
 
     const openLightbox = (index) => {
         setSelectedImage(index);
-        document.body.style.overflow = 'hidden'; // Evita scrollear el fondo
     };
 
     const closeLightbox = () => {
         setSelectedImage(null);
-        document.body.style.overflow = 'auto';
     };
 
     const nextImage = (e) => {
@@ -83,9 +82,15 @@ const Gallery = () => {
 
     useEffect(() => {
         if (selectedImage !== null) {
+            document.body.style.overflow = 'hidden';
             window.addEventListener('keydown', handleKeyDown);
+        } else {
+            document.body.style.overflow = '';
         }
-        return () => window.removeEventListener('keydown', handleKeyDown);
+        return () => {
+            document.body.style.overflow = '';
+            window.removeEventListener('keydown', handleKeyDown);
+        };
     }, [selectedImage, handleKeyDown]);
 
     return (

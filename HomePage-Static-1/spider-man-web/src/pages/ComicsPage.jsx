@@ -1,7 +1,32 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { Link } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
+import { useContext } from 'react';
+import { AuthContext } from '../context/authContextDef';
+import { supabase, isSupabaseConfigured } from '../lib/supabaseClient';
+
+// Import the hero banner image
+import heroBannerImg from '../assets/hero-banner.jpg';
+
+// Import Comic Covers (local assets — always available)
+import coverAmazing from '../assets/Comics/5366994b1ec04efeb7ba87eddb39bae1.jpg';
+import coverAmazing2 from '../assets/Comics/9780785199618_p0_v3_s1200x630.jpg';
+import coverMiles from '../assets/Comics/Miles_Morales_Spider-Man_Vol_1_24.webp';
+import coverSpiderVerse1 from '../assets/Comics/Spider-Verse_Vol_1_1.webp';
+import coverSpiderVerse2 from '../assets/Comics/Spider-Verse_Vol_2_1.webp';
+import coverWhisk from '../assets/Comics/Whisk_cbdf98e605aa9bb98b0429eb03bf6219dr.jpeg';
+
+// Import Comic Pages (local assets)
+import page1 from '../assets/Comics/Content/Whisk_1828bd4dc1ce124b5924b7ec958445e4dr.jpeg';
+import page2 from '../assets/Comics/Content/Whisk_276036d03414d2f8f224e321bd10708edr.jpeg';
+import page3 from '../assets/Comics/Content/unnamed.jpg';
+import page4 from '../assets/Comics/Content/Whisk_a36348e63f41798b414471bc2328a808dr.jpeg';
+import page5 from '../assets/Comics/Content/Whisk_b7caf4932788535866d44ed80777e3b0dr.jpeg';
+import page6 from '../assets/Comics/Content/Whisk_bda297d1a8fa4a185de4fc61f4ed1044dr.jpeg';
+import page7 from '../assets/Comics/Content/Whisk_c512fe777f873f1a09a47d36023c4e9adr.jpeg';
+import page8 from '../assets/Comics/Content/Whisk_f1e70e4be57952da66f4d076070ab4b4dr.jpeg';
 
 const ITEMS_PER_PAGE = 8;
 
@@ -14,189 +39,167 @@ const comicsData = [
         creators: ["Joe Kelly", "Nick Bradshaw", "Mark Bagley"],
         category: "amazing",
         badge: "NUEVO",
-        image: "/spider-man-ps4-game-cover-peter-parker-classic-sui.webp",
-        pages: [
-            "/spider-man-ps4-game-cover-peter-parker-classic-sui.webp",
-            "/spider-man-ps4-game-swinging-through-city.webp",
-            "/spider-man-combat-fighting-enemies-acrobatic.webp",
-            "/spider-man-swinging-between-buildings-manhattan-sk.webp",
+        image: coverAmazing,
+        pages: [page1, page2, page3, page4],
+        dialogues: [
+            [
+                { text: "¡El Duende Verde ataca de nuevo!", x: "10%", y: "15%", delay: 0.5, type: "narration" },
+                { text: "¿A dónde crees que vas, Araña?", x: "50%", y: "40%", delay: 1.5, type: "speech" }
+            ],
+            [
+                { text: "¡No te saldrás con la tuya esta vez!", x: "20%", y: "80%", delay: 0.8, type: "speech-spidey" }
+            ],
+            [
+                { text: "KRAKOOOM!", x: "40%", y: "50%", delay: 0.2, type: "sfx" },
+                { text: "¡Cuidado abajo!", x: "15%", y: "20%", delay: 1.2, type: "speech-spidey" }
+            ],
+            [
+                { text: "Fin del primer asalto.", x: "10%", y: "10%", delay: 1, type: "narration" }
+            ]
         ]
     },
     {
         id: 2,
         title: "Miles Morales: Spider-Man",
-        issue: "#42",
+        issue: "#1",
         series: "Miles Morales: Spider-Man (2022)",
-        creators: ["Christopher Condon", "Stefano Caselli"],
+        creators: ["Cody Ziglar", "Federico Vicentini"],
         category: "miles",
-        badge: null,
-        image: "/miles-morales-electric-venom-powers-glowing.webp",
-        pages: [
-            "/miles-morales-electric-venom-powers-glowing.webp",
-            "/miles-morales-spider-man-game-electric-powers.webp",
-            "/miles-morales-spider-man-ps5-game-bioelectric-powe.webp",
-            "/spider-man-swinging-through-new-york-city-skyline-.webp",
+        badge: "DESTACADO",
+        image: coverMiles,
+        pages: [page5, page6, page7, page8],
+        dialogues: [
+            [
+                { text: "Brooklyn... Mi hogar.", x: "5%", y: "10%", delay: 0.4, type: "thought" },
+                { text: "Y mi responsabilidad.", x: "60%", y: "80%", delay: 1.5, type: "thought" }
+            ],
+            [
+                { text: "¡Oye! ¡Devuelve eso!", x: "10%", y: "20%", delay: 0.5, type: "speech" },
+                { text: "Zzzt!", x: "70%", y: "50%", delay: 1.2, type: "sfx" }
+            ],
+            [
+                { text: "Nadie escapa del Prowler...", x: "40%", y: "30%", delay: 0.8, type: "speech" }
+            ],
+            [
+                { text: "Eso está por verse, tío Aaron.", x: "30%", y: "80%", delay: 1.0, type: "speech-spidey" }
+            ]
         ]
     },
     {
         id: 3,
-        title: "Symbiote Spider-Man",
-        issue: "#3",
-        series: "Symbie Infinity Comic (2026)",
-        creators: ["Jacob Chabot"],
-        category: "symbiote",
-        badge: "EXCLUSIVO",
-        image: "/spider-man-black-symbiote-suit-venom-dark.webp",
-        pages: [
-            "/spider-man-black-symbiote-suit-venom-dark.webp",
-            "/spider-man-2-ps5-peter-parker-miles-morales-venom-.webp",
-            "/spider-man-villains-confrontation-epic-battle.webp",
-            "/spider-man-combat-fighting-enemies-acrobatic.webp",
+        title: "Spider-Verse",
+        issue: "#1",
+        series: "Spider-Verse (2025)",
+        creators: ["Dan Slott", "Olivier Coipel"],
+        category: "amazing",
+        badge: "EVENTO",
+        image: coverSpiderVerse1,
+        pages: [page1, page4, page7, page2],
+        dialogues: [
+            [
+                { text: "Toda la red está conectada...", x: "10%", y: "10%", delay: 0.5, type: "narration" }
+            ],
+            [
+                { text: "¡Demasiados arácnidos en un solo lugar!", x: "20%", y: "70%", delay: 1, type: "speech" }
+            ],
+            [
+                { text: "¡Tenemos que trabajar juntos!", x: "50%", y: "20%", delay: 0.6, type: "speech-spidey" }
+            ],
+            [
+                { text: "Hagámoslo.", x: "40%", y: "85%", delay: 1.2, type: "speech" }
+            ]
         ]
     },
     {
         id: 4,
-        title: "Amazing Spider-Man: Torn",
-        issue: "#5",
-        series: "Amazing Spider-Man: Torn (2025)",
-        creators: ["J. Michael Straczynski", "Pere Perez", "Mark Bagley"],
+        title: "Spider-Verse II",
+        issue: "#2",
+        series: "Spider-Verse (2025)",
+        creators: ["Dan Slott", "Giuseppe Camuncoli"],
         category: "amazing",
         badge: null,
-        image: "/spider-man-combat-fighting-enemies-acrobatic.webp",
-        pages: [
-            "/spider-man-combat-fighting-enemies-acrobatic.webp",
-            "/spider-man-ps4-game-cover-peter-parker-classic-sui.webp",
-            "/spider-man-villains-confrontation-epic-battle.webp",
-            "/new-york-city-skyline-sunset-spider-man-game.webp",
+        image: coverSpiderVerse2,
+        pages: [page8, page5, page6, page3],
+        dialogues: [
+            [
+                { text: "Los Herederos se acercan.", x: "10%", y: "15%", delay: 0.5, type: "narration" }
+            ],
+            [
+                { text: "No huiremos más.", x: "60%", y: "75%", delay: 0.8, type: "speech-spidey" }
+            ],
+            [
+                { text: "¡Cuidado con la retaguardia!", x: "20%", y: "30%", delay: 0.4, type: "speech" },
+                { text: "¡SWISH!", x: "70%", y: "60%", delay: 1.1, type: "sfx" }
+            ],
+            [
+                { text: "La batalla final comienza aquí.", x: "15%", y: "15%", delay: 1.5, type: "narration" }
+            ]
         ]
     },
     {
         id: 5,
-        title: "Spider-Man '94",
-        issue: "#4",
-        series: "Spider-Man '94 (2025)",
-        creators: ["JM DeMatteis", "James Towe"],
-        category: "clasicos",
-        badge: null,
-        image: "/spider-man-swinging-between-buildings-manhattan-sk.webp",
-        pages: [
-            "/spider-man-swinging-between-buildings-manhattan-sk.webp",
-            "/spider-man-ps4-game-swinging-through-city.webp",
-            "/new-york-city-skyline-sunset-spider-man-game.webp",
-            "/spider-man-swinging-through-new-york-city-skyline-.webp",
-        ]
-    },
-    {
-        id: 6,
-        title: "Symbiote Spider-Man",
-        issue: "#2",
-        series: "Symbie Infinity Comic (2026)",
-        creators: ["Jacob Chabot"],
-        category: "symbiote",
-        badge: "EXCLUSIVO",
-        image: "/spider-man-2-ps5-peter-parker-miles-morales-venom-.webp",
-        pages: [
-            "/spider-man-2-ps5-peter-parker-miles-morales-venom-.webp",
-            "/spider-man-black-symbiote-suit-venom-dark.webp",
-            "/spider-man-villains-confrontation-epic-battle.webp",
-            "/spider-man-2-ps5-peter-and-miles-dual-heroes.webp",
-        ]
-    },
-    {
-        id: 7,
         title: "The Amazing Spider-Man",
         issue: "#21",
         series: "The Amazing Spider-Man (2025)",
         creators: ["Joe Kelly", "Todd Nauck", "John Romita Jr."],
         category: "amazing",
         badge: "NUEVO",
-        image: "/spider-man-ps4-game-swinging-through-city.webp",
-        pages: [
-            "/spider-man-ps4-game-swinging-through-city.webp",
-            "/spider-man-ps4-game-cover-peter-parker-classic-sui.webp",
-            "/spider-man-swinging-between-buildings-manhattan-sk.webp",
-            "/spider-man-combat-fighting-enemies-acrobatic.webp",
+        image: coverAmazing2,
+        pages: [page2, page3, page5, page8],
+        dialogues: [
+            [
+                { text: "Otra mañana tranquila en NY.", x: "10%", y: "10%", delay: 0.5, type: "thought" },
+                { text: "O eso creía...", x: "60%", y: "85%", delay: 1.5, type: "thought" }
+            ],
+            [
+                { text: "¡Alerta en el Banco Central!", x: "20%", y: "40%", delay: 1.0, type: "speech" }
+            ],
+            [
+                { text: "¡Ríndete, Spider-Man!", x: "50%", y: "20%", delay: 0.7, type: "speech" }
+            ],
+            [
+                { text: "Oblígame.", x: "30%", y: "70%", delay: 1.2, type: "speech-spidey" }
+            ]
         ]
     },
     {
-        id: 8,
-        title: "Miles Morales: Ultimate",
-        issue: "#8",
-        series: "Miles Morales: Spider-Man (2022)",
-        creators: ["Cody Ziglar", "Federico Vicentini"],
-        category: "miles",
-        badge: null,
-        image: "/miles-morales-spider-man-game-electric-powers.webp",
-        pages: [
-            "/miles-morales-spider-man-game-electric-powers.webp",
-            "/miles-morales-electric-venom-powers-glowing.webp",
-            "/miles-morales-spider-man-ps5-game-bioelectric-powe.webp",
-            "/spider-man-2-ps5-peter-and-miles-dual-heroes.webp",
-        ]
-    },
-    {
-        id: 9,
-        title: "Radioactive Spider-Man",
+        id: 6,
+        title: "Symbiote Spider-Man",
         issue: "#3",
-        series: "Radioactive Spider-Man (2025)",
-        creators: ["Joe Kelly", "Kev Walker"],
-        category: "clasicos",
-        badge: "NUEVO",
-        image: "/spider-man-villains-confrontation-epic-battle.webp",
-        pages: [
-            "/spider-man-villains-confrontation-epic-battle.webp",
-            "/spider-man-combat-fighting-enemies-acrobatic.webp",
-            "/spider-man-ps4-game-cover-peter-parker-classic-sui.webp",
-            "/new-york-city-skyline-sunset-spider-man-game.webp",
-        ]
-    },
-    {
-        id: 10,
-        title: "Battleworld: Spider-Verse",
-        issue: "#5",
-        series: "Battleworld (2025)",
-        creators: ["Christos Gage", "Marcus To", "Leinil Francis Yu"],
-        category: "amazing",
-        badge: null,
-        image: "/spider-man-swinging-through-new-york-city-skyline-.webp",
-        pages: [
-            "/spider-man-swinging-through-new-york-city-skyline-.webp",
-            "/spider-man-swinging-between-buildings-manhattan-sk.webp",
-            "/spider-man-ps4-game-swinging-through-city.webp",
-            "/spider-man-2-ps5-peter-and-miles-dual-heroes.webp",
-        ]
-    },
-    {
-        id: 11,
-        title: "Venom: Symbiote Rage",
-        issue: "#1",
         series: "Symbie Infinity Comic (2026)",
         creators: ["Jacob Chabot"],
         category: "symbiote",
         badge: "EXCLUSIVO",
-        image: "/miles-morales-spider-man-ps5-game-bioelectric-powe.webp",
-        pages: [
-            "/miles-morales-spider-man-ps5-game-bioelectric-powe.webp",
-            "/spider-man-black-symbiote-suit-venom-dark.webp",
-            "/spider-man-2-ps5-peter-parker-miles-morales-venom-.webp",
-            "/spider-man-villains-confrontation-epic-battle.webp",
+        image: coverWhisk,
+        pages: [page6, page1, page4, page7],
+        dialogues: [
+            [
+                { text: "Este traje negro... me siento diferente.", x: "5%", y: "15%", delay: 0.5, type: "thought" }
+            ],
+            [
+                { text: "Más fuerte.", x: "70%", y: "80%", delay: 1.2, type: "thought" },
+                { text: "Más rápido.", x: "70%", y: "88%", delay: 1.9, type: "thought" }
+            ],
+            [
+                { text: "¡No tienes escapatoria, Rhino!", x: "20%", y: "30%", delay: 0.6, type: "speech-spidey" }
+            ],
+            [
+                { text: "CRASH!", x: "50%", y: "50%", delay: 0.4, type: "sfx" },
+                { text: "Demasiado poder...", x: "15%", y: "20%", delay: 1.5, type: "thought" }
+            ]
         ]
     },
     {
-        id: 12,
-        title: "Spider-Man 2099",
-        issue: "#12",
-        series: "Spider-Man 2099 (2024)",
-        creators: ["Steve Orlando", "David Wachter"],
+        id: 7,
+        title: "Classic Spider-Man",
+        issue: "#1",
+        series: "Classics (2024)",
+        creators: ["Stan Lee"],
         category: "clasicos",
         badge: null,
-        image: "/new-york-city-skyline-sunset-spider-man-game.webp",
-        pages: [
-            "/new-york-city-skyline-sunset-spider-man-game.webp",
-            "/spider-man-swinging-through-new-york-city-skyline-.webp",
-            "/spider-man-ps4-game-swinging-through-city.webp",
-            "/spider-man-swinging-between-buildings-manhattan-sk.webp",
-        ]
+        image: coverAmazing,
+        pages: [page1, page2],
+        dialogues: [[], []]
     }
 ];
 
@@ -209,10 +212,14 @@ const categories = [
     { key: 'clasicos', label: 'Clásicos', icon: 'fa-star' },
 ];
 
-/* ---- Comic Reader Modal ---- */
+/* ---- Interactive Comic Reader Modal ---- */
 const ComicReader = ({ comic, onClose }) => {
     const [currentPage, setCurrentPage] = useState(0);
-    const totalPages = comic.pages.length;
+    const [scale, setScale] = useState(1);
+    const [isDragging, setIsDragging] = useState(false);
+    const constraintsRef = useRef(null);
+
+    const totalPages = comic.pages?.length || 0;
 
     useEffect(() => {
         document.body.style.overflow = 'hidden';
@@ -223,81 +230,145 @@ const ComicReader = ({ comic, onClose }) => {
         const handleKey = (e) => {
             if (e.key === 'ArrowRight' || e.key === ' ') {
                 e.preventDefault();
-                setCurrentPage(p => Math.min(p + 1, totalPages - 1));
+                handleNext();
             }
             if (e.key === 'ArrowLeft') {
                 e.preventDefault();
-                setCurrentPage(p => Math.max(p - 1, 0));
+                handlePrev();
             }
             if (e.key === 'Escape') onClose();
         };
         window.addEventListener('keydown', handleKey);
         return () => window.removeEventListener('keydown', handleKey);
-    }, [totalPages, onClose]);
+    }, [totalPages, onClose, currentPage]);
 
-    const progress = ((currentPage + 1) / totalPages) * 100;
+    const handleNext = () => {
+        setScale(1);
+        setCurrentPage(p => Math.min(p + 1, totalPages - 1));
+    };
+
+    const handlePrev = () => {
+        setScale(1);
+        setCurrentPage(p => Math.max(p - 1, 0));
+    };
+
+    const handleZoomIn = () => setScale(s => Math.min(s + 0.5, 3));
+    const handleZoomOut = () => setScale(s => Math.max(s - 0.5, 1));
+    const toggleZoom = () => setScale(s => s === 1 ? 2 : 1);
+
+    const progress = totalPages > 0 ? ((currentPage + 1) / totalPages) * 100 : 0;
 
     return (
-        <div className="comic-reader-overlay" onClick={onClose}>
+        <div className="comic-reader-overlay" onClick={onClose} style={{ zIndex: 10000 }}>
             <div className="comic-reader" onClick={(e) => e.stopPropagation()}>
+                {/* Header */}
                 <div className="comic-reader-header">
-                    <div className="comic-reader-title">
-                        <i className="fas fa-book-open me-2"></i>
-                        <span>{comic.series} {comic.issue}</span>
+                    <div className="comic-reader-title d-flex align-items-center gap-2">
+                        <i className="fas fa-book-open text-danger"></i>
+                        <span className="fw-bold fs-5">{comic.series || comic.title} {comic.issue}</span>
                     </div>
-                    <div className="comic-reader-page-info">
-                        Página {currentPage + 1} de {totalPages}
+
+                    <div className="comic-reader-controls d-none d-md-flex align-items-center gap-3">
+                        <button className="btn btn-sm btn-outline-light" onClick={handleZoomOut} disabled={scale === 1}>
+                            <i className="fas fa-search-minus"></i>
+                        </button>
+                        <span className="text-white-50">{Math.round(scale * 100)}%</span>
+                        <button className="btn btn-sm btn-outline-light" onClick={handleZoomIn} disabled={scale === 3}>
+                            <i className="fas fa-search-plus"></i>
+                        </button>
                     </div>
-                    <button className="comic-reader-close" onClick={onClose}>
+
+                    <div className="comic-reader-page-info px-3 py-1 bg-dark rounded-pill border border-secondary">
+                        {currentPage + 1} / {totalPages}
+                    </div>
+                    <button className="btn btn-danger rounded-circle d-flex align-items-center justify-content-center"
+                        style={{ width: '40px', height: '40px' }} onClick={onClose}>
                         <i className="fas fa-times"></i>
                     </button>
                 </div>
 
+                {/* Progress Bar */}
                 <div className="comic-reader-progress">
-                    <div className="comic-reader-progress-bar" style={{ width: `${progress}%` }}></div>
+                    <div className="comic-reader-progress-bar bg-danger" style={{ width: `${progress}%`, transition: 'width 0.3s ease' }}></div>
                 </div>
 
-                <div className="comic-reader-viewport">
+                {/* Interactive Viewport */}
+                <div className="comic-reader-viewport position-relative overflow-hidden" ref={constraintsRef} style={{ background: '#0a0a0a', cursor: scale > 1 ? 'grab' : 'default' }}>
                     <button
-                        className={`comic-reader-nav prev ${currentPage === 0 ? 'disabled' : ''}`}
-                        onClick={() => setCurrentPage(p => Math.max(p - 1, 0))}
-                        disabled={currentPage === 0}
+                        className={`btn lightbox-btn position-absolute start-0 ms-3 rounded-circle d-flex align-items-center justify-content-center ${currentPage === 0 ? 'd-none' : ''}`}
+                        onClick={handlePrev}
+                        style={{ zIndex: 2000, width: '50px', height: '50px', background: 'rgba(0,0,0,0.7)', border: '1px solid rgba(255,255,255,0.2)' }}
                     >
-                        <i className="fas fa-chevron-left"></i>
+                        <i className="fas fa-chevron-left fs-4 text-white"></i>
                     </button>
 
-                    <div className="comic-reader-page-container">
-                        <img
-                            src={comic.pages[currentPage]}
-                            alt={`${comic.title} - Página ${currentPage + 1}`}
-                            className="comic-reader-page"
-                            key={currentPage}
-                        />
+                    <div className="comic-reader-page-container d-flex align-items-center justify-content-center h-100 w-100 position-relative" style={{ overflow: 'hidden' }}>
+                        <AnimatePresence mode="wait">
+                            <motion.div
+                                key={currentPage}
+                                className="position-relative d-inline-block"
+                                initial={{ opacity: 0, x: 50 }}
+                                animate={{ opacity: 1, x: 0, scale: scale }}
+                                exit={{ opacity: 0, x: -50 }}
+                                transition={{ type: "tween", duration: 0.3 }}
+                                drag={scale > 1}
+                                dragConstraints={constraintsRef}
+                                onDragStart={() => setIsDragging(true)}
+                                onDragEnd={() => setTimeout(() => setIsDragging(false), 150)}
+                                onDoubleClick={toggleZoom}
+                            >
+                                <img
+                                    src={comic.pages?.[currentPage]}
+                                    alt={`Página ${currentPage + 1}`}
+                                    className="img-fluid"
+                                    style={{ maxHeight: '85vh', objectFit: 'contain', boxShadow: '0 10px 30px rgba(0,0,0,0.8)' }}
+                                />
+
+                                {/* Animated Dialogues Overlay */}
+                                {comic.dialogues && comic.dialogues[currentPage] && comic.dialogues[currentPage].map((dialogue, idx) => (
+                                    <motion.div
+                                        key={`dialogue-${currentPage}-${idx}`}
+                                        initial={{ opacity: 0, scale: 0.5, y: 10 }}
+                                        animate={{ opacity: 1, scale: 1, y: 0 }}
+                                        transition={{ delay: dialogue.delay || 0.5, type: 'spring', stiffness: 200, damping: 20 }}
+                                        className={`comic-dialogue-bubble ${dialogue.type || 'speech'}`}
+                                        style={{
+                                            position: 'absolute',
+                                            left: dialogue.x,
+                                            top: dialogue.y,
+                                            maxWidth: '200px',
+                                            zIndex: 10,
+                                            pointerEvents: 'none'
+                                        }}
+                                    >
+                                        {dialogue.text}
+                                    </motion.div>
+                                ))}
+                            </motion.div>
+                        </AnimatePresence>
                     </div>
 
                     <button
-                        className={`comic-reader-nav next ${currentPage === totalPages - 1 ? 'disabled' : ''}`}
-                        onClick={() => setCurrentPage(p => Math.min(p + 1, totalPages - 1))}
-                        disabled={currentPage === totalPages - 1}
+                        className={`btn lightbox-btn position-absolute end-0 me-3 rounded-circle d-flex align-items-center justify-content-center ${currentPage === totalPages - 1 ? 'd-none' : ''}`}
+                        onClick={handleNext}
+                        style={{ zIndex: 2000, width: '50px', height: '50px', background: 'rgba(0,0,0,0.7)', border: '1px solid rgba(255,255,255,0.2)' }}
                     >
-                        <i className="fas fa-chevron-right"></i>
+                        <i className="fas fa-chevron-right fs-4 text-white"></i>
                     </button>
                 </div>
 
-                <div className="comic-reader-thumbnails">
-                    {comic.pages.map((page, i) => (
+                {/* Thumbnails */}
+                <div className="comic-reader-thumbnails bg-black p-2 d-flex gap-2 overflow-auto" style={{ borderTop: '1px solid #333' }}>
+                    {comic.pages?.map((page, i) => (
                         <button
                             key={i}
-                            className={`comic-reader-thumb ${i === currentPage ? 'active' : ''}`}
-                            onClick={() => setCurrentPage(i)}
+                            className={`comic-reader-thumb p-0 overflow-hidden rounded ${i === currentPage ? 'border border-danger border-2' : 'border border-secondary'}`}
+                            onClick={() => { setScale(1); setCurrentPage(i) }}
+                            style={{ minWidth: '60px', height: '80px', opacity: i === currentPage ? 1 : 0.5, transition: 'all 0.2s' }}
                         >
-                            <img src={page} alt={`Página ${i + 1}`} />
+                            <img src={page} alt={`Página ${i + 1}`} className="w-100 h-100 object-fit-cover" />
                         </button>
                     ))}
-                </div>
-
-                <div className="comic-reader-hint">
-                    <span><i className="fas fa-keyboard me-1"></i> Usa ← → o Espacio para navegar · Esc para cerrar</span>
                 </div>
             </div>
         </div>
@@ -311,55 +382,143 @@ const ComicsPage = () => {
     const [searchQuery, setSearchQuery] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const [readingComic, setReadingComic] = useState(null);
-    const [favorites, setFavorites] = useState(() => {
-        try {
-            const saved = localStorage.getItem('comic-favorites');
-            return saved ? JSON.parse(saved) : [];
-        } catch { return []; }
-    });
+    const { user, setIsAuthOpen } = useContext(AuthContext);
+    const [favorites, setFavorites] = useState([]);
+    const [dbComics, setDbComics] = useState([]);
+
+    // Fetch Comics and Favorites from Supabase (only if configured)
+    useEffect(() => {
+        if (!isSupabaseConfigured) return;
+
+        const fetchData = async () => {
+            try {
+                // Fetch Comics
+                const { data: comics, error: comicsError } = await supabase.from('comics').select('*');
+                if (comicsError) {
+                    console.error('Error fetching comics:', comicsError);
+                } else if (comics && comics.length > 0) {
+                    setDbComics(comics);
+                }
+
+                // Fetch Favorites if user is logged in
+                if (user) {
+                    const { data: favs, error: favsError } = await supabase
+                        .from('favorites')
+                        .select('comic_id')
+                        .eq('user_id', user.id);
+                    if (favsError) console.error('Error fetching favorites:', favsError);
+                    else setFavorites(favs?.map(f => f.comic_id) || []);
+                } else {
+                    setFavorites([]);
+                }
+            } catch (err) {
+                console.error('Error connecting to Supabase:', err);
+            }
+
+            // Refresh AOS after data loads
+            setTimeout(() => { AOS.refresh(); }, 500);
+        };
+
+        fetchData();
+    }, [user]);
+
+    // Seed missing comics to Supabase (matches your table: id, title, issue_number, description, cover_url)
+    useEffect(() => {
+        if (!isSupabaseConfigured) return;
+
+        const seedComics = async () => {
+            try {
+                // Get IDs already in the database
+                const { data: existing, error } = await supabase.from('comics').select('id');
+                if (error) { console.error('Error checking comics:', error); return; }
+
+                const existingIds = new Set((existing || []).map(c => c.id));
+
+                // Only insert comics that don't already exist
+                const missing = comicsData
+                    .filter(c => !existingIds.has(c.id))
+                    .map(({ id, title, issue, series, creators }) => ({
+                        id,
+                        title,
+                        issue_number: issue,
+                        description: `${series} — por ${(creators || []).join(', ')}`
+                    }));
+
+                if (missing.length > 0) {
+                    const { error: insertError } = await supabase.from('comics').insert(missing);
+                    if (insertError) console.error('Error seeding comics:', insertError);
+                    else console.log(`✅ ${missing.length} cómics agregados a Supabase`);
+                }
+            } catch (err) {
+                console.error('Error seeding comics:', err);
+            }
+        };
+        seedComics();
+    }, []);
 
     useEffect(() => {
         AOS.init({ duration: 800, once: true });
         window.scrollTo(0, 0);
     }, []);
 
-    useEffect(() => {
-        localStorage.setItem('comic-favorites', JSON.stringify(favorites));
-    }, [favorites]);
-
-    const toggleFavorite = useCallback((e, comicId) => {
+    const toggleFavorite = useCallback(async (e, comicId) => {
         e.stopPropagation();
-        setFavorites(prev =>
-            prev.includes(comicId)
-                ? prev.filter(id => id !== comicId)
-                : [...prev, comicId]
-        );
-    }, []);
+
+        if (!user) {
+            setIsAuthOpen(true);
+            return;
+        }
+
+        if (!isSupabaseConfigured) return;
+
+        const isFav = favorites.includes(comicId);
+
+        try {
+            if (isFav) {
+                const { error } = await supabase
+                    .from('favorites')
+                    .delete()
+                    .eq('user_id', user.id)
+                    .eq('comic_id', comicId);
+                if (!error) setFavorites(prev => prev.filter(id => id !== comicId));
+            } else {
+                const { error } = await supabase
+                    .from('favorites')
+                    .insert([{ user_id: user.id, comic_id: comicId }]);
+                if (!error) setFavorites(prev => [...prev, comicId]);
+            }
+        } catch (err) {
+            console.error('Error toggling favorite:', err);
+        }
+    }, [user, favorites, setIsAuthOpen]);
 
     const isFavorite = (comicId) => favorites.includes(comicId);
 
-    // Filter pipeline
+    // Always use local comicsData — it has the actual image imports
+    // dbComics from Supabase won't have working image references
+    const displayData = comicsData;
+
     let results = filter === 'favorites'
-        ? comicsData.filter(c => favorites.includes(c.id))
+        ? displayData.filter(c => favorites.includes(c.id))
         : filter === 'all'
-            ? comicsData
-            : comicsData.filter(c => c.category === filter);
+            ? displayData
+            : displayData.filter(c => (c.category || '').toLowerCase() === filter.toLowerCase());
 
     if (searchQuery.trim()) {
         const q = searchQuery.toLowerCase();
         results = results.filter(c =>
-            c.title.toLowerCase().includes(q) ||
-            c.series.toLowerCase().includes(q) ||
-            c.creators.some(cr => cr.toLowerCase().includes(q))
+            (c.title || '').toLowerCase().includes(q) ||
+            (c.series || '').toLowerCase().includes(q) ||
+            (c.creators || []).some(cr => (cr || '').toLowerCase().includes(q))
         );
     }
 
     // Sort
     const sorted = [...results].sort((a, b) => {
-        if (sortOrder === 'newest') return b.id - a.id;
-        if (sortOrder === 'oldest') return a.id - b.id;
-        if (sortOrder === 'az') return a.title.localeCompare(b.title);
-        return b.title.localeCompare(a.title);
+        if (sortOrder === 'newest') return Number(b.id) - Number(a.id);
+        if (sortOrder === 'oldest') return Number(a.id) - Number(b.id);
+        if (sortOrder === 'az') return (a.title || '').localeCompare(b.title || '');
+        return (b.title || '').localeCompare(a.title || '');
     });
 
     // Pagination
@@ -375,7 +534,6 @@ const ComicsPage = () => {
 
     const goToPage = (page) => {
         setCurrentPage(page);
-        // Scroll to grid
         const grid = document.querySelector('.comics-grid-section');
         if (grid) grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
     };
@@ -383,8 +541,19 @@ const ComicsPage = () => {
     return (
         <div className="comics-page">
             {/* Hero Banner */}
-            <section className="comics-hero">
-                <div className="comics-hero-overlay"></div>
+            <section className="comics-hero" style={{
+                backgroundImage: `url(${heroBannerImg})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center 105%',
+                backgroundAttachment: 'fixed'
+            }}>
+                <div className="comics-hero-overlay" style={{
+                    position: 'absolute',
+                    top: 0, left: 0, right: 0, bottom: 0,
+                    height: '100%',
+                    background: 'linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.4) 60%, var(--bg-primary) 100%)',
+                    zIndex: 1
+                }}></div>
                 <div className="container position-relative" style={{ zIndex: 2 }}>
                     <Link to="/" className="comics-back-link" data-aos="fade-right">
                         <i className="fas fa-arrow-left me-2"></i> Volver al Inicio
@@ -476,7 +645,7 @@ const ComicsPage = () => {
                                 <div className="comic-card-image">
                                     <img
                                         src={comic.image}
-                                        alt={comic.title}
+                                        alt={comic.title || 'Cómic'}
                                         loading="lazy"
                                     />
                                     {comic.badge && (
@@ -501,15 +670,15 @@ const ComicsPage = () => {
                                     </div>
                                 </div>
                                 <div className="comic-card-info">
-                                    <h3 className="comic-card-title">
-                                        {comic.series} {comic.issue}
+                                    <h3 className="comic-card-title" style={{ fontSize: '1rem', fontWeight: '900' }}>
+                                        {comic.series || comic.title || 'Cómic'} {comic.issue || ''}
                                     </h3>
                                     <div className="comic-card-creators">
-                                        {comic.creators.map((creator, i) => (
+                                        {comic.creators?.map((creator, i) => (
                                             <span key={i} className="comic-creator">
                                                 {creator}{i < comic.creators.length - 1 ? ', ' : ''}
                                             </span>
-                                        ))}
+                                        )) || <span className="comic-creator">Varios Autores</span>}
                                     </div>
                                 </div>
                             </article>

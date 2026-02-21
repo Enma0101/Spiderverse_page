@@ -44,7 +44,7 @@ const Trilogy = () => {
     }, []);
 
     // Function to handle video interaction
-    const handleVideoInteraction = (e, gameId) => {
+    const handleVideoInteraction = (e) => {
         const container = e.currentTarget.closest('.game-media-wrapper');
         const video = container.querySelector('video');
         const image = container.querySelector('.game-image');

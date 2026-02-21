@@ -56,9 +56,13 @@ export const AuthProvider = ({ children }) => {
         }
     });
     const signOut = () => supabase.auth.signOut();
+    const [isAuthOpen, setIsAuthOpen] = useState(false);
 
     return (
-        <AuthContext.Provider value={{ user, signUp, signIn, signInWithGoogle, signOut, loading }}>
+        <AuthContext.Provider value={{
+            user, signUp, signIn, signInWithGoogle, signOut, loading,
+            isAuthOpen, setIsAuthOpen
+        }}>
             {children}
         </AuthContext.Provider>
     );

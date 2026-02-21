@@ -60,10 +60,10 @@ const Chatbot = () => {
 
     // Auto-scroll to latest message
     useEffect(() => {
-        if (messagesEndRef.current) {
-            messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+        if (isOpen && messagesEndRef.current) {
+            messagesEndRef.current.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         }
-    }, [messages, isTyping]);
+    }, [messages, isTyping, isOpen]);
 
     const toggleChat = () => {
         const nextOpen = !isOpen;
@@ -96,11 +96,11 @@ const Chatbot = () => {
             : '¡Gracias por tu mensaje! 🕷️ Puedes seleccionar una opción del menú para obtener respuestas más detalladas.';
 
         // Simulate typing delay then show bot response
+        const delay = 1200;
         setTimeout(() => {
             setIsTyping(false);
             setMessages((prev) => [...prev, { type: 'bot', text: botResponse }]);
-
-        }, 1000 + Math.random() * 500);
+        }, delay);
     };
 
     // Toggle the + menu
