@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Footer = () => {
     return (
@@ -28,7 +29,7 @@ const Footer = () => {
                                 <i className="fab fa-instagram" aria-hidden="true"></i>
                             </a>
                             <a href="#" className="social-link neomorph" aria-label="YouTube">
-                                <i class="fab fa-youtube" aria-hidden="true"></i>
+                                <i className="fab fa-youtube" aria-hidden="true"></i>
                             </a>
                         </div>
                     </div>
@@ -42,6 +43,7 @@ const Footer = () => {
                             <li><a href="#3d-suits">Juegos de Consola</a></li>
                             <li><a href="#features">Características</a></li>
                             <li><a href="#gallery">Galería</a></li>
+                            <li><Link to="/comics">Cómics</Link></li>
                         </ul>
                     </div>
 

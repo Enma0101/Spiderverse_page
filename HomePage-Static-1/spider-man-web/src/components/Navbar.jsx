@@ -1,17 +1,22 @@
 import React, { useState, useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 
 const Navbar = ({ onOpenAuth }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [theme, setTheme] = useState(localStorage.getItem('theme') || 'dark');
     const [activeSection, setActiveSection] = useState('home');
+    const location = useLocation();
+    const isHomePage = location.pathname === '/';
 
     // Sync theme
     useEffect(() => {
         document.body.setAttribute('data-theme', theme);
-    }, []);
+    }, [theme]);
 
-    // Scroll Spy Logic
+    // Scroll Spy Logic (only on homepage)
     useEffect(() => {
+        if (!isHomePage) return;
+
         const handleScroll = () => {
             const sections = ['home', 'games', '3d-suits', 'features', 'gallery'];
 
@@ -34,7 +39,7 @@ const Navbar = ({ onOpenAuth }) => {
         handleScroll();
 
         return () => window.removeEventListener('scroll', handleScroll);
-    }, []);
+    }, [isHomePage]);
 
     const toggleTheme = () => {
         const newTheme = theme === 'dark' ? 'light' : 'dark';
@@ -49,25 +54,17 @@ const Navbar = ({ onOpenAuth }) => {
         { name: 'Juegos', href: '#3d-suits' },
         { name: 'Características', href: '#features' },
         { name: 'Galería', href: '#gallery' },
-        { name: 'Cómics', href: 'https://www.marvel.com/comics/characters/1009610/spider-man-peter-parker', external: true },
+        { name: 'Cómics', href: '/comics', isRoute: true },
     ];
 
     return (
         <header className="header-nav" role="banner">
-            {/* 
-         Standard Bootstrap 5 navbar structure 
-         navbar-dark makes text white (if strictly followed by BS CSS)
-         navbar-expand-xl means it collapses below XL screens (1200px)
-         If user screen is small, they see burger menu. 
-         If standard monitor (1920x1080), they should see links.
-         We add d-flex to ensure branding is visible.
-      */}
             <nav className={`navbar navbar-expand-lg navbar-dark`} aria-label="Main navigation">
                 <div className="container-fluid px-4">
-                    <a className="navbar-brand brutalist-text" href="#home" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                    <Link className="navbar-brand brutalist-text" to="/" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                         <i className="fas fa-spider" style={{ fontSize: '1.5rem', color: 'var(--accent-primary)' }}></i>
                         <span>COMICS SPIDER</span>
-                    </a>
+                    </Link>
 
                     <button
                         className="navbar-toggler"
@@ -75,30 +72,55 @@ const Navbar = ({ onOpenAuth }) => {
                         onClick={() => setIsOpen(!isOpen)}
                         aria-expanded={isOpen}
                         aria-label="Toggle navigation"
-                        style={{ zIndex: 10001 }} // Force clickable
+                        style={{ zIndex: 10001 }}
                     >
                         <span className="navbar-toggler-icon"></span>
                     </button>
 
-                    {/* 
-                Manually handle 'show' class for React state collapse mechanism 
-                Instead of relying on bootstrap.js
-            */}
                     <div className={`collapse navbar-collapse ${isOpen ? 'show' : ''}`} id="navbarNav">
                         <ul className="navbar-nav ms-auto align-items-center">
                             {navLinks.map((link) => {
-                                const isActive = !link.external && link.href === `#${activeSection}`;
+                                // For route-based links (Comics page)
+                                if (link.isRoute) {
+                                    const isActive = location.pathname === link.href;
+                                    return (
+                                        <li className="nav-item" key={link.name}>
+                                            <Link
+                                                className={`nav-link ${isActive ? 'active' : ''}`}
+                                                to={link.href}
+                                                onClick={() => setIsOpen(false)}
+                                                style={{ cursor: 'pointer' }}
+                                            >
+                                                {link.name}
+                                            </Link>
+                                        </li>
+                                    );
+                                }
+
+                                // For hash links on homepage
+                                const isActive = isHomePage && link.href === `#${activeSection}`;
+
                                 return (
                                     <li className="nav-item" key={link.name}>
-                                        <a
-                                            className={`nav-link ${isActive ? 'active' : ''}`}
-                                            href={link.href}
-                                            target={link.external ? "_blank" : "_self"}
-                                            onClick={() => setIsOpen(false)}
-                                            style={{ cursor: 'pointer' }}
-                                        >
-                                            {link.name}
-                                        </a>
+                                        {isHomePage ? (
+                                            <a
+                                                className={`nav-link ${isActive ? 'active' : ''}`}
+                                                href={link.href}
+                                                onClick={() => setIsOpen(false)}
+                                                style={{ cursor: 'pointer' }}
+                                            >
+                                                {link.name}
+                                            </a>
+                                        ) : (
+                                            <Link
+                                                className="nav-link"
+                                                to={`/${link.href}`}
+                                                onClick={() => setIsOpen(false)}
+                                                style={{ cursor: 'pointer' }}
+                                            >
+                                                {link.name}
+                                            </Link>
+                                        )}
                                     </li>
                                 );
                             })}
