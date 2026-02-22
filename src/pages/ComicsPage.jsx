@@ -293,7 +293,7 @@ const ComicReader = ({ comic, onClose }) => {
                 </div>
 
                 {/* Interactive Viewport */}
-                <div className="comic-reader-viewport position-relative overflow-hidden" ref={constraintsRef} style={{ background: '#0a0a0a', cursor: scale > 1 ? 'grab' : 'default' }}>
+                <div className="comic-reader-viewport position-relative overflow-hidden" ref={constraintsRef} style={{ cursor: scale > 1 ? 'grab' : 'default' }}>
                     <button
                         className={`btn lightbox-btn position-absolute start-0 ms-3 rounded-circle d-flex align-items-center justify-content-center ${currentPage === 0 ? 'd-none' : ''}`}
                         onClick={handlePrev}

@@ -12,7 +12,8 @@ const games = [
         platform: "PS4",
         year: 2018,
         rating: 4.9,
-        features: ["Ray Tracing", "60 FPS", "4K HDR", "Mundo Abierto"]
+        features: ["Ray Tracing", "60 FPS", "4K HDR", "Mundo Abierto"],
+        buyLink: "https://www.playstation.com/es-mx/games/marvels-spider-man/"
     },
     {
         id: 2,
@@ -23,7 +24,8 @@ const games = [
         platform: "PS5",
         year: 2020,
         rating: 4.8,
-        features: ["Ray Tracing", "120 FPS", "4K Native", "Haptic Feedback"]
+        features: ["Ray Tracing", "120 FPS", "4K Native", "Haptic Feedback"],
+        buyLink: "https://www.playstation.com/es-mx/games/marvels-spider-man-miles-morales/"
     },
     {
         id: 3,
@@ -34,7 +36,8 @@ const games = [
         platform: "PS5",
         year: 2023,
         rating: 5.0,
-        features: ["Ray Tracing", "60 FPS", "4K Ultra", "Dual Protagonists"]
+        features: ["Ray Tracing", "60 FPS", "4K Ultra", "Dual Protagonists"],
+        buyLink: "https://www.playstation.com/es-mx/games/marvels-spider-man-2/"
     }
 ];
 
@@ -167,7 +170,7 @@ const Trilogy = () => {
 
                                     <button
                                         className="btn btn-primary btn-game"
-                                        onClick={() => alert('Redirigiendo a PlayStation Store...')}
+                                        onClick={() => window.open(game.buyLink, '_blank', 'noopener,noreferrer')}
                                     >
                                         <i className="fab fa-playstation me-2" aria-hidden="true"></i>
                                         Comprar Ahora
