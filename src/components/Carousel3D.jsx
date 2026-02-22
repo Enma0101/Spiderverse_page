@@ -4,13 +4,15 @@ import { useGLTF, Environment, ContactShadows, Html } from '@react-three/drei';
 import * as THREE from 'three';
 import GameModal from './GameModal';
 
-import spideyUrl from '../assets/Untitled.glb?url';
-import moralesUrl from '../assets/Morales.glb?url';
-import morales2Url from '../assets/Morales2.glb?url';
-import morales3Url from '../assets/Morales3.glb?url';
-import morales4Url from '../assets/Morales4.glb?url';
-import morales5Url from '../assets/Morales5.glb?url';
-import morales6Url from '../assets/Morales6.glb?url';
+const STORAGE_BASE = 'https://hniltpsdlatokfdrwmtm.supabase.co/storage/v1/object/public/image/models';
+
+const spideyUrl = `${STORAGE_BASE}/Untitled.glb`;
+const moralesUrl = `${STORAGE_BASE}/Morales.glb`;
+const morales2Url = `${STORAGE_BASE}/Morales2.glb`;
+const morales3Url = `${STORAGE_BASE}/Morales3.glb`;
+const morales4Url = `${STORAGE_BASE}/Morales4.glb`;
+const morales5Url = `${STORAGE_BASE}/Morales5.glb`;
+const morales6Url = `${STORAGE_BASE}/Morales6.glb`;
 
 // ─────────────────────────────────────────────────────────
 // Constantes de la pista ovalada

@@ -2,42 +2,44 @@ import React, { useState, useEffect, useCallback } from 'react';
 // eslint-disable-next-line no-unused-vars
 import { motion, AnimatePresence } from 'framer-motion';
 
+const STORAGE_BASE = 'https://hniltpsdlatokfdrwmtm.supabase.co/storage/v1/object/public/image';
+
 const galleryImages = [
     {
         id: 1,
         title: "Spider-Man Swinging",
         category: "gameplay",
-        image: "/spider-man-swinging-between-buildings-manhattan-sk.webp"
+        image: `${STORAGE_BASE}/images/spider-man-swinging-between-buildings-manhattan-sk.webp`
     },
     {
         id: 2,
         title: "Miles Morales Powers",
         category: "powers",
-        image: "/miles-morales-electric-venom-powers-glowing.webp"
+        image: `${STORAGE_BASE}/images/miles-morales-electric-venom-powers-glowing.webp`
     },
     {
         id: 3,
         title: "Combat System",
         category: "combat",
-        image: "/spider-man-combat-fighting-enemies-acrobatic.webp"
+        image: `${STORAGE_BASE}/images/spider-man-combat-fighting-enemies-acrobatic.webp`
     },
     {
         id: 4,
         title: "New York City",
         category: "world",
-        image: "/new-york-city-skyline-sunset-spider-man-game.webp"
+        image: `${STORAGE_BASE}/images/new-york-city-skyline-sunset-spider-man-game.webp`
     },
     {
         id: 5,
         title: "Symbiote Suit",
         category: "suits",
-        image: "/spider-man-black-symbiote-suit-venom-dark.webp"
+        image: `${STORAGE_BASE}/images/spider-man-black-symbiote-suit-venom-dark.webp`
     },
     {
         id: 6,
         title: "Villains",
         category: "villains",
-        image: "/spider-man-villains-confrontation-epic-battle.webp"
+        image: `${STORAGE_BASE}/images/spider-man-villains-confrontation-epic-battle.webp`
     }
 ];
 

@@ -7,26 +7,28 @@ import { useContext } from 'react';
 import { AuthContext } from '../context/authContextDef';
 import { supabase, isSupabaseConfigured } from '../lib/supabaseClient';
 
-// Import the hero banner image
-import heroBannerImg from '../assets/hero-banner.jpg';
+const STORAGE_BASE = 'https://hniltpsdlatokfdrwmtm.supabase.co/storage/v1/object/public/image';
 
-// Import Comic Covers (local assets — always available)
-import coverAmazing from '../assets/Comics/5366994b1ec04efeb7ba87eddb39bae1.webp';
-import coverAmazing2 from '../assets/Comics/9780785199618_p0_v3_s1200x630.webp';
-import coverMiles from '../assets/Comics/Miles_Morales_Spider-Man_Vol_1_24.webp';
-import coverSpiderVerse1 from '../assets/Comics/Spider-Verse_Vol_1_1.webp';
-import coverSpiderVerse2 from '../assets/Comics/Spider-Verse_Vol_2_1.webp';
-import coverWhisk from '../assets/Comics/Whisk_cbdf98e605aa9bb98b0429eb03bf6219dr.webp';
+// Hero banner image (optimized to WebP on Supabase)
+const heroBannerImg = `${STORAGE_BASE}/images/hero-banner.webp`;
 
-// Import Comic Pages (local assets)
-import page1 from '../assets/Comics/Content/Whisk_1828bd4dc1ce124b5924b7ec958445e4dr.webp';
-import page2 from '../assets/Comics/Content/Whisk_276036d03414d2f8f224e321bd10708edr.webp';
-import page3 from '../assets/Comics/Content/unnamed.webp';
-import page4 from '../assets/Comics/Content/Whisk_a36348e63f41798b414471bc2328a808dr.webp';
-import page5 from '../assets/Comics/Content/Whisk_b7caf4932788535866d44ed80777e3b0dr.webp';
-import page6 from '../assets/Comics/Content/Whisk_bda297d1a8fa4a185de4fc61f4ed1044dr.webp';
-import page7 from '../assets/Comics/Content/Whisk_c512fe777f873f1a09a47d36023c4e9adr.webp';
-import page8 from '../assets/Comics/Content/Whisk_f1e70e4be57952da66f4d076070ab4b4dr.webp';
+// Comic Covers (Supabase URLs)
+const coverAmazing = `${STORAGE_BASE}/comics/5366994b1ec04efeb7ba87eddb39bae1.webp`;
+const coverAmazing2 = `${STORAGE_BASE}/comics/9780785199618_p0_v3_s1200x630.webp`;
+const coverMiles = `${STORAGE_BASE}/comics/Miles_Morales_Spider-Man_Vol_1_24.webp`;
+const coverSpiderVerse1 = `${STORAGE_BASE}/comics/Spider-Verse_Vol_1_1.webp`;
+const coverSpiderVerse2 = `${STORAGE_BASE}/comics/Spider-Verse_Vol_2_1.webp`;
+const coverWhisk = `${STORAGE_BASE}/comics/Whisk_cbdf98e605aa9bb98b0429eb03bf6219dr.webp`;
+
+// Comic Pages (Supabase URLs)
+const page1 = `${STORAGE_BASE}/comics/content/Whisk_1828bd4dc1ce124b5924b7ec958445e4dr.webp`;
+const page2 = `${STORAGE_BASE}/comics/content/Whisk_276036d03414d2f8f224e321bd10708edr.webp`;
+const page3 = `${STORAGE_BASE}/comics/content/unnamed.webp`;
+const page4 = `${STORAGE_BASE}/comics/content/Whisk_a36348e63f41798b414471bc2328a808dr.webp`;
+const page5 = `${STORAGE_BASE}/comics/content/Whisk_b7caf4932788535866d44ed80777e3b0dr.webp`;
+const page6 = `${STORAGE_BASE}/comics/content/Whisk_bda297d1a8fa4a185de4fc61f4ed1044dr.webp`;
+const page7 = `${STORAGE_BASE}/comics/content/Whisk_c512fe777f873f1a09a47d36023c4e9adr.webp`;
+const page8 = `${STORAGE_BASE}/comics/content/Whisk_f1e70e4be57952da66f4d076070ab4b4dr.webp`;
 
 const ITEMS_PER_PAGE = 8;
 
@@ -531,27 +533,6 @@ const ComicsPage = () => {
     useEffect(() => {
         setCurrentPage(1);
     }, [filter, searchQuery, sortOrder]);
-
-
-    useEffect(() => {
-        if (!window.$) return;
-
-        const handleScroll = () => {
-            const scrollPos = window.$(window).scrollTop();
-            // Movemos el fondo del banner hacia abajo un 40% de la velocidad de scroll normal
-            window.$('.comics-hero').css({
-                'background-position-y': `calc(105% + ${scrollPos * 0.4}px)`
-            });
-        };
-
-        window.$(window).on('scroll', handleScroll);
-
-        // Limpieza: Cuando cambiamos de página, quitamos el evento para no causar bugs de memoria
-        return () => {
-            window.$(window).off('scroll', handleScroll);
-        };
-    }, []);
-    // ─────────────────────────────────────────────────────────
 
     const goToPage = (page) => {
         setCurrentPage(page);

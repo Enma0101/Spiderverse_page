@@ -1,5 +1,5 @@
 import React from 'react';
-import logoPlay from '../assets/logoplay.png';
+const logoPlay = 'https://hniltpsdlatokfdrwmtm.supabase.co/storage/v1/object/public/image/images/logoplay.webp';
 
 const Hero = () => {
     const handleScrollClick = (e, targetId) => {
