@@ -5,7 +5,7 @@ import * as THREE from 'three';
 import modelUrl from '../assets/Untitled.glb?url';
 
 function SpiderModel() {
-    const { scene } = useGLTF(modelUrl);
+    const { scene } = useGLTF(modelUrl, true);
 
     useEffect(() => {
         if (!scene) return;

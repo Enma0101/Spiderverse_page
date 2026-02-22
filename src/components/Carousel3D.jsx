@@ -156,7 +156,7 @@ function usePreFetchModels(urls) {
 
         // Force native preload for all URLs
         urls.forEach(url => {
-            useGLTF.preload(url);
+            useGLTF.preload(url, true);
         });
 
         // Since useGLTF.preload() doesn't expose a single unified progress API for all assets natively, 
@@ -214,7 +214,7 @@ function SimpleLoadingBanner() {
 // ModelInstance: single 3D model on the oval track
 // ─────────────────────────────────────────────────────────
 function ModelInstance({ offset, angleRef, url, gameData, onSelect, setGlobalHover, onLoaded }) {
-    const { scene } = useGLTF(url);
+    const { scene } = useGLTF(url, true);
     const { xRot, yRot, zRot } = MODEL_CFG[url] ?? MODEL_CFG[spideyUrl];
 
     // Trigger onLoaded when this model finishes parsing and mounts
@@ -316,16 +316,7 @@ function ModelInstance({ offset, angleRef, url, gameData, onSelect, setGlobalHov
 function CarouselRing({ isPausedRef, onSelect, onAllLoaded }) {
     const angleRef = useRef(0);
     const [loadedCount, setLoadedCount] = useState(0);
-    const [visibleCount, setVisibleCount] = useState(0);
 
-    // Stagger mount to avoid freezing the main WebGL thread (romper la página)
-    useEffect(() => {
-        if (visibleCount >= NUM_MODELS) return;
-        const timer = setTimeout(() => {
-            setVisibleCount(prev => prev + 1);
-        }, visibleCount === 0 ? 0 : 200); // 200ms breathe time between each heavy asset
-        return () => clearTimeout(timer);
-    }, [visibleCount]);
 
     // Track when each model finishes parsing/mounting
     const handleModelLoaded = useCallback(() => {
@@ -355,7 +346,7 @@ function CarouselRing({ isPausedRef, onSelect, onAllLoaded }) {
 
     return (
         <>
-            {slots.slice(0, visibleCount).map((slot, i) => (
+            {slots.map((slot, i) => (
                 <Suspense key={i} fallback={null}>
                     <ModelInstance
                         offset={slot.offset}

@@ -11,22 +11,22 @@ import { supabase, isSupabaseConfigured } from '../lib/supabaseClient';
 import heroBannerImg from '../assets/hero-banner.jpg';
 
 // Import Comic Covers (local assets — always available)
-import coverAmazing from '../assets/Comics/5366994b1ec04efeb7ba87eddb39bae1.jpg';
-import coverAmazing2 from '../assets/Comics/9780785199618_p0_v3_s1200x630.jpg';
+import coverAmazing from '../assets/Comics/5366994b1ec04efeb7ba87eddb39bae1.webp';
+import coverAmazing2 from '../assets/Comics/9780785199618_p0_v3_s1200x630.webp';
 import coverMiles from '../assets/Comics/Miles_Morales_Spider-Man_Vol_1_24.webp';
 import coverSpiderVerse1 from '../assets/Comics/Spider-Verse_Vol_1_1.webp';
 import coverSpiderVerse2 from '../assets/Comics/Spider-Verse_Vol_2_1.webp';
-import coverWhisk from '../assets/Comics/Whisk_cbdf98e605aa9bb98b0429eb03bf6219dr.jpeg';
+import coverWhisk from '../assets/Comics/Whisk_cbdf98e605aa9bb98b0429eb03bf6219dr.webp';
 
 // Import Comic Pages (local assets)
-import page1 from '../assets/Comics/Content/Whisk_1828bd4dc1ce124b5924b7ec958445e4dr.jpeg';
-import page2 from '../assets/Comics/Content/Whisk_276036d03414d2f8f224e321bd10708edr.jpeg';
-import page3 from '../assets/Comics/Content/unnamed.jpg';
-import page4 from '../assets/Comics/Content/Whisk_a36348e63f41798b414471bc2328a808dr.jpeg';
-import page5 from '../assets/Comics/Content/Whisk_b7caf4932788535866d44ed80777e3b0dr.jpeg';
-import page6 from '../assets/Comics/Content/Whisk_bda297d1a8fa4a185de4fc61f4ed1044dr.jpeg';
-import page7 from '../assets/Comics/Content/Whisk_c512fe777f873f1a09a47d36023c4e9adr.jpeg';
-import page8 from '../assets/Comics/Content/Whisk_f1e70e4be57952da66f4d076070ab4b4dr.jpeg';
+import page1 from '../assets/Comics/Content/Whisk_1828bd4dc1ce124b5924b7ec958445e4dr.webp';
+import page2 from '../assets/Comics/Content/Whisk_276036d03414d2f8f224e321bd10708edr.webp';
+import page3 from '../assets/Comics/Content/unnamed.webp';
+import page4 from '../assets/Comics/Content/Whisk_a36348e63f41798b414471bc2328a808dr.webp';
+import page5 from '../assets/Comics/Content/Whisk_b7caf4932788535866d44ed80777e3b0dr.webp';
+import page6 from '../assets/Comics/Content/Whisk_bda297d1a8fa4a185de4fc61f4ed1044dr.webp';
+import page7 from '../assets/Comics/Content/Whisk_c512fe777f873f1a09a47d36023c4e9adr.webp';
+import page8 from '../assets/Comics/Content/Whisk_f1e70e4be57952da66f4d076070ab4b4dr.webp';
 
 const ITEMS_PER_PAGE = 8;
 

@@ -691,40 +691,18 @@ body {
 }
 
 /* =========================================================
-   NUEVO: Badges del Hero (Estilo 3D PlayStation)
+   Hero PlayStation Logo Image
    ========================================================= */
-.hero-section .platform-badges .badge {
-  background: rgba(0, 112, 209, 0.644) !important;
-  /* Azul semitransparente */
-  border: 1px solid rgba(255, 255, 255, 0.9);
-  /* Borde Blanco definido */
-  color: white !important;
-  font-weight: 700 !important;
-  letter-spacing: 1px;
-  backdrop-filter: blur(5px);
-  padding: 0.6rem 1.25rem !important;
-  font-size: clamp(0.85rem, 2vw, 1rem) !important;
-  transition: all 0.1s ease;
-
-  /* EFECTO 3D */
-  box-shadow: 0 4px 0 rgba(0, 56, 105, 0.8),
-    /* Sombra sólida abajo (el grosor 3D) */
-    0 5px 10px rgba(0, 0, 0, 0.3);
-  /* Sombra difusa */
-  transform: translateY(0);
+.hero-ps-logo {
+  max-width: clamp(120px, 18vw, 100px);
+  height: auto;
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.5));
+  transition: all 0.3s ease;
 }
 
-/* Efecto al presionar el badge 3D */
-.hero-section .platform-badges .badge:active {
-  transform: translateY(4px);
-  /* Se hunde visualmente */
-  box-shadow: 0 0 0 rgba(0, 56, 105, 0),
-    0 0 0 rgba(0, 0, 0, 0);
-}
-
-.hero-section .platform-badges .badge:hover {
-  background: rgba(0, 112, 209, 0.9) !important;
-  /* Más sólido al pasar el mouse */
+.hero-ps-logo:hover {
+  filter: drop-shadow(0 4px 20px rgba(0, 112, 209, 0.5));
+  transform: scale(1.03);
 }
 
 /* Scroll Indicator */
@@ -1243,17 +1221,18 @@ body {
   box-shadow: 0 4px 6px rgba(0, 112, 209, 0.3);
 }
 
-/* Fix for Dark Mode Footer Badges */
+/* Fix for Dark Mode Footer Badges — Identical to Light Mode */
 .footer .platform-badges .badge {
-  background: rgba(255, 255, 255, 0.05);
-  /* Slight bright background */
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  color: var(--text-primary);
+  background: var(--ps-blue) !important;
+  border: 1px solid var(--ps-blue);
+  color: white !important;
+  box-shadow: 0 4px 6px rgba(0, 112, 209, 0.3);
 }
 
 .footer .platform-badges .badge:hover {
-  background: var(--ps-blue);
+  background: var(--ps-blue) !important;
   border-color: var(--ps-blue);
+  color: white !important;
 }
 
 .footer-links a:hover,
@@ -1496,25 +1475,28 @@ body {
   outline: 3px solid var(--accent-primary);
   outline-offset: 3px;
 }
+
 /* LIGHTBOX CUSTOM BUTTONS */
 .lightbox-btn {
-    background: var(--bg-tertiary);
-    color: var(--text-primary) !important;
-    border: 2px solid var(--text-muted);
-    transition: all 0.3s ease;
-}
-.lightbox-btn:hover {
-    background: var(--text-primary);
-    color: var(--bg-primary) !important;
-    transform: scale(1.1);
-    border-color: var(--text-primary);
-}
-[data-theme="light"] .lightbox-btn {
-    background: var(--bg-secondary);
-    border-color: var(--text-primary);
-}
-[data-theme="light"] .lightbox-btn:hover {
-    background: var(--text-primary);
-    color: white !important;
+  background: var(--bg-tertiary);
+  color: var(--text-primary) !important;
+  border: 2px solid var(--text-muted);
+  transition: all 0.3s ease;
 }
 
+.lightbox-btn:hover {
+  background: var(--text-primary);
+  color: var(--bg-primary) !important;
+  transform: scale(1.1);
+  border-color: var(--text-primary);
+}
+
+[data-theme="light"] .lightbox-btn {
+  background: var(--bg-secondary);
+  border-color: var(--text-primary);
+}
+
+[data-theme="light"] .lightbox-btn:hover {
+  background: var(--text-primary);
+  color: white !important;
+}

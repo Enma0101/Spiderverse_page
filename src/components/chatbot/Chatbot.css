@@ -162,8 +162,8 @@
     max-height: 300px;
     background: var(--bg-primary);
     position: relative;
-    /* Fondo base con patrón de telaraña sutil */
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'%3E%3Cg stroke='%23ffffff' stroke-width='0.5' fill='none' opacity='0.06'%3E%3Ccircle cx='100' cy='100' r='15'/%3E%3Ccircle cx='100' cy='100' r='35'/%3E%3Ccircle cx='100' cy='100' r='55'/%3E%3Ccircle cx='100' cy='100' r='75'/%3E%3Ccircle cx='100' cy='100' r='95'/%3E%3Cline x1='100' y1='5' x2='100' y2='195'/%3E%3Cline x1='5' y1='100' x2='195' y2='100'/%3E%3Cline x1='27' y1='27' x2='173' y2='173'/%3E%3Cline x1='173' y1='27' x2='27' y2='173'/%3E%3Cline x1='100' y1='5' x2='55' y2='195'/%3E%3Cline x1='100' y1='5' x2='145' y2='195'/%3E%3Cline x1='5' y1='100' x2='195' y2='55'/%3E%3Cline x1='5' y1='100' x2='195' y2='145'/%3E%3C/g%3E%3C/svg%3E");
+    /* Fondo base con patrón de telaraña sutil - Opacidad aumentada de 0.06 a 0.20 para modo oscuro */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'%3E%3Cg stroke='%23ffffff' stroke-width='0.5' fill='none' opacity='0.20'%3E%3Ccircle cx='100' cy='100' r='15'/%3E%3Ccircle cx='100' cy='100' r='35'/%3E%3Ccircle cx='100' cy='100' r='55'/%3E%3Ccircle cx='100' cy='100' r='75'/%3E%3Ccircle cx='100' cy='100' r='95'/%3E%3Cline x1='100' y1='5' x2='100' y2='195'/%3E%3Cline x1='5' y1='100' x2='195' y2='100'/%3E%3Cline x1='27' y1='27' x2='173' y2='173'/%3E%3Cline x1='173' y1='27' x2='27' y2='173'/%3E%3Cline x1='100' y1='5' x2='55' y2='195'/%3E%3Cline x1='100' y1='5' x2='145' y2='195'/%3E%3Cline x1='5' y1='100' x2='195' y2='55'/%3E%3Cline x1='5' y1='100' x2='195' y2='145'/%3E%3C/g%3E%3C/svg%3E");
     background-repeat: repeat;
     background-size: 180px 180px;
 }
@@ -175,8 +175,9 @@
     height: 280px;
     background-size: contain;
     background-repeat: no-repeat;
-    opacity: 0.35;
-    filter: drop-shadow(0 0 5px rgba(229, 9, 20, 0.3));
+    opacity: 0.6;
+    /* Aumentado de 0.35 a 0.6 */
+    filter: drop-shadow(0 0 5px rgba(229, 9, 20, 0.5));
     pointer-events: none;
     z-index: 1;
 }
@@ -576,6 +577,16 @@
     box-shadow: 0 0 0 3px rgba(229, 9, 20, 0.1);
 }
 
+/* Telaraña fondo base - Gris oscuro para que se vea en fondo claro */
+[data-theme="light"] .chatbot-messages {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'%3E%3Cg stroke='%23333333' stroke-width='0.5' fill='none' opacity='0.15'%3E%3Ccircle cx='100' cy='100' r='15'/%3E%3Ccircle cx='100' cy='100' r='35'/%3E%3Ccircle cx='100' cy='100' r='55'/%3E%3Ccircle cx='100' cy='100' r='75'/%3E%3Ccircle cx='100' cy='100' r='95'/%3E%3Cline x1='100' y1='5' x2='100' y2='195'/%3E%3Cline x1='5' y1='100' x2='195' y2='100'/%3E%3Cline x1='27' y1='27' x2='173' y2='173'/%3E%3Cline x1='173' y1='27' x2='27' y2='173'/%3E%3Cline x1='100' y1='5' x2='55' y2='195'/%3E%3Cline x1='100' y1='5' x2='145' y2='195'/%3E%3Cline x1='5' y1='100' x2='195' y2='55'/%3E%3Cline x1='5' y1='100' x2='195' y2='145'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+/* Telarañas de las esquinas (invierten color a negro/oscuro) */
+[data-theme="light"] .chatbot-web-bg {
+    filter: invert(1) opacity(0.5);
+}
+
 /* Responsive */
 @media (max-width: 480px) {
     .chatbot-window {
@@ -607,5 +618,8 @@
         font-size: 0.8rem;
     }
 }
-.chatbot-message { flex-shrink: 0; margin-bottom: 4px; }
 
+.chatbot-message {
+    flex-shrink: 0;
+    margin-bottom: 4px;
+}

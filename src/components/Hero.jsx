@@ -1,4 +1,5 @@
 import React from 'react';
+import logoPlay from '../assets/logoplay.png';
 
 const Hero = () => {
     const handleScrollClick = (e, targetId) => {
@@ -45,14 +46,13 @@ const Hero = () => {
                             </a>
                         </div>
 
-                        {/* PlayStation Logos */}
-                        <div className="platform-badges mt-5">
-                            <span className="badge neomorph me-2">
-                                <i className="fab fa-playstation" aria-hidden="true"></i> PS4
-                            </span>
-                            <span className="badge neomorph">
-                                <i className="fab fa-playstation" aria-hidden="true"></i> PS5
-                            </span>
+                        {/* PlayStation Logo */}
+                        <div className="platform-logo mt-5">
+                            <img
+                                src={logoPlay}
+                                alt="PlayStation"
+                                className="hero-ps-logo"
+                            />
                         </div>
                     </div>
                 </div>
