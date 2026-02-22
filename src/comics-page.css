@@ -926,6 +926,10 @@
     position: relative;
 }
 
+.btn-outline-light {
+    border-radius: 10px;
+}
+
 /* Subtle glow line under header */
 .comic-reader-header::after {
     content: "";
@@ -978,10 +982,53 @@
     border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
+.comic-reader .btn-outline-light i {
+    font-size: 1.3rem;
+}
+
 [data-theme="light"] .comic-reader-page-info {
     color: #666;
     background: rgba(0, 0, 0, 0.05);
     border-color: rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="light"] .comic-reader .btn-outline-light {
+    color: #222;
+    border-color: rgba(0, 0, 0, 0.18);
+    background: rgba(0, 0, 0, 0.07);
+}
+
+[data-theme="light"] .comic-reader .btn-outline-light i {
+    color: #111;
+}
+
+[data-theme="light"] .comic-reader .btn-outline-light:hover:not(:disabled) {
+    color: #000;
+    border-color: rgba(0, 0, 0, 0.3);
+    background: rgba(0, 0, 0, 0.11);
+}
+
+[data-theme="light"] .comic-reader .btn-outline-light:disabled {
+    color: rgba(0, 0, 0, 0.25);
+    background: rgba(0, 0, 0, 0.04);
+    border-color: rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="light"] .comic-reader .text-white-50 {
+    color: #555 !important;
+    background: none;
+    padding: 0;
+    border-radius: 0;
+    font-size: inherit;
+}
+
+[data-theme="light"] .comic-reader .bg-dark {
+    background-color: rgba(0, 0, 0, 0.07) !important;
+    color: #333;
+}
+
+[data-theme="light"] .comic-reader .border-secondary {
+    border-color: rgba(0, 0, 0, 0.15) !important;
 }
 
 .comic-reader-close {
