@@ -3,7 +3,7 @@ import React from 'react';
 import { Link } from "react-router-dom";
 
 const ComicCard = ({ comic, isFavorite, onToggleFavorite, index }) => {
-    // Basic styles for hover effect and transitions
+    // Basic styles for hover effect and transitions sad
     const cardStyle = {
         transition: 'all 0.3s ease-out',
         opacity: 0,
