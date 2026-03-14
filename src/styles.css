@@ -736,6 +736,8 @@ body {
   position: relative;
   overflow: hidden;
   height: 100%;
+  display: flex;
+  flex-direction: column;
   cursor: pointer;
   transition: var(--transition-smooth);
   background: var(--bg-tertiary) !important;
@@ -753,6 +755,7 @@ body {
   height: clamp(200px, 40vw, 350px);
   border-radius: 16px 16px 0 0;
   background: var(--bg-primary);
+  flex-shrink: 0;
 }
 
 .game-image {
@@ -826,6 +829,9 @@ body {
 .game-content {
   padding: clamp(1rem, 3vw, 2rem);
   background: var(--bg-tertiary);
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
 }
 
 .game-content h3 {
@@ -839,6 +845,11 @@ body {
   color: var(--text-secondary);
   margin-bottom: 1.5rem;
   font-size: clamp(0.85rem, 1.5vw, 1rem);
+  display: -webkit-box;
+  -webkit-line-clamp: 7;
+  line-clamp: 7;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .game-content .text-muted {
@@ -854,6 +865,7 @@ body {
   flex-wrap: wrap;
   gap: 0.5rem;
   margin-bottom: 1.5rem;
+  margin-top: auto;
 }
 
 .feature-badge {

@@ -186,7 +186,7 @@
 .chatbot-web-1 {
     top: 0;
     right: 0;
-    background-image: url('/img/Tela_Arana_1.png');
+    /* background-image: url('/img/Tela_Arana_1.png'); Image missing */
     background-position: top right;
 }
 
@@ -194,7 +194,7 @@
 .chatbot-web-2 {
     bottom: 0;
     left: 0;
-    background-image: url('/img/Tela_Arana_2.png');
+    /* background-image: url('/img/Tela_Arana_2.png'); Image missing */
     background-position: bottom left;
 }
 
