@@ -1,11 +1,44 @@
 import React from 'react';
+import spidermanImage from '../../public/spiderman.png';
+const logoPlay = 'https://hniltpsdlatokfdrwmtm.supabase.co/storage/v1/object/public/image/images/logoplay.webp';
 
 const Hero = () => {
+    const handleScrollClick = (e, targetId) => {
+        e.preventDefault();
+        const element = document.getElementById(targetId);
+        if (element) {
+            element.scrollIntoView({ behavior: 'smooth' });
+        }
+    };
+
     return (
         /* Original ID and Classes */
         <section id="home" className="hero-section" role="region" aria-labelledby="hero-title">
             {/* Contenedor independiente para Spider-Man */}
-            <div className="hero-image-container"></div>
+            <div
+                className="hero-image-container"
+                style={{
+                    position: 'absolute',
+                    top: '80px', // Altura de tu header
+                    right: '0',
+                    width: '50%',
+                    height: 'calc(100vh - 80px)',
+                    zIndex: 1,
+                    pointerEvents: 'none'
+                }}
+            >
+                <img
+                    src={spidermanImage}
+                    alt="Spider-Man"
+                    style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'contain',
+                        objectPosition: 'top right'
+                    }}
+                    className="hero-spiderman-image"
+                />
+            </div>
 
             <div className="hero-content container">
                 <div className="row align-items-start min-vh-100" style={{ paddingTop: '120px' }}>
@@ -19,24 +52,31 @@ const Hero = () => {
                             historia envolvente y acción sin límites.
                         </p>
                         <div className="cta-buttons">
-                            <a href="#games" className="btn btn-primary btn-lg neomorph me-3">
+                            <a
+                                href="#games"
+                                onClick={(e) => handleScrollClick(e, 'games')}
+                                className="btn btn-primary btn-lg neomorph me-3"
+                            >
                                 <i className="fab fa-playstation me-2" aria-hidden="true"></i>
                                 Ver Juegos
                             </a>
-                            <a href="#gallery" className="btn btn-outline-light btn-lg neomorph">
+                            <a
+                                href="#gallery"
+                                onClick={(e) => handleScrollClick(e, 'gallery')}
+                                className="btn btn-outline-light btn-lg neomorph"
+                            >
                                 <i className="fas fa-images me-2" aria-hidden="true"></i>
                                 Galería
                             </a>
                         </div>
 
-                        {/* PlayStation Logos */}
-                        <div className="platform-badges mt-5">
-                            <span className="badge neomorph me-2">
-                                <i className="fab fa-playstation" aria-hidden="true"></i> PS4
-                            </span>
-                            <span className="badge neomorph">
-                                <i className="fab fa-playstation" aria-hidden="true"></i> PS5
-                            </span>
+                        {/* PlayStation Logo */}
+                        <div className="platform-logo mt-5">
+                            <img
+                                src={logoPlay}
+                                alt="PlayStation"
+                                className="hero-ps-logo"
+                            />
                         </div>
                     </div>
                 </div>
@@ -44,7 +84,11 @@ const Hero = () => {
 
             {/* Scroll Indicator */}
             <div className="scroll-indicator">
-                <a href="#games" aria-label="Scroll to games section">
+                <a
+                    href="#games"
+                    onClick={(e) => handleScrollClick(e, 'games')}
+                    aria-label="Scroll to games section"
+                >
                     <i className="fas fa-chevron-down" aria-hidden="true"></i>
                 </a>
             </div>

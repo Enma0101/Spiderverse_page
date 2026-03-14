@@ -1,0 +1,373 @@
+/* ═══════════════════════════════════════════════════════
+   GameModal.css
+   Modal de detalles de juego del carrusel 3D
+═══════════════════════════════════════════════════════ */
+
+/* ── Backdrop ──────────────────────────────────────── */
+.gm-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.52);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    padding: 1rem;
+    animation: gm-fade 0.22s ease;
+}
+
+/* Animación de entrada del backdrop */
+@keyframes gm-fade {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* Animación de SALIDA del backdrop */
+.gm-backdrop.closing {
+    animation: gm-fade-out 0.18s ease forwards;
+}
+
+@keyframes gm-fade-out {
+    from { opacity: 1; }
+    to   { opacity: 0; }
+}
+
+/* ── Tarjeta ───────────────────────────────────────── */
+.gm-card {
+    background: #0c0c12;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 22px;
+    width: 100%;
+    max-width: 500px;
+    max-height: 90vh;
+    overflow: hidden;
+    overflow-y: auto;
+    box-shadow:
+        0 32px 90px rgba(0, 0, 0, 0.75),
+        0 0 0 1px rgba(255, 255, 255, 0.04);
+    animation: gm-slide-up 0.32s cubic-bezier(0.34, 1.56, 0.64, 1);
+    scrollbar-width: none;
+}
+.gm-card::-webkit-scrollbar { display: none; }
+
+@keyframes gm-slide-up {
+    from {
+        opacity: 0;
+        transform: scale(0.86) translateY(28px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+/* Animación de SALIDA de la tarjeta */
+.gm-card.closing {
+    animation: gm-slide-down 0.16s cubic-bezier(0.4, 0, 1, 1) forwards;
+}
+
+@keyframes gm-slide-down {
+    from {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+    to {
+        opacity: 0;
+        transform: scale(0.9) translateY(16px);
+    }
+}
+.gm-header {
+    position: relative;
+    padding: 2.5rem 2rem 1.75rem;
+    overflow: hidden;
+}
+
+/* Patrón de telaraña SVG inline como background */
+.gm-web-bg {
+    position: absolute;
+    inset: 0;
+    background-image:
+        radial-gradient(circle at 90% 10%, rgba(255,255,255,0.08) 0%, transparent 55%),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='130' height='130' viewBox='0 0 130 130'%3E%3Ccircle cx='65' cy='65' r='60' fill='none' stroke='rgba(255,255,255,0.07)' stroke-width='1'/%3E%3Ccircle cx='65' cy='65' r='42' fill='none' stroke='rgba(255,255,255,0.07)' stroke-width='1'/%3E%3Ccircle cx='65' cy='65' r='24' fill='none' stroke='rgba(255,255,255,0.07)' stroke-width='1'/%3E%3Cline x1='5' y1='65' x2='125' y2='65' stroke='rgba(255,255,255,0.07)' stroke-width='1'/%3E%3Cline x1='65' y1='5' x2='65' y2='125' stroke='rgba(255,255,255,0.07)' stroke-width='1'/%3E%3Cline x1='18' y1='18' x2='112' y2='112' stroke='rgba(255,255,255,0.07)' stroke-width='1'/%3E%3Cline x1='112' y1='18' x2='18' y2='112' stroke='rgba(255,255,255,0.07)' stroke-width='1'/%3E%3C/svg%3E");
+    background-size: 130px 130px;
+    pointer-events: none;
+    opacity: 0.9;
+}
+
+.gm-badge {
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.14);
+    color: #fff;
+    font-size: 0.6rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    padding: 0.22rem 0.8rem;
+    border-radius: 100px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    margin-bottom: 0.85rem;
+    position: relative;
+    z-index: 1;
+    text-transform: uppercase;
+}
+
+.gm-title {
+    font-size: clamp(1.45rem, 4vw, 1.8rem);
+    font-weight: 900;
+    color: #fff;
+    margin: 0 0 0.3rem;
+    line-height: 1.15;
+    position: relative;
+    z-index: 1;
+    text-shadow: 0 2px 16px rgba(0, 0, 0, 0.5);
+    letter-spacing: -0.01em;
+}
+
+.gm-subtitle {
+    font-size: 0.92rem;
+    color: rgba(255, 255, 255, 0.65);
+    margin: 0;
+    position: relative;
+    z-index: 1;
+    font-style: italic;
+}
+
+.gm-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    color: rgba(255, 255, 255, 0.85);
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    font-size: 0.85rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s, transform 0.18s, color 0.2s;
+    z-index: 2;
+    backdrop-filter: blur(4px);
+}
+
+.gm-close:hover {
+    background: rgba(255, 255, 255, 0.18);
+    color: #fff;
+    transform: scale(1.12) rotate(90deg);
+}
+
+/* ── Body ──────────────────────────────────────────── */
+.gm-body {
+    padding: 1.75rem 2rem 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.3rem;
+}
+
+/* Estrellas */
+.gm-stars {
+    display: flex;
+    align-items: center;
+    gap: 0.1rem;
+}
+
+.gm-star {
+    color: rgba(255, 255, 255, 0.18);
+    font-size: 1.15rem;
+    line-height: 1;
+    transition: color 0.2s;
+}
+
+.gm-star.filled {
+    color: #ffd700;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.6);
+}
+
+.gm-rating-num {
+    margin-left: 0.6rem;
+    font-size: 0.78rem;
+    color: rgba(255, 255, 255, 0.45);
+    font-weight: 700;
+}
+
+/* Descripción */
+.gm-description {
+    font-size: 0.96rem;
+    color: rgba(255, 255, 255, 0.72);
+    line-height: 1.7;
+    margin: 0;
+}
+
+/* Grid de metadatos */
+.gm-meta {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.7rem;
+}
+
+.gm-meta-item {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 12px;
+    padding: 0.65rem 0.9rem;
+    transition: border-color 0.2s;
+}
+
+.gm-meta-item:hover {
+    border-color: var(--accent, rgba(255,255,255,0.15));
+}
+
+.gm-meta-label {
+    display: block;
+    font-size: 0.6rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    color: var(--accent, #888);
+    text-transform: uppercase;
+    margin-bottom: 0.22rem;
+    opacity: 0.9;
+}
+
+.gm-meta-value {
+    display: block;
+    font-size: 0.87rem;
+    color: rgba(255, 255, 255, 0.85);
+    font-weight: 500;
+    line-height: 1.3;
+}
+
+/* Botón CTA */
+.gm-cta {
+    width: 100%;
+    padding: 0.9rem 1rem;
+    border: none;
+    border-radius: 14px;
+    color: #fff;
+    font-size: 0.92rem;
+    font-weight: 700;
+    cursor: pointer;
+    letter-spacing: 0.04em;
+    transition: opacity 0.2s, transform 0.18s, box-shadow 0.2s;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.35);
+}
+
+.gm-cta::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(255,255,255,0.12), transparent);
+    pointer-events: none;
+}
+
+.gm-cta:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 32px rgba(0, 0, 0, 0.45);
+    opacity: 0.92;
+}
+
+.gm-cta:active {
+    transform: translateY(0);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+}
+
+/* ── Responsive ────────────────────────────────────── */
+@media (max-width: 540px) {
+    .gm-header    { padding: 2rem 1.25rem 1.5rem; }
+    .gm-body      { padding: 1.25rem 1.25rem 1.5rem; }
+    .gm-meta      { grid-template-columns: 1fr; }
+}
+
+/* ══════════════════════════════════════════════════════
+   MODO CLARO  [data-theme="light"]
+   Paleta cálida crema/hueso del sitio:
+     bg-primary:   #f0ece4
+     bg-secondary: #f7f3ec
+     bg-tertiary:  #e4dfd6
+   ══════════════════════════════════════════════════════ */
+
+/* Backdrop: algo más claro */
+[data-theme="light"] .gm-backdrop {
+    background: rgba(0, 0, 0, 0.38);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+}
+
+/* Tarjeta: fondo crema, borde sutil */
+[data-theme="light"] .gm-card {
+    background: #f7f3ec;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow:
+        0 24px 70px rgba(0, 0, 0, 0.22),
+        0 0 0 1px rgba(0, 0, 0, 0.05);
+}
+
+/* El header conserva el color del juego; el texto permanece blanco */
+[data-theme="light"] .gm-title {
+    color: #fff;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.45);
+}
+
+[data-theme="light"] .gm-subtitle {
+    color: rgba(255, 255, 255, 0.75);
+}
+
+[data-theme="light"] .gm-badge {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.3);
+    color: #fff;
+}
+
+/* Botón cerrar sobre header colorido */
+[data-theme="light"] .gm-close {
+    background: rgba(0, 0, 0, 0.25);
+    border-color: rgba(255, 255, 255, 0.3);
+    color: rgba(255, 255, 255, 0.9);
+}
+
+[data-theme="light"] .gm-close:hover {
+    background: rgba(0, 0, 0, 0.4);
+    color: #fff;
+}
+
+/* ── Body en modo claro ── */
+
+/* Estrellas vacías visibles sobre fondo crema */
+[data-theme="light"] .gm-star {
+    color: #d0ccc5;
+}
+
+[data-theme="light"] .gm-star.filled {
+    color: #e6a800;
+    text-shadow: 0 0 8px rgba(230, 168, 0, 0.35);
+}
+
+[data-theme="light"] .gm-rating-num {
+    color: #7a756e;
+}
+
+/* Descripción oscura sobre fondo crema */
+[data-theme="light"] .gm-description {
+    color: #3d3830;
+}
+
+/* Celdas de metadatos */
+[data-theme="light"] .gm-meta-item {
+    background: rgba(0, 0, 0, 0.04);
+    border: 1px solid rgba(0, 0, 0, 0.09);
+}
+
+[data-theme="light"] .gm-meta-item:hover {
+    border-color: var(--accent, rgba(0, 0, 0, 0.18));
+}
+
+/* .gm-meta-label usa var(--accent) del juego — funciona en ambos modos */
+
+[data-theme="light"] .gm-meta-value {
+    color: #1a1814;
+}
+

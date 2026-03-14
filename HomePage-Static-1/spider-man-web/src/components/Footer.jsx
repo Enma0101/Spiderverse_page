@@ -1,6 +1,22 @@
 import React from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Footer = () => {
+    const navigate = useNavigate();
+
+    const handleAnchorLink = (e, hash) => {
+        e.preventDefault();
+        if (window.location.pathname !== '/') {
+            navigate('/');
+            setTimeout(() => {
+                const el = document.getElementById(hash);
+                if (el) el.scrollIntoView({ behavior: 'smooth' });
+            }, 150);
+        } else {
+            const el = document.getElementById(hash);
+            if (el) el.scrollIntoView({ behavior: 'smooth' });
+        }
+    };
     return (
         <footer className="footer py-5">
             <div className="container">
@@ -18,16 +34,16 @@ const Footer = () => {
                             Disponible exclusivamente en PlayStation.
                         </p>
                         <div className="social-links">
-                            <a href="#" className="social-link neomorph" aria-label="Twitter">
-                                <i className="fab fa-twitter" aria-hidden="true"></i>
+                            <a href="https://www.tiktok.com/@spiderxlarry?is_from_webapp=1&sender_device=pc" target="_blank" rel="noopener noreferrer" className="social-link neomorph" aria-label="TikTok">
+                                <i className="fab fa-tiktok" aria-hidden="true"></i>
                             </a>
-                            <a href="#" className="social-link neomorph" aria-label="Facebook">
+                            <a href="https://www.facebook.com/share/g/1GZPtUzYTz/" target="_blank" rel="noopener noreferrer" className="social-link neomorph" aria-label="Facebook">
                                 <i className="fab fa-facebook" aria-hidden="true"></i>
                             </a>
-                            <a href="#" className="social-link neomorph" aria-label="Instagram">
+                            <a href="https://www.instagram.com/spiderman_comics_web/" target="_blank" rel="noopener noreferrer" className="social-link neomorph" aria-label="Instagram">
                                 <i className="fab fa-instagram" aria-hidden="true"></i>
                             </a>
-                            <a href="#" className="social-link neomorph" aria-label="YouTube">
+                            <a href="https://www.youtube.com/@Spider-Larry/featured" target="_blank" rel="noopener noreferrer" className="social-link neomorph" aria-label="YouTube">
                                 <i className="fab fa-youtube" aria-hidden="true"></i>
                             </a>
                         </div>
@@ -37,11 +53,12 @@ const Footer = () => {
                     <div className="col-lg-4">
                         <h4 className="brutalist-text mb-3">Explorar</h4>
                         <ul className="list-unstyled footer-links">
-                            <li><a href="#">Inicio</a></li>
-                            <li><a href="#games">Trilogía</a></li>
-                            <li><a href="#3d-suits">Juegos de Consola</a></li>
-                            <li><a href="#features">Características</a></li>
-                            <li><a href="#gallery">Galería</a></li>
+                            <li><a href="#home" onClick={(e) => handleAnchorLink(e, 'home')}>Inicio</a></li>
+                            <li><a href="#games" onClick={(e) => handleAnchorLink(e, 'games')}>Trilogía</a></li>
+                            <li><a href="#3d-suits" onClick={(e) => handleAnchorLink(e, '3d-suits')}>Juegos de Consola</a></li>
+                            <li><a href="#features" onClick={(e) => handleAnchorLink(e, 'features')}>Características</a></li>
+                            <li><a href="#gallery" onClick={(e) => handleAnchorLink(e, 'gallery')}>Galería</a></li>
+                            <li><Link to="/comics">Cómics</Link></li>
                         </ul>
                     </div>
 
@@ -53,13 +70,24 @@ const Footer = () => {
                             gráficos de nueva generación y tiempos de carga ultra rápidos.
                         </p>
                         <div className="platform-badges">
-                            <span className="badge neomorph me-2">
+                            <a
+                                href="#home"
+                                onClick={(e) => handleAnchorLink(e, 'home')}
+                                className="badge neomorph me-2 text-decoration-none"
+                                style={{ cursor: 'pointer' }}
+                            >
                                 <i className="fab fa-playstation" aria-hidden="true"></i> PS4
-                            </span>
-                            <span className="badge neomorph">
+                            </a>
+                            <a
+                                href="#home"
+                                onClick={(e) => handleAnchorLink(e, 'home')}
+                                className="badge neomorph text-decoration-none"
+                                style={{ cursor: 'pointer' }}
+                            >
                                 <i className="fab fa-playstation" aria-hidden="true"></i> PS5
-                            </span>
+                            </a>
                         </div>
+                        
                     </div>
                 </div>
 

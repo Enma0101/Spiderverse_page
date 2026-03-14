@@ -2,39 +2,44 @@ import React, { useEffect } from 'react';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 
+const STORAGE_BASE = 'https://hniltpsdlatokfdrwmtm.supabase.co/storage/v1/object/public/image';
+
 const games = [
     {
         id: 1,
         title: "Marvel's Spider-Man",
-        image: "/spider-man-ps4-game-swinging-through-city.webp",
-        video: "/video/Marvel's-Spider-Man-1.mp4",
+        image: `${STORAGE_BASE}/images/spider-man-ps4-game-swinging-through-city.webp`,
+        video: `${STORAGE_BASE}/video/Marvel's-Spider-Man-1.mp4`,
         description: "Sumérgete en el universo de Spider-Man con una historia original. Balancea por Manhattan, combate el crimen y enfrenta villanos icónicos en esta aventura épica de mundo abierto.",
         platform: "PS4",
         year: 2018,
         rating: 4.9,
-        features: ["Ray Tracing", "60 FPS", "4K HDR", "Mundo Abierto"]
+        features: ["Ray Tracing", "60 FPS", "4K HDR", "Mundo Abierto"],
+        buyLink: "https://www.playstation.com/es-mx/games/marvels-spider-man/"
     },
     {
         id: 2,
         title: "Spider-Man: Miles Morales",
-        image: "/miles-morales-spider-man-game-electric-powers.webp",
-        video: "/video/Spiderma-Miles-morales.mp4",
+        image: `${STORAGE_BASE}/images/miles-morales-spider-man-game-electric-powers.webp`,
+        video: `${STORAGE_BASE}/video/Spiderma-Miles-morales.mp4`,
         description: "Experimenta el poder eléctrico de Miles Morales en su primera aventura como Spider-Man. Nuevas habilidades de Venom y camuflaje te esperan en un Nueva York nevado.",
         platform: "PS5",
         year: 2020,
         rating: 4.8,
-        features: ["Ray Tracing", "120 FPS", "4K Native", "Haptic Feedback"]
+        features: ["Ray Tracing", "120 FPS", "4K Native", "Haptic Feedback"],
+        buyLink: "https://www.playstation.com/es-mx/games/marvels-spider-man-miles-morales/"
     },
     {
         id: 3,
         title: "Marvel's Spider-Man 2",
-        image: "/spider-man-2-ps5-peter-and-miles-dual-heroes.webp",
-        video: "/video/Marvel's-Spider-Man-2.mp4",
+        image: `${STORAGE_BASE}/images/spider-man-2-ps5-peter-and-miles-dual-heroes.webp`,
+        video: `${STORAGE_BASE}/video/Marvel's-Spider-Man-2.mp4`,
         description: "Peter Parker y Miles Morales se unen en la aventura más grande. Enfrenta a Venom, explora Queens y Brooklyn, y domina el simbionte en esta secuela revolucionaria.",
         platform: "PS5",
         year: 2023,
         rating: 5.0,
-        features: ["Ray Tracing", "60 FPS", "4K Ultra", "Dual Protagonists"]
+        features: ["Ray Tracing", "60 FPS", "4K Ultra", "Dual Protagonists"],
+        buyLink: "https://www.playstation.com/es-mx/games/marvels-spider-man-2/"
     }
 ];
 
@@ -44,7 +49,7 @@ const Trilogy = () => {
     }, []);
 
     // Function to handle video interaction
-    const handleVideoInteraction = (e, gameId) => {
+    const handleVideoInteraction = (e) => {
         const container = e.currentTarget.closest('.game-media-wrapper');
         const video = container.querySelector('video');
         const image = container.querySelector('.game-image');
@@ -126,6 +131,7 @@ const Trilogy = () => {
                                         playsInline
                                         preload="metadata"
                                         poster={game.image}
+                                        crossOrigin="anonymous"
                                     >
                                         <source src={game.video} type="video/mp4" />
                                         Tu navegador no soporta el elemento de video.
@@ -167,7 +173,7 @@ const Trilogy = () => {
 
                                     <button
                                         className="btn btn-primary btn-game"
-                                        onClick={() => alert('Redirigiendo a PlayStation Store...')}
+                                        onClick={() => window.open(game.buyLink, '_blank', 'noopener,noreferrer')}
                                     >
                                         <i className="fab fa-playstation me-2" aria-hidden="true"></i>
                                         Comprar Ahora

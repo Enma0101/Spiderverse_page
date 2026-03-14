@@ -1,0 +1,572 @@
+@import url('https://fonts.googleapis.com/css2?family=Varela+Round&display=swap');
+
+:root {
+    --tr: all 0.5s ease 0s;
+    --ch1: #05478a;
+    --ch2: #0070e0;
+    --cs1: #005e38;
+    --cs2: #03a65a;
+    --cw1: #c24914;
+    --cw2: #fc8621;
+    --ce1: #851d41;
+    --ce2: #db3056;
+}
+
+.auth-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(5px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s;
+}
+
+.auth-modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.auth-card {
+    background: #1e1e1e;
+    border-radius: 30px;
+    padding: 25px;
+    padding-top: 60px;
+    width: 90%;
+    max-width: 380px;
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    transform: scale(0.9);
+    transition: transform 0.3s;
+    overflow: visible;
+}
+
+.card-cut {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 40px;
+    background: linear-gradient(135deg, #2a2a2a 30px, transparent 30px);
+    pointer-events: none;
+    z-index: 1;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+}
+
+.active .auth-card {
+    transform: scale(1);
+}
+
+.close-modal {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: none;
+    border: none;
+    color: #888;
+    font-size: 18px;
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    z-index: 10;
+    transition: all 0.2s;
+}
+
+.close-modal:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+}
+
+.avatar-container {
+    position: absolute;
+    top: -45px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90px;
+    height: 90px;
+    z-index: 20;
+}
+
+.avatar-circle {
+    width: 90px;
+    height: 90px;
+    background: linear-gradient(145deg, #e23636, #b22222);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 5px 20px rgba(226, 54, 54, 0.4);
+    border: 4px solid #1e1e1e;
+}
+
+.avatar-circle i {
+    font-size: 48px;
+    color: #fff;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    transform: scaleX(-1);
+}
+
+.auth-title {
+    color: #fff;
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin: 5px 0 20px 0;
+    font-family: 'Montserrat', 'Impact', 'Arial Black', sans-serif;
+    text-shadow: 2px 2px 0 #000, 4px 4px 0 #e23636;
+    position: relative;
+    z-index: 5;
+}
+
+/* Toast Notifications - Estilo actualizado */
+.toast-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    pointer-events: none;
+    font-family: 'Varela Round', sans-serif;
+}
+
+.toast-item {
+    max-height: 25rem;
+    transition: var(--tr);
+    position: relative;
+    pointer-events: auto;
+    animation: slideIn 0.3s forwards;
+}
+
+.toast-item.closing {
+    animation: slideOut 0.3s forwards;
+}
+
+.toast {
+    background: #fff;
+    color: #f5f5f5;
+    padding: 1rem 2rem 1rem 3rem;
+    text-align: center;
+    border-radius: 1rem;
+    position: relative;
+    font-weight: 300;
+    margin: 0;
+    text-align: left;
+    min-width: 300px;
+    max-width: 16rem;
+    transition: var(--tr);
+    opacity: 1;
+    border: 0.15rem solid #fff2;
+    box-shadow: 0 0 1.5rem 0 #1a1f4360;
+}
+
+.toast:before {
+    content: "";
+    position: absolute;
+    width: 0.5rem;
+    height: calc(100% - 1.5rem);
+    top: 0.75rem;
+    left: 0.5rem;
+    z-index: 0;
+    border-radius: 1rem;
+    background: var(--clr);
+}
+
+.toast h3 {
+    font-size: 1.2rem;
+    margin: 0;
+    line-height: 1.35rem;
+    font-weight: 600;
+    position: relative;
+    color: var(--clr);
+}
+
+.toast p {
+    position: relative;
+    font-size: 0.95rem;
+    z-index: 1;
+    margin: 0.25rem 0 0;
+    color: #595959;
+    line-height: 1.3rem;
+}
+
+/* Tipos de toast con colores del tema */
+.toast.success {
+    --clr: #03a65a;
+}
+
+.toast.success h3 {
+    color: #03a65a;
+}
+
+.toast.error {
+    --clr: #db3056;
+}
+
+.toast.error h3 {
+    color: #db3056;
+}
+
+.toast.warning {
+    --clr: #fc8621;
+}
+
+.toast.warning h3 {
+    color: #fc8621;
+}
+
+.toast.info {
+    --clr: #0070e0;
+}
+
+.toast.info h3 {
+    color: #0070e0;
+}
+
+/* Botón de cerrar */
+.toast-close {
+    position: absolute;
+    width: 1.35rem;
+    height: 1.35rem;
+    text-align: center;
+    right: 1rem;
+    top: 1rem;
+    cursor: pointer;
+    border-radius: 100%;
+    background: none;
+    border: none;
+    padding: 0;
+    z-index: 2;
+}
+
+.toast-close:after {
+    position: absolute;
+    font-family: 'Varela Round', sans-serif;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    font-size: 1.8rem;
+    content: "+";
+    transform: rotate(-45deg);
+    border-radius: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #595959;
+    text-indent: 1px;
+    line-height: 1;
+}
+
+.toast-close:hover:after {
+    background: var(--clr);
+    color: #fff;
+}
+
+/* Iconos */
+.toast-icon {
+    position: absolute;
+    left: -0.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    background: radial-gradient(circle at 50% 50%, var(--clr) 1rem, var(--clr) calc(1rem + 1px) 100%);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    z-index: 3;
+}
+
+.toast-icon i {
+    font-size: 1.2rem;
+    color: white;
+}
+
+/* Iconos específicos con estilos de referencia */
+.toast.success .toast-icon i:before {
+    content: "L";
+    font-family: 'Varela Round', sans-serif;
+    font-size: 1.5rem;
+    font-weight: bold;
+    transform: rotateY(180deg) rotate(-38deg);
+    display: inline-block;
+}
+
+.toast.error .toast-icon i:before {
+    content: "+";
+    font-family: 'Varela Round', sans-serif;
+    font-size: 2.2rem;
+    transform: rotate(45deg);
+    display: inline-block;
+    line-height: 1;
+}
+
+.toast.warning .toast-icon i:before {
+    content: "!";
+    font-family: 'Varela Round', sans-serif;
+    font-size: 1.8rem;
+    font-weight: bold;
+}
+
+.toast.info .toast-icon i:before {
+    content: "?";
+    font-family: 'Varela Round', sans-serif;
+    font-size: 1.8rem;
+    font-weight: bold;
+}
+
+/* Animaciones */
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOut {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+
+    to {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+
+.neomorph-input-group {
+    background: #2a2a2a;
+    border: none;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: inset 2px 2px 5px #1a1a1a, inset -3px -3px 7px #3a3a3a;
+}
+
+.neomorph-input-group .input-group-text {
+    background: #2a2a2a;
+    border: none;
+    color: #888;
+    font-size: 14px;
+    padding: 0 15px;
+    border-top-left-radius: 15px;
+    border-bottom-left-radius: 15px;
+}
+
+.neomorph-input-group .form-control {
+    background: #2a2a2a;
+    border: none;
+    color: #fff;
+    padding: 14px 14px 14px 0;
+    font-size: 14px;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+}
+
+.neomorph-input-group .form-control:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+.neomorph-input-group .form-control::placeholder {
+    color: #666;
+}
+
+.btn-primary.neomorph-btn {
+    background: linear-gradient(145deg, #3a3a3a, #2a2a2a);
+    border: none;
+    border-radius: 15px;
+    color: #fff;
+    font-weight: 600;
+    padding: 14px;
+    font-size: 14px;
+    letter-spacing: 0.5px;
+    box-shadow: 5px 5px 10px #1a1a1a, -5px -5px 10px #3a3a3a;
+    transition: all 0.2s;
+}
+
+.btn-primary.neomorph-btn:hover:not(:disabled) {
+    background: linear-gradient(145deg, #404040, #303030);
+    transform: translateY(-2px);
+}
+
+.btn-primary.neomorph-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.btn-google.neomorph-btn {
+    background: #2a2a2a;
+    border: none;
+    border-radius: 15px;
+    color: #fff;
+    padding: 12px;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    box-shadow: 5px 5px 10px #1a1a1a, -5px -5px 10px #3a3a3a;
+    transition: all 0.2s;
+    cursor: pointer;
+}
+
+.btn-google.neomorph-btn:hover {
+    background: linear-gradient(145deg, #404040, #303030);
+    transform: translateY(-2px);
+}
+
+.auth-separator {
+    position: relative;
+    text-align: center;
+    color: #888;
+    font-size: 13px;
+}
+
+.auth-separator::before,
+.auth-separator::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: calc(50% - 70px);
+    height: 1px;
+    background: #333;
+}
+
+.auth-separator::before {
+    left: 0;
+}
+
+.auth-separator::after {
+    right: 0;
+}
+
+.auth-separator span {
+    background: #1e1e1e;
+    padding: 0 12px;
+}
+
+.text-gradient {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.alert {
+    border-radius: 12px;
+    font-size: 13px;
+    position: relative;
+    z-index: 5;
+    padding: 12px;
+    margin-bottom: 15px;
+}
+
+.alert-danger {
+    background: rgba(226, 54, 54, 0.1);
+    border: 1px solid rgba(226, 54, 54, 0.2);
+    color: #e23636;
+}
+
+.alert-success {
+    background: rgba(76, 175, 80, 0.1);
+    border: 1px solid rgba(76, 175, 80, 0.2);
+    color: #4caf50;
+}
+
+.auth-footer-text {
+    color: #888;
+    font-size: 14px;
+    position: relative;
+    z-index: 5;
+}
+
+.fa-spinner {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@media (max-width: 480px) {
+    .auth-card {
+        padding: 20px;
+        padding-top: 55px;
+        border-radius: 25px;
+    }
+
+    .card-cut {
+        border-top-left-radius: 25px;
+        border-top-right-radius: 25px;
+    }
+
+    .avatar-container {
+        width: 80px;
+        height: 80px;
+        top: -40px;
+    }
+
+    .avatar-circle {
+        width: 80px;
+        height: 80px;
+    }
+
+    .avatar-circle i {
+        font-size: 42px;
+    }
+
+    .auth-title {
+        font-size: 24px;
+        letter-spacing: 1px;
+    }
+
+    .toast-container {
+        top: 10px;
+        right: 10px;
+        left: 10px;
+    }
+
+    .toast {
+        min-width: auto;
+        width: 100%;
+        max-width: none;
+    }
+}
+
+.text-gradient {
+    background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: 0 2px 4px rgba(255, 255, 255, 0.3);
+}
