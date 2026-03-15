@@ -270,23 +270,44 @@ const ComicReader = ({ comic, onClose }) => {
                         <span className="fw-bold fs-5">{comic.series || comic.title} {comic.issue}</span>
                     </div>
 
-                    <div className="comic-reader-controls d-none d-md-flex align-items-center gap-3">
-                        <button className="btn btn-sm btn-outline-light" onClick={handleZoomOut} disabled={scale === 1}>
-                            <i className="fas fa-search-minus"></i>
-                        </button>
-                        <span className="text-white-50">{Math.round(scale * 100)}%</span>
-                        <button className="btn btn-sm btn-outline-light" onClick={handleZoomIn} disabled={scale === 3}>
-                            <i className="fas fa-search-plus"></i>
-                        </button>
+                    {/* Desktop Actions (Hidden on mobile) */}
+                    <div className="comic-reader-actions d-none d-md-flex align-items-center gap-3">
+                        <div className="comic-reader-controls d-flex align-items-center gap-2">
+                            <button className="btn btn-sm btn-outline-light" onClick={handleZoomOut} disabled={scale === 1}>
+                                <i className="fas fa-search-minus"></i>
+                            </button>
+                            <span className="text-white-50" style={{ fontSize: '0.8rem' }}>{Math.round(scale * 100)}%</span>
+                            <button className="btn btn-sm btn-outline-light" onClick={handleZoomIn} disabled={scale === 3}>
+                                <i className="fas fa-search-plus"></i>
+                            </button>
+                        </div>
+
+                        <div className="comic-reader-page-info px-3 py-1 bg-dark rounded-pill border border-secondary small">
+                            {currentPage + 1} / {totalPages}
+                        </div>
                     </div>
 
-                    <div className="comic-reader-page-info px-3 py-1 bg-dark rounded-pill border border-secondary">
-                        {currentPage + 1} / {totalPages}
-                    </div>
                     <button className="btn btn-danger rounded-circle d-flex align-items-center justify-content-center"
                         style={{ width: '40px', height: '40px' }} onClick={onClose}>
                         <i className="fas fa-times"></i>
                     </button>
+                </div>
+
+                {/* Mobile Sub-Header (Only visible on mobile) */}
+                <div className="comic-reader-sub-header d-flex d-md-none align-items-center justify-content-center">
+                    <div className="comic-reader-actions d-flex align-items-center gap-4">
+                        <div className="comic-reader-controls d-flex align-items-center gap-3">
+                            <button className="btn btn-sm btn-outline-light border-0" onClick={handleZoomOut} disabled={scale === 1}>
+                                <i className="fas fa-search-minus"></i>
+                            </button>
+                            <button className="btn btn-sm btn-outline-light border-0" onClick={handleZoomIn} disabled={scale === 3}>
+                                <i className="fas fa-search-plus"></i>
+                            </button>
+                        </div>
+                        <div className="comic-reader-page-info px-3 py-1 bg-dark rounded-pill border border-secondary small">
+                            {currentPage + 1} / {totalPages}
+                        </div>
+                    </div>
                 </div>
 
                 {/* Progress Bar */}
@@ -338,7 +359,6 @@ const ComicReader = ({ comic, onClose }) => {
                                             position: 'absolute',
                                             left: dialogue.x,
                                             top: dialogue.y,
-                                            maxWidth: '200px',
                                             zIndex: 10,
                                             pointerEvents: 'none'
                                         }}
@@ -544,18 +564,9 @@ const ComicsPage = () => {
         <div className="comics-page">
             {/* Hero Banner */}
             <section className="comics-hero" style={{
-                backgroundImage: `url(${heroBannerImg})`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center 105%',
-                backgroundAttachment: 'fixed'
+                backgroundImage: `url(${heroBannerImg})`
             }}>
-                <div className="comics-hero-overlay" style={{
-                    position: 'absolute',
-                    top: 0, left: 0, right: 0, bottom: 0,
-                    height: '100%',
-                    background: 'linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.4) 60%, var(--bg-primary) 100%)',
-                    zIndex: 1
-                }}></div>
+                <div className="comics-hero-overlay"></div>
                 <div className="container position-relative" style={{ zIndex: 2 }}>
                     <Link to="/" className="comics-back-link" data-aos="fade-right">
                         <i className="fas fa-arrow-left me-2"></i> Volver al Inicio

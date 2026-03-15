@@ -34,6 +34,7 @@
   --spacing-unit: 1rem;
 
   /* Transitions */
+  --navbar-height: 72px;
   --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -141,6 +142,9 @@ body {
   background: rgba(10, 14, 26, 0.95);
   backdrop-filter: blur(10px);
   border-bottom: 2px solid var(--accent-primary);
+  height: var(--navbar-height);
+  display: flex;
+  align-items: center;
 }
 
 /* CUSTOM THEME BUTTON (Replaces btn-outline-light for better visibility in light mode) */
@@ -192,37 +196,63 @@ body {
     top: 100%;
     left: 0;
     right: 0;
-    background: rgba(10, 14, 26, 0.98);
-    /* Fallback dark */
     backdrop-filter: blur(15px);
     border-bottom: 2px solid var(--accent-primary);
     padding: 1.5rem;
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
     z-index: 10000;
 
-    /* Hide by default */
-    display: none;
+    /* Custom Animation */
+    display: block;
     opacity: 0;
     visibility: hidden;
-    transform: translateY(-20px);
-    transition: all 0.3s ease;
+    transform: translateX(100%);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .navbar-collapse.show {
-    display: block !important;
     opacity: 1 !important;
     visibility: visible !important;
-    transform: translateY(0);
-    /* Ensure height is auto */
-    height: auto !important;
-    max-height: 80vh;
-    overflow-y: auto;
+    transform: translateX(0);
+    height: 100vh !important;
+    max-height: 100vh;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding-bottom: 100px;
+    background: linear-gradient(135deg, rgba(10, 14, 26, 0.95) 0%, rgba(20, 27, 46, 0.95) 100%);
+    backdrop-filter: blur(20px);
+    border: none;
+  }
+
+  /* Staggered Entrance Animations */
+  .navbar-collapse.show .nav-item {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUpMobile 0.5s ease forwards;
+    animation-delay: calc(var(--i) * 0.1s + 0.2s);
+  }
+
+  @keyframes fadeInUpMobile {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 
   /* Theme aware background */
   [data-theme="light"] .navbar-collapse {
-    background: rgba(255, 255, 255, 0.98);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.82) 0%, rgba(245, 245, 245, 0.78) 100%);
+    border-left: 1px solid rgba(255, 255, 255, 0.4);
+    box-shadow: -5px 0 25px rgba(0, 0, 0, 0.08);
     border-bottom: 2px solid var(--accent-secondary);
+  }
+
+  /* Added spacing below the login button in mobile menu */
+  .auth-nav-item {
+    margin-bottom: 2.5rem;
+    margin-left: 0 !important;
   }
 }
 
@@ -243,20 +273,65 @@ body {
   padding: 1rem 0;
 }
 
-.navbar-toggler-icon {
-  filter: brightness(100);
+/* --- CUSTOM HAMBURGER MENU --- */
+.custom-toggler {
+  padding: 10px;
+  cursor: pointer;
 }
 
-[data-theme="light"] .navbar-toggler-icon {
-  filter: brightness(0);
+.hamburger-box {
+  width: 30px;
+  height: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+}
+
+.hamburger-inner {
+  display: block;
+  width: 100%;
+  height: 3px;
+  background-color: white;
+  border-radius: 4px;
+  transition: all 0.3s cubic-bezier(0.68, -0.6, 0.32, 1.6);
+}
+
+[data-theme="light"] .hamburger-inner {
+  background-color: var(--text-primary);
+}
+
+/* Spider Red Accent for first bar */
+.custom-toggler:hover .hamburger-inner:nth-child(1) {
+  background-color: var(--accent-primary);
+}
+
+/* Animations for Active State (X) */
+.custom-toggler.active .hamburger-inner:nth-child(1) {
+  transform: translateY(10.5px) rotate(45deg);
+  background-color: var(--accent-primary);
+}
+
+.custom-toggler.active .hamburger-inner:nth-child(2) {
+  opacity: 0;
+  transform: translateX(-20px);
+}
+
+.custom-toggler.active .hamburger-inner:nth-child(3) {
+  transform: translateY(-10.5px) rotate(-45deg);
+  background-color: var(--accent-primary);
+}
+
+.navbar-toggler-icon {
+  display: none !important;
 }
 
 .navbar-toggler {
-  border-color: white !important;
+  border-color: transparent !important;
 }
 
 [data-theme="light"] .navbar-toggler {
-  border-color: black !important;
+  border-color: transparent !important;
 }
 
 [data-theme="light"] #authBtn {
@@ -290,20 +365,32 @@ body {
   .navbar-nav .nav-item {
     width: 100%;
     text-align: center;
+    margin: 0.8rem 0;
+  }
+
+  .nav-link {
+    font-size: 1.5rem !important;
+    font-family: var(--font-display);
+    letter-spacing: 0.1em;
   }
 
   .navbar-nav .nav-link::after {
     display: none;
-    /* Remove underline animation on mobile */
   }
 
   /* Center buttons in mobile */
+  .navbar-nav .auth-nav-item,
   .navbar-nav .ms-3,
   .navbar-nav .ms-2 {
     margin-left: 0 !important;
     display: flex;
     justify-content: center;
-    margin-top: 0.5rem;
+    margin-top: 1.5rem;
+  }
+
+  .spider-switch {
+    margin: 0 auto;
+    transform: scale(1.2);
   }
 }
 
@@ -590,16 +677,63 @@ body {
   right: -2%;
 }
 
-.hero-content {
-  position: relative;
-  z-index: 3;
-  padding: 2rem 1rem;
+.hero-row {
+  padding-top: 120px;
+}
+
+/* Mobile Overrides for Hero Section */
+@media (max-width: 991px) {
+  .hero-section {
+    padding-top: 40px;
+    padding-bottom: 150px;
+    min-height: auto;
+  }
+
+  .hero-row {
+    padding-top: 30px !important;
+    min-height: auto !important;
+  }
+
+  .hero-content {
+    text-align: left;
+    padding-top: 0.5rem;
+  }
+
+  .hero-text {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .hero-image-container {
+    width: 100%;
+    height: 50%;
+    top: auto;
+    bottom: 0;
+    opacity: 1;
+  }
+
+  .hero-image-container::before {
+    background-position: center 90%;
+    background-size: contain;
+  }
+
+  .platform-logo {
+    margin-bottom: 1rem !important;
+    align-self: flex-end;
+  }
+
+  .hero-ps-logo {
+    max-width: 70px;
+  }
+
+  .cta-buttons {
+    justify-content: flex-start;
+  }
 }
 
 .hero-text {
-
   animation: fadeInUp 1s ease-out;
-
 }
 
 .lead {
@@ -1425,13 +1559,7 @@ body {
   }
 
   /* Resets de altura */
-  .hero-section,
-  .hero-content .row {
-    min-height: 90vh !important;
-    /* Increase height so bottom is lower */
-    padding-bottom: 4rem !important;
-    margin-bottom: 0 !important;
-  }
+
 }
 
 /* ================================

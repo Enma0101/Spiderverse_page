@@ -442,7 +442,10 @@ function Carousel3D() {
                         transition: 'opacity 0.8s ease-in-out'
                     }}>
                         <Canvas
-                            camera={{ position: [0, 0, 6.5], fov: 90 }}
+                            camera={{ 
+                                position: typeof window !== 'undefined' && window.innerWidth < 768 ? [0, 0, 8.5] : [0, 0, 6.5], 
+                                fov: typeof window !== 'undefined' && window.innerWidth < 768 ? 115 : 90 
+                            }}
                             dpr={[1, 1.5]}
                             gl={{ powerPreference: "high-performance", antialias: false, alpha: true }}
                             style={{ width: '100%', height: '100%', background: 'transparent' }}

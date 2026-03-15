@@ -17,8 +17,17 @@ const Hero = () => {
             <div className="hero-image-container"></div>
 
             <div className="hero-content container">
-                <div className="row align-items-start min-vh-100" style={{ paddingTop: '120px' }}>
+                <div className="row align-items-start min-vh-100 hero-row">
                     <div className="col-lg-6 hero-text" data-aos="fade-right">
+                        {/* PlayStation Logo (Top - Mobile Only) */}
+                        <div className="platform-logo mb-4 d-lg-none">
+                            <img
+                                src={logoPlay}
+                                alt="PlayStation"
+                                className="hero-ps-logo"
+                            />
+                        </div>
+
                         <h1 id="hero-title" className="display-1 brutalist-text mb-4">
                             <span className="text-gradient">TU VECINO <br /> AMIGABLE</span>
                         </h1>
@@ -46,8 +55,8 @@ const Hero = () => {
                             </a>
                         </div>
 
-                        {/* PlayStation Logo */}
-                        <div className="platform-logo mt-5">
+                        {/* PlayStation Logo (Bottom - PC Only) */}
+                        <div className="platform-logo mt-5 d-none d-lg-block">
                             <img
                                 src={logoPlay}
                                 alt="PlayStation"
