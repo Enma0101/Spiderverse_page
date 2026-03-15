@@ -76,8 +76,31 @@ const Chatbot = () => {
         }
     };
 
+    // Llamar a la API de IA
+    const fetchBotResponse = async (userMessage) => {
+        try {
+            const response = await fetch('https://christopher-n8n-n8n-free.hf.space/webhook/chatbot', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ prompt: userMessage }),
+            });
+
+            if (!response.ok) {
+                throw new Error('Error en la respuesta de la API');
+            }
+
+            const data = await response.json();
+            return data.output;
+        } catch (error) {
+            console.error('Error al llamar a la API:', error);
+            return 'Lo siento, tuve un problema al procesar tu mensaje. Por favor, intenta de nuevo. 🕷️';
+        }
+    };
+
     // Send a message and get the bot response
-    const sendMessage = (text, option) => {
+    const sendMessage = async (text, option) => {
         if (!text.trim()) return;
 
         // Add user message
@@ -86,21 +109,20 @@ const Chatbot = () => {
         setShowMenu(false);
         setIsTyping(true);
 
-        // Determine the bot response
-        const matchedOption = option || CHATBOT_OPTIONS.find(
-            (opt) => opt.label.toLowerCase() === text.trim().toLowerCase()
-        );
+        // Si es una opción predefinida, usar respuesta local
+        if (option) {
+            setTimeout(() => {
+                setIsTyping(false);
+                setMessages((prev) => [...prev, { type: 'bot', text: option.answer }]);
+            }, 800);
+            return;
+        }
 
-        const botResponse = matchedOption
-            ? matchedOption.answer
-            : '¡Gracias por tu mensaje! 🕷️ Puedes seleccionar una opción del menú para obtener respuestas más detalladas.';
+        // Para mensajes personalizados, llamar a la API
+        const botResponse = await fetchBotResponse(text);
 
-        // Simulate typing delay then show bot response
-        const delay = 1200;
-        setTimeout(() => {
-            setIsTyping(false);
-            setMessages((prev) => [...prev, { type: 'bot', text: botResponse }]);
-        }, delay);
+        setIsTyping(false);
+        setMessages((prev) => [...prev, { type: 'bot', text: botResponse }]);
     };
 
     // Toggle the + menu
@@ -120,12 +142,14 @@ const Chatbot = () => {
 
     // Handle manual send
     const handleSend = () => {
-        sendMessage(inputValue);
+        if (inputValue.trim()) {
+            sendMessage(inputValue);
+        }
     };
 
     // Handle Enter key
     const handleKeyDown = (e) => {
-        if (e.key === 'Enter') {
+        if (e.key === 'Enter' && !e.shiftKey) {
             e.preventDefault();
             handleSend();
         }
@@ -218,7 +242,7 @@ const Chatbot = () => {
                     <button
                         className="chatbot-send-btn"
                         onClick={handleSend}
-                        disabled={!inputValue.trim()}
+                        disabled={!inputValue.trim() || isTyping}
                         aria-label="Enviar mensaje"
                     >
                         <i className="fas fa-paper-plane"></i>
