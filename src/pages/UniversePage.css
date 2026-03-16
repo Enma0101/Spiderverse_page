@@ -1,0 +1,45 @@
+.universe-page {
+    background-color: var(--bg-primary);
+    min-height: 100vh;
+}
+
+.universe-hero {
+    background: linear-gradient(rgba(10, 14, 26, 0.7), rgba(10, 14, 26, 0.95)), url('https://hniltpsdlatokfdrwmtm.supabase.co/storage/v1/object/public/image/images/hero-banner.webp');
+    background-size: cover;
+    background-position: center;
+    border-bottom: 2px solid var(--accent-primary);
+    margin-bottom: 4rem;
+    padding: 10rem 0;   /* Aumentado significativamente */
+    min-height: 600px; /* Mucho más alto como se solicitó */
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+[data-theme="light"] .universe-hero {
+    background: linear-gradient(rgba(240, 236, 228, 0.8), rgba(240, 236, 228, 0.95)), url('https://hniltpsdlatokfdrwmtm.supabase.co/storage/v1/object/public/image/images/hero-banner.webp');
+    border-bottom: 2px solid var(--accent-primary);
+}
+
+.sticker-section {
+    position: relative;
+    z-index: 1000;
+}
+
+.info-promo {
+    border: 1px dashed var(--accent-primary);
+}
+
+.timeline-placeholder, .wallpapers-placeholder {
+    opacity: 0.8;
+    transition: all 0.3s;
+}
+
+.timeline-placeholder:hover, .wallpapers-placeholder:hover {
+    opacity: 1;
+    transform: translateY(-5px);
+}
+
+@media (max-width: 991px) {
+    /* Padding handled by Layout */
+}

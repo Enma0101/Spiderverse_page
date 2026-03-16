@@ -217,7 +217,10 @@ const categories = [
 
 /* ---- Interactive Comic Reader Modal ---- */
 const ComicReader = ({ comic, onClose }) => {
-    const [currentPage, setCurrentPage] = useState(0);
+    // Persistencia de página usando localStorage
+    const storageKey = `comic-progress-${comic.id}`;
+    const savedPage = parseInt(localStorage.getItem(storageKey) || '0', 10);
+    const [currentPage, setCurrentPage] = useState(savedPage < (comic.pages?.length || 0) ? savedPage : 0);
     const [scale, setScale] = useState(1);
     const [isDragging, setIsDragging] = useState(false);
     const constraintsRef = useRef(null);
@@ -228,6 +231,11 @@ const ComicReader = ({ comic, onClose }) => {
         document.body.style.overflow = 'hidden';
         return () => { document.body.style.overflow = ''; };
     }, []);
+
+    // Guardar progreso automáticamente
+    useEffect(() => {
+        localStorage.setItem(storageKey, currentPage.toString());
+    }, [currentPage, storageKey]);
 
     useEffect(() => {
         const handleKey = (e) => {
@@ -570,7 +578,7 @@ const ComicsPage = () => {
                             </div>
 
                             <button
-                                className="comics-sort-btn"
+                                className="comics-sort-btn me-2"
                                 onClick={() => {
                                     const orders = ['newest', 'oldest', 'az', 'za'];
                                     const idx = orders.indexOf(sortOrder);
@@ -581,6 +589,20 @@ const ComicsPage = () => {
                                 {sortOrder === 'newest' ? 'Recientes' :
                                     sortOrder === 'oldest' ? 'Antiguos' :
                                         sortOrder === 'az' ? 'A → Z' : 'Z → A'}
+                            </button>
+
+                            <button 
+                                className="comics-sort-btn surprise-btn"
+                                onClick={() => {
+                                    if (sorted.length > 0) {
+                                        const randomIdx = Math.floor(Math.random() * sorted.length);
+                                        setReadingComic(sorted[randomIdx]);
+                                    }
+                                }}
+                                title="¡Sorpréndeme! (Cómic Aleatorio)"
+                            >
+                                <i className="fas fa-magic me-2 text-warning"></i>
+                                Aleatorio
                             </button>
 
                             <div className="comics-results-count">
