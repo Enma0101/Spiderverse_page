@@ -177,29 +177,22 @@ body {
   color: white !important;
 }
 
-/* LIGHT MODE ACTIVE BUTTON FIX */
-[data-theme="light"] .gallery-section .btn-primary {
+/* UNIVERSAL ACTIVE BUTTON FOR GALLERY SECTION (Consistent across themes) */
+.gallery-section .btn-primary {
   background-color: var(--accent-primary) !important;
   border: 2px solid var(--accent-primary) !important;
   color: white !important;
   box-shadow: 0 4px 10px rgba(229, 9, 20, 0.4);
 }
 
-/* Specific active state for gallery filters in any theme */
-.gallery-section .btn.btn-primary {
-  background: var(--accent-primary) !important;
-  border-color: var(--accent-primary) !important;
-  color: white !important;
-  box-shadow: 0 0 15px rgba(229, 9, 20, 0.4);
-}
-
-[data-theme="light"] .gallery-section .btn-primary:hover {
+.gallery-section .btn-primary:hover {
   background-color: #b30710 !important;
   border-color: #b30710 !important;
   transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(229, 9, 20, 0.5);
 }
 
-[data-theme="light"] .gallery-section .btn-primary:not(:hover):not(:active) {
+.gallery-section .btn-primary:not(:hover):not(:active) {
   background-color: var(--accent-primary) !important;
   border: 2px solid var(--accent-primary) !important;
   color: white !important;
