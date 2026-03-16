@@ -6,6 +6,7 @@ import 'aos/dist/aos.css';
 import { useContext } from 'react';
 import { AuthContext } from '../context/authContextDef';
 import { supabase, isSupabaseConfigured } from '../lib/supabaseClient';
+import { useFavorites } from '../hooks/useFavorites';
 
 const STORAGE_BASE = 'https://hniltpsdlatokfdrwmtm.supabase.co/storage/v1/object/public/image';
 
@@ -405,10 +406,10 @@ const ComicsPage = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [readingComic, setReadingComic] = useState(null);
     const { user, setIsAuthOpen } = useContext(AuthContext);
-    const [favorites, setFavorites] = useState([]);
+    const { favorites, toggleFavorite, isFavorite } = useFavorites();
     const [dbComics, setDbComics] = useState([]);
 
-    // Fetch Comics and Favorites from Supabase (only if configured)
+    // Fetch Comics from Supabase (only if configured)
     useEffect(() => {
         if (!isSupabaseConfigured) return;
 
@@ -421,18 +422,6 @@ const ComicsPage = () => {
                 } else if (comics && comics.length > 0) {
                     setDbComics(comics);
                 }
-
-                // Fetch Favorites if user is logged in
-                if (user) {
-                    const { data: favs, error: favsError } = await supabase
-                        .from('favorites')
-                        .select('comic_id')
-                        .eq('user_id', user.id);
-                    if (favsError) console.error('Error fetching favorites:', favsError);
-                    else setFavorites(favs?.map(f => f.comic_id) || []);
-                } else {
-                    setFavorites([]);
-                }
             } catch (err) {
                 console.error('Error connecting to Supabase:', err);
             }
@@ -442,7 +431,7 @@ const ComicsPage = () => {
         };
 
         fetchData();
-    }, [user]);
+    }, []);
 
     // Seed missing comics to Supabase (matches your table: id, title, issue_number, description, cover_url)
     useEffect(() => {
@@ -483,38 +472,14 @@ const ComicsPage = () => {
         window.scrollTo(0, 0);
     }, []);
 
-    const toggleFavorite = useCallback(async (e, comicId) => {
+    const handleToggleFavorite = useCallback((e, comicId) => {
         e.stopPropagation();
-
         if (!user) {
             setIsAuthOpen(true);
             return;
         }
-
-        if (!isSupabaseConfigured) return;
-
-        const isFav = favorites.includes(comicId);
-
-        try {
-            if (isFav) {
-                const { error } = await supabase
-                    .from('favorites')
-                    .delete()
-                    .eq('user_id', user.id)
-                    .eq('comic_id', comicId);
-                if (!error) setFavorites(prev => prev.filter(id => id !== comicId));
-            } else {
-                const { error } = await supabase
-                    .from('favorites')
-                    .insert([{ user_id: user.id, comic_id: comicId }]);
-                if (!error) setFavorites(prev => [...prev, comicId]);
-            }
-        } catch (err) {
-            console.error('Error toggling favorite:', err);
-        }
-    }, [user, favorites, setIsAuthOpen]);
-
-    const isFavorite = (comicId) => favorites.includes(comicId);
+        toggleFavorite(comicId);
+    }, [user, toggleFavorite, setIsAuthOpen]);
 
     // Always use local comicsData — it has the actual image imports
     // dbComics from Supabase won't have working image references
@@ -669,7 +634,7 @@ const ComicsPage = () => {
 
                                     <button
                                         className={`comic-fav-btn ${isFavorite(comic.id) ? 'active' : ''}`}
-                                        onClick={(e) => toggleFavorite(e, comic.id)}
+                                        onClick={(e) => handleToggleFavorite(e, comic.id)}
                                         aria-label={isFavorite(comic.id) ? 'Quitar de favoritos' : 'Agregar a favoritos'}
                                         title={isFavorite(comic.id) ? 'Quitar de favoritos' : 'Agregar a favoritos'}
                                     >
