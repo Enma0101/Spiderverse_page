@@ -61,7 +61,11 @@ const Trilogy = () => {
             if (c !== card) {
                 c.classList.remove('mobile-active');
                 const v = c.querySelector('video');
-                if (v) v.controls = false;
+                if (v) {
+                    v.controls = false;
+                    v.pause();
+                    v.currentTime = 0;
+                }
             }
         });
 
@@ -72,6 +76,21 @@ const Trilogy = () => {
         if (video) {
             video.controls = true;
             video.play().catch(err => console.log('Playback error:', err));
+        }
+    };
+
+    // Function to handle video end
+    const handleVideoEnd = (e) => {
+        const video = e.target;
+        const card = video.closest('.game-card');
+        
+        // Reset video to start
+        video.currentTime = 0;
+        video.controls = false;
+        
+        // Restore UI state
+        if (card) {
+            card.classList.remove('mobile-active');
         }
     };
 
@@ -101,11 +120,11 @@ const Trilogy = () => {
                                         className="game-video"
                                         playsInline
                                         muted
-                                        loop
                                         autoPlay
                                         preload="metadata"
                                         poster={game.image}
                                         crossOrigin="anonymous"
+                                        onEnded={handleVideoEnd}
                                     >
                                         <source src={game.video} type="video/mp4" />
                                         Tu navegador no soporta el elemento de video.
