@@ -281,16 +281,6 @@ const ComicReader = ({ comic, onClose }) => {
 
                     {/* Desktop Actions (Hidden on mobile) */}
                     <div className="comic-reader-actions d-none d-md-flex align-items-center gap-3">
-                        <div className="comic-reader-controls d-flex align-items-center gap-2">
-                            <button className="btn btn-sm btn-outline-light" onClick={handleZoomOut} disabled={scale === 1}>
-                                <i className="fas fa-search-minus"></i>
-                            </button>
-                            <span className="text-white-50" style={{ fontSize: '0.8rem' }}>{Math.round(scale * 100)}%</span>
-                            <button className="btn btn-sm btn-outline-light" onClick={handleZoomIn} disabled={scale === 3}>
-                                <i className="fas fa-search-plus"></i>
-                            </button>
-                        </div>
-
                         <div className="comic-reader-page-info px-3 py-1 bg-dark rounded-pill border border-secondary small">
                             {currentPage + 1} / {totalPages}
                         </div>
@@ -303,7 +293,7 @@ const ComicReader = ({ comic, onClose }) => {
                 </div>
 
                 {/* Mobile Sub-Header (Only visible on mobile) */}
-                <div className="comic-reader-sub-header d-flex d-md-none align-items-center justify-content-center">
+                <div className="comic-reader-sub-header d-flex d-md-none align-items-center justify-content-center bg-black py-2" style={{ borderBottom: '1px solid #333' }}>
                     <div className="comic-reader-actions d-flex align-items-center gap-4">
                         <div className="comic-reader-controls d-flex align-items-center gap-3">
                             <button className="btn btn-sm btn-outline-light border-0" onClick={handleZoomOut} disabled={scale === 1}>
@@ -591,20 +581,6 @@ const ComicsPage = () => {
                                         sortOrder === 'az' ? 'A → Z' : 'Z → A'}
                             </button>
 
-                            <button 
-                                className="comics-sort-btn surprise-btn"
-                                onClick={() => {
-                                    if (sorted.length > 0) {
-                                        const randomIdx = Math.floor(Math.random() * sorted.length);
-                                        setReadingComic(sorted[randomIdx]);
-                                    }
-                                }}
-                                title="¡Sorpréndeme! (Cómic Aleatorio)"
-                            >
-                                <i className="fas fa-magic me-2 text-warning"></i>
-                                Aleatorio
-                            </button>
-
                             <div className="comics-results-count">
                                 <span className="results-number">{sorted.length}</span>
                                 <span className="results-label"> cómics</span>
@@ -714,7 +690,7 @@ const ComicsPage = () => {
                                 <i className="fas fa-chevron-right"></i>
                             </button>
 
-                            <span className="page-info">
+                            <span className="page-info d-none d-sm-inline">
                                 Página {safePage} de {totalPages}
                             </span>
                         </nav>
