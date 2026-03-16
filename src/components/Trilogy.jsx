@@ -50,43 +50,29 @@ const Trilogy = () => {
 
     // Function to handle video interaction
     const handleVideoInteraction = (e) => {
-        const container = e.currentTarget.closest('.game-media-wrapper');
-        const video = container.querySelector('video');
-        const image = container.querySelector('.game-image');
-        const indicator = container.querySelector('.video-indicator');
+        const card = e.currentTarget.closest('.game-card');
+        if (!card) return;
 
-        if (!video) return;
+        // Si ya está activo, no hacemos nada (permitimos que los controles funcionen)
+        if (card.classList.contains('mobile-active')) return;
 
-        // If video controls are already visible (active state), don't interfere with built-in controls
-        if (video.controls) return;
-
-        // Activate video
-        e.preventDefault(); // Prevent navigation if link
-
-        // Pause all other videos
-        document.querySelectorAll('video').forEach(v => {
-            if (v !== video) {
-                v.pause();
-                v.controls = false;
-                v.style.opacity = '0';
-                // Reset sibling image/indicator
-                const sibContainer = v.closest('.game-media-wrapper');
-                if (sibContainer) {
-                    const sibImg = sibContainer.querySelector('.game-image');
-                    const sibInd = sibContainer.querySelector('.video-indicator');
-                    if (sibImg) sibImg.style.opacity = '1';
-                    if (sibInd) sibInd.style.display = 'flex';
-                }
+        // Desactivar otros
+        document.querySelectorAll('.game-card').forEach(c => {
+            if (c !== card) {
+                c.classList.remove('mobile-active');
+                const v = c.querySelector('video');
+                if (v) v.controls = false;
             }
         });
 
-        // Activate this video
-        image.style.opacity = '0';
-        video.style.opacity = '1';
-        video.controls = true; // Enable controls as requested "pausar o avanzar"
-        if (indicator) indicator.style.display = 'none';
-
-        video.play().catch(err => console.log('Autoplay prevented', err));
+        // Activar este
+        card.classList.add('mobile-active');
+        
+        const video = card.querySelector('video');
+        if (video) {
+            video.controls = true;
+            video.play().catch(err => console.log('Playback error:', err));
+        }
     };
 
     return (
@@ -103,21 +89,6 @@ const Trilogy = () => {
                                 <div
                                     className="game-media-wrapper"
                                     onClick={(e) => handleVideoInteraction(e, game.id)}
-                                    onMouseLeave={(e) => {
-                                        const container = e.currentTarget;
-                                        const video = container.querySelector('video');
-                                        const image = container.querySelector('.game-image');
-                                        const indicator = container.querySelector('.video-indicator');
-
-                                        if (video) {
-                                            video.pause();
-                                            video.currentTime = 0;
-                                            video.controls = false;
-                                            video.style.opacity = '0';
-                                        }
-                                        if (image) image.style.opacity = '1';
-                                        if (indicator) indicator.style.display = 'flex';
-                                    }}
                                 >
                                     <img
                                         src={game.image}
@@ -129,6 +100,9 @@ const Trilogy = () => {
                                     <video
                                         className="game-video"
                                         playsInline
+                                        muted
+                                        loop
+                                        autoPlay
                                         preload="metadata"
                                         poster={game.image}
                                         crossOrigin="anonymous"
@@ -145,7 +119,7 @@ const Trilogy = () => {
 
                                     <div className="video-indicator">
                                         <i className="fas fa-play-circle" aria-hidden="true"></i>
-                                        <span>Click para ver video</span>
+                                        <span>Click o Tap para ver</span>
                                     </div>
                                 </div>
 

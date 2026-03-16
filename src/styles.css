@@ -109,6 +109,14 @@ body {
   background: var(--accent-gradient);
 }
 
+.hero-section .text-gradient {
+  background: white !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
+  color: white !important; /* Fallback */
+}
+
 .text-gradient {
   background: white;
   -webkit-background-clip: text;
@@ -1397,19 +1405,36 @@ body {
     z-index: 2;
     pointer-events: auto;
   }
+}
+
+/* Game Card Active State (Universal) */
+.game-card.mobile-active .game-video {
+  opacity: 1 !important;
+  z-index: 10;
+  pointer-events: auto;
+}
+
+.game-card.mobile-active .game-image {
+  opacity: 0 !important;
+}
+
+.game-card.mobile-active .video-indicator {
+  display: none !important;
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .game-video {
+    display: block !important;
+    opacity: 0;
+    z-index: 2;
+    pointer-events: auto;
+    transition: opacity 0.3s ease;
+  }
 
   .game-image {
     opacity: 1 !important;
     display: block !important;
-  }
-
-  .game-card.mobile-active .game-video {
-    opacity: 1 !important;
-    z-index: 10;
-  }
-
-  .game-card.mobile-active .game-image {
-    opacity: 0 !important;
+    transition: opacity 0.3s ease;
   }
 
   .video-indicator {
@@ -1428,7 +1453,6 @@ body {
   .scroll-indicator {
     position: absolute;
     bottom: 1rem;
-    /* Reset to be visible but at the bottom of the taller section */
     left: 50%;
     transform: translateX(-50%);
     z-index: 3;
@@ -1437,22 +1461,14 @@ body {
 
   .scroll-indicator a {
     color: #ffffff !important;
-    /* <--- CAMBIO: Siempre blanco, ignora el tema */
     font-size: clamp(1.5rem, 3vw, 2rem);
     text-decoration: none;
     transition: var(--transition-smooth);
   }
 
   @keyframes tapPulse {
-
-    0%,
-    100% {
-      transform: scale(1);
-    }
-
-    50% {
-      transform: scale(1.1);
-    }
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
   }
 }
 

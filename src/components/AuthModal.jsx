@@ -155,12 +155,12 @@ const AuthModal = ({ isOpen, onClose }) => {
         try {
             setError('');
             setSuccessMsg('');
-            showToast('info', 'Google', 'Iniciando sesión con Google...');
+            setLoading(true);
 
             const { error } = await signInWithGoogle();
             if (error) throw error;
 
-            showToast('success', '¡Bienvenido!', 'Has iniciado sesión con Google correctamente.');
+
         } catch (err) {
             console.error(err);
             const msg = err.message?.toLowerCase() || '';
@@ -263,7 +263,11 @@ const AuthModal = ({ isOpen, onClose }) => {
                             />
                         </div>
 
-                        <button type="submit" className="btn btn-primary w-100 neomorph-btn" disabled={loading}>
+                        <button 
+                            type="submit" 
+                            className="btn-premium primary mt-2" 
+                            disabled={loading}
+                        >
                             {loading ? (
                                 <>
                                     <i className="fas fa-spinner fa-spin me-2"></i>
@@ -280,7 +284,7 @@ const AuthModal = ({ isOpen, onClose }) => {
                     </div>
 
                     <button
-                        className="btn btn-google w-100 mb-4 neomorph-btn"
+                        className="btn-premium secondary mb-4"
                         onClick={handleGoogleLogin}
                     >
                         <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" width="20" className="me-2" />

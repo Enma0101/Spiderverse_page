@@ -232,6 +232,24 @@ function ModelInstance({ offset, angleRef, url, gameData, onSelect, setGlobalHov
 
     const [hovered, setHovered] = useState(false);
     const [isFlipped, setIsFlipped] = useState(false);
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        const checkMobile = () => setIsMobile(window.innerWidth < 768);
+        checkMobile();
+        window.addEventListener('resize', checkMobile);
+        return () => window.removeEventListener('resize', checkMobile);
+    }, []);
+
+    // Auto-reset flip after 5 seconds on mobile
+    useEffect(() => {
+        if (isMobile && isFlipped) {
+            const timer = setTimeout(() => {
+                setIsFlipped(false);
+            }, 5000);
+            return () => clearTimeout(timer);
+        }
+    }, [isMobile, isFlipped]);
 
     const clonedScene = useMemo(() => {
         const clone = scene.clone(true);
@@ -253,11 +271,15 @@ function ModelInstance({ offset, angleRef, url, gameData, onSelect, setGlobalHov
     useFrame(() => {
         if (modelRotRef.current) {
             const targetRot = isFlipped ? Math.PI : 0;
-            if (!hovered) {
+            // On mobile, the rotation is strictly determined by isFlipped state
+            // On PC, we maintain the hover-requirement as originally intended
+            const shouldShowFlip = isMobile ? isFlipped : (isFlipped && hovered);
+
+            if (!isMobile && !hovered) {
                 modelRotRef.current.rotation.y = 0;
             } else {
                 modelRotRef.current.rotation.y = THREE.MathUtils.lerp(
-                    modelRotRef.current.rotation.y, targetRot, 0.1
+                    modelRotRef.current.rotation.y, shouldShowFlip ? Math.PI : 0, 0.1
                 );
             }
         }
@@ -270,6 +292,7 @@ function ModelInstance({ offset, angleRef, url, gameData, onSelect, setGlobalHov
         groupRef.current.position.set(Math.sin(θ) * RADIUS_X, 0, cosθ * RADIUS_Z);
         groupRef.current.rotation.y = Math.atan2(Math.sin(θ) * RADIUS_Z, cosθ * RADIUS_X);
         const inFront = cosθ > FRONT_THRESHOLD;
+
         isFrontRef.current = inFront;
         const targetScale = (isHoveredRef.current && inFront)
             ? SCALE_HOVER : inFront ? SCALE_FRONT : SCALE_DEFAULT;
@@ -294,12 +317,39 @@ function ModelInstance({ offset, angleRef, url, gameData, onSelect, setGlobalHov
         if (isFrontRef.current) onSelect(gameData);
     }, [onSelect, gameData]);
 
+    const handleFlipToggle = useCallback((e) => {
+        e.stopPropagation();
+        setIsFlipped(prev => !prev);
+    }, []);
+
     return (
         <group
             ref={groupRef}
-            onClick={(e) => { handleClick(e); e.stopPropagation(); setIsFlipped(prev => !prev); }}
+            onPointerUp={(e) => {
+                // On mobile, onPointerUp is more reliable for taps
+                if (isMobile) {
+                    handleFlipToggle(e);
+                }
+            }}
+            onClick={(e) => {
+                // On PC, onClick handles both modal opening (if front) and flipping
+                if (!isMobile) {
+                    handleClick(e);
+                    handleFlipToggle(e);
+                } else if (isFrontRef.current) {
+                    // On mobile, only use click for the modal if in front
+                    // The flip is handled by onPointerUp
+                    handleClick(e);
+                }
+            }}
             onPointerEnter={(e) => { handlePointerEnter(e); e.stopPropagation(); setHovered(true); if (setGlobalHover) setGlobalHover(true); }}
-            onPointerLeave={(e) => { handlePointerLeave(e); e.stopPropagation(); setHovered(false); if (setGlobalHover) setGlobalHover(false); setIsFlipped(false); }}
+            onPointerLeave={(e) => {
+                handlePointerLeave(e);
+                e.stopPropagation();
+                setHovered(false);
+                if (setGlobalHover) setGlobalHover(false);
+                if (!isMobile) setIsFlipped(false);
+            }}
         >
             <group ref={modelRotRef} rotation={[0, 0, 0]}>
                 <primitive object={clonedScene} />
@@ -442,9 +492,9 @@ function Carousel3D() {
                         transition: 'opacity 0.8s ease-in-out'
                     }}>
                         <Canvas
-                            camera={{ 
-                                position: typeof window !== 'undefined' && window.innerWidth < 768 ? [0, 0, 8.5] : [0, 0, 6.5], 
-                                fov: typeof window !== 'undefined' && window.innerWidth < 768 ? 115 : 90 
+                            camera={{
+                                position: typeof window !== 'undefined' && window.innerWidth < 768 ? [0, 0, 8.5] : [0, 0, 6.5],
+                                fov: typeof window !== 'undefined' && window.innerWidth < 768 ? 115 : 90
                             }}
                             dpr={[1, 1.5]}
                             gl={{ powerPreference: "high-performance", antialias: false, alpha: true }}

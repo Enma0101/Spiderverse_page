@@ -39,7 +39,7 @@ import { BrowserRouter } from 'react-router-dom'
 import { AuthProvider } from './context/AuthContext'
 import './index.css'
 import './styles.css'
-import './auth-modal.css'
+
 import './comics-page.css'
 import App from './App.jsx'
 
