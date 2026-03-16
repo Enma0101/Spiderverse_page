@@ -118,23 +118,23 @@ const Gallery = () => {
                 </div>
 
                 {/* Grid AnimatePresence allows elements to animate in and out */}
-                <motion.div layout className="row g-4">
-                    <AnimatePresence>
+                <motion.div layout="position" className="row g-4">
+                    <AnimatePresence mode="popLayout">
                         {filteredImages.map((item, index) => (
                             <motion.div
                                 layout
-                                initial={{ opacity: 0, scale: 0.8 }}
+                                initial={{ opacity: 0, scale: 0.9 }}
                                 animate={{ opacity: 1, scale: 1 }}
-                                exit={{ opacity: 0, scale: 0.8 }}
-                                transition={{ duration: 0.3 }}
+                                exit={{ opacity: 0, scale: 0.9 }}
+                                transition={{ duration: 0.2 }}
                                 className="col-md-6 col-lg-4"
                                 key={item.id}
                                 onClick={() => openLightbox(index)}
                                 style={{ cursor: 'pointer' }}
-                                whileHover={{ scale: 1.05, rotateY: 5, rotateX: 5, zIndex: 10 }}
-                                whileTap={{ scale: 0.95 }}
+                                whileHover={window.innerWidth > 768 ? { scale: 1.05, rotateY: 5, rotateX: 5, zIndex: 10 } : {}}
+                                whileTap={{ scale: 0.98 }}
                             >
-                                <div className="gallery-item neomorph overflow-hidden position-relative rounded-3" style={{ height: '250px' }}>
+                                <div className="gallery-item neomorph overflow-hidden position-relative rounded-3">
                                     <img
                                         src={item.image}
                                         alt={item.title}

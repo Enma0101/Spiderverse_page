@@ -185,6 +185,14 @@ body {
   box-shadow: 0 4px 10px rgba(229, 9, 20, 0.4);
 }
 
+/* Specific active state for gallery filters in any theme */
+.gallery-section .btn.btn-primary {
+  background: var(--accent-primary) !important;
+  border-color: var(--accent-primary) !important;
+  color: white !important;
+  box-shadow: 0 0 15px rgba(229, 9, 20, 0.4);
+}
+
 [data-theme="light"] .gallery-section .btn-primary:hover {
   background-color: #b30710 !important;
   border-color: #b30710 !important;
@@ -1259,9 +1267,17 @@ body {
   overflow: hidden;
   border-radius: 16px;
   cursor: pointer;
-  height: clamp(200px, 30vw, 300px);
+  height: 250px; /* Fixed height for stability */
   background: var(--bg-tertiary);
   border: 1px solid rgba(255, 255, 255, 0.1);
+  touch-action: pan-y; /* Ensure scroll is not blocked */
+  will-change: transform;
+}
+
+@media (max-width: 768px) {
+  .gallery-item {
+    height: 200px; /* Slightly smaller on mobile but still stable */
+  }
 }
 
 .gallery-item img {
