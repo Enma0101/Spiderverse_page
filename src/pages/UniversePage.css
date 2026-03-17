@@ -1,0 +1,57 @@
+.universe-page {
+    min-height: 100vh;
+}
+
+.universe-hero {
+    background: linear-gradient(rgba(10, 14, 26, 0.4), rgba(10, 14, 26, 0.7)), 
+                linear-gradient(90deg, #480100 0%, #8E0202 15%, #8E0202 30%, #8E0202 50%, #8E0202 70%, #8E0202 85%, #480100 100%),
+                url('/baner universo.webp');
+    background-size: cover;
+    background-position: center;
+    background-blend-mode: soft-light;
+    border-bottom: 2px solid var(--accent-primary);
+    margin-top: var(--navbar-height);
+    padding: 10rem 0 6rem 0;   /* Increased top padding to lower content */
+    min-height: 600px; 
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+[data-theme="light"] .universe-hero {
+    background: linear-gradient(rgba(240, 236, 228, 0.6), rgba(240, 236, 228, 0.8)), 
+                linear-gradient(90deg, #480100 0%, #8E0202 15%, #8E0202 30%, #8E0202 50%, #8E0202 70%, #8E0202 85%, #480100 100%),
+                url('/baner universo.webp');
+    background-blend-mode: soft-light;
+    border-bottom: 2px solid var(--accent-primary);
+}
+
+.bg-primary { background-color: var(--bg-primary) !important; }
+.bg-secondary { background-color: var(--bg-secondary) !important; }
+.bg-console-section { background-color: var(--bg-console-section) !important; }
+
+.universe-main section {
+    position: relative;
+    overflow: hidden;
+}
+
+.mt-10 {
+    margin-top: 4rem !important;
+}
+
+.pt-7 {
+    padding-top: 3rem !important;
+}
+
+.pb-10 {
+    padding-bottom: 8rem !important;
+}
+
+.mb-7 {
+    margin-bottom: 4rem !important;
+}
+
+
+
+
+

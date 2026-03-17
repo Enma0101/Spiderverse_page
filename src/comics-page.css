@@ -6,38 +6,33 @@
 /* ---- Hero Banner ---- */
 .comics-hero {
     position: relative;
-    padding: 10rem 0 3rem;
-    background: linear-gradient(135deg, #1a0000 0%, #480100 30%, #8E0202 60%, #480100 100%);
-    overflow: hidden;
-    min-height: 480px;
+    padding: 12rem 0 4rem;
+    min-height: 500px;
     display: flex;
-    align-items: flex-end;
+    align-items: center;
+    background-size: cover;
+    background-position: center 100%;
+    background-attachment: fixed;
 }
 
-/* Subtle noise texture for depth */
+/* Removed extra glow gradients to show full image clarity */
 .comics-hero::before {
     content: "";
     position: absolute;
     inset: 0;
-    background:
-        radial-gradient(circle at 20% 80%, rgba(229, 9, 20, 0.15) 0%, transparent 50%),
-        radial-gradient(circle at 80% 20%, rgba(0, 102, 204, 0.08) 0%, transparent 50%);
     z-index: 0;
     pointer-events: none;
 }
 
 .comics-hero-overlay {
     position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 120px;
-    background: linear-gradient(to bottom, transparent, var(--bg-primary));
+    inset: 0;
+    background: transparent;
     z-index: 1;
 }
 
+/* Removed theme-specific background override to prevent masking the inline image */
 [data-theme="light"] .comics-hero {
-    background: linear-gradient(135deg, #000 0%, #111 100%);
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 
@@ -73,15 +68,16 @@
     color: white;
     margin-bottom: 1rem;
     line-height: 1;
-    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    text-shadow: 0 4px 30px rgba(0, 0, 0, 0.7), 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
 .comics-hero-subtitle {
-    color: rgba(255, 255, 255, 0.8);
+    color: rgba(255, 255, 255, 0.95);
     font-size: clamp(1rem, 2vw, 1.25rem);
     max-width: 600px;
     margin: 0;
-    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    text-shadow: 0 2px 15px rgba(0, 0, 0, 0.8), 0 0 5px rgba(0, 0, 0, 0.5);
+    font-weight: 500;
 }
 
 /* ================================
@@ -93,8 +89,8 @@
     -webkit-backdrop-filter: blur(16px);
     padding: 1.25rem 0;
     position: sticky;
-    top: 64px;
-    z-index: 100;
+    top: var(--navbar-height, 72px);
+    z-index: 9995;
     border-bottom: 1px solid rgba(255, 255, 255, 0.06);
     transition: background-color 0.3s ease;
 }
@@ -159,13 +155,7 @@
     background: var(--bg-secondary);
 }
 
-.comics-hero-overlay {
-    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.2) 0%) !important;
-}
-
-[data-theme="light"] .comics-hero-overlay {
-    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 0%) !important;
-}
+/* Removed redundant overlay overrides as we now have a centralized definition */
 
 [data-theme="light"] .comics-search-input {
     background: #f0f1f4;
@@ -807,12 +797,16 @@
 
 @media (max-width: 576px) {
     .comics-hero {
-        padding: 7rem 0 3rem;
-        min-height: 250px;
+        padding: 8rem 0 3rem;
+        min-height: 320px;
+        background-attachment: scroll;
+        background-position: top 50%;
+        background-size: cover;
     }
 
     .comics-hero-title {
-        font-size: 2.5rem;
+        font-size: 2.8rem;
+        margin-bottom: 0.5rem;
     }
 
     .comics-grid {
@@ -844,7 +838,7 @@
     }
 
     .comics-filters-section {
-        top: 56px;
+        top: var(--navbar-height, 56px);
     }
 
     .comics-sort-btn {
@@ -1376,13 +1370,20 @@
 
     .comic-reader-title {
         font-size: 0.75rem;
+        flex: 1;
+        min-width: 0;
     }
 
     .comic-reader-title span {
-        max-width: 150px;
+        display: block;
+        max-width: 120px;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
+    }
+
+    .comic-reader-actions {
+        flex-shrink: 0;
     }
 
     .comic-reader-nav {
@@ -1405,8 +1406,24 @@
     }
 
     .comic-reader-page-info {
-        font-size: 0.7rem;
-        padding: 0.2rem 0.6rem;
+        font-size: 0.75rem;
+        padding: 0.25rem 0.75rem;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+    }
+
+    .comic-reader-sub-header {
+        background: rgba(0, 0, 0, 0.3);
+        backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        padding: 0.6rem;
+        z-index: 50;
+    }
+
+    .comic-reader-sub-header .btn-sm {
+        color: rgba(255, 255, 255, 0.8);
+        font-size: 1.1rem;
     }
 
     .comic-reader-viewport::before,
@@ -1416,21 +1433,39 @@
     }
 
     .comic-reader-page-container {
-        padding: 0.75rem;
+        padding: 0.5rem;
+    }
+
+    /* Mobile-specific bubble adjustments */
+    .comic-dialogue-bubble {
+        box-shadow: 1px 2px 6px rgba(0, 0, 0, 0.3);
+    }
+
+    .comic-dialogue-bubble.speech::after,
+    .comic-dialogue-bubble.speech-spidey::after {
+        bottom: -10px;
+        border-width: 10px 10px 0;
+    }
+
+    .comic-dialogue-bubble.speech::before,
+    .comic-dialogue-bubble.speech-spidey::before {
+        bottom: -13px;
+        border-width: 12px 12px 0;
     }
 }
 
 /* ---- Animated Comic Dialogues Overlay ---- */
 .comic-dialogue-bubble {
     font-family: 'Comic Sans MS', 'Chalkboard SE', 'Comic-Neue', sans-serif;
-    padding: 0.8rem 1.2rem;
+    padding: clamp(0.5rem, 2vw, 0.8rem) clamp(0.8rem, 3vw, 1.2rem);
     border-radius: 20px;
-    font-size: 1rem;
+    font-size: clamp(0.75rem, 2.5vw, 1rem);
     line-height: 1.3;
     color: #000;
-    box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.5);
-    border: 2px solid #000;
+    box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.4);
+    border: 1.5px solid #000;
     font-weight: bold;
+    max-width: clamp(140px, 40vw, 220px);
 }
 
 .comic-dialogue-bubble.speech {

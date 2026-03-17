@@ -6,6 +6,7 @@ import 'aos/dist/aos.css';
 import { useContext } from 'react';
 import { AuthContext } from '../context/authContextDef';
 import { supabase, isSupabaseConfigured } from '../lib/supabaseClient';
+import { useFavorites } from '../hooks/useFavorites';
 
 const STORAGE_BASE = 'https://hniltpsdlatokfdrwmtm.supabase.co/storage/v1/object/public/image';
 
@@ -216,7 +217,10 @@ const categories = [
 
 /* ---- Interactive Comic Reader Modal ---- */
 const ComicReader = ({ comic, onClose }) => {
-    const [currentPage, setCurrentPage] = useState(0);
+    // Persistencia de página usando localStorage
+    const storageKey = `comic-progress-${comic.id}`;
+    const savedPage = parseInt(localStorage.getItem(storageKey) || '0', 10);
+    const [currentPage, setCurrentPage] = useState(savedPage < (comic.pages?.length || 0) ? savedPage : 0);
     const [scale, setScale] = useState(1);
     const [isDragging, setIsDragging] = useState(false);
     const constraintsRef = useRef(null);
@@ -227,6 +231,11 @@ const ComicReader = ({ comic, onClose }) => {
         document.body.style.overflow = 'hidden';
         return () => { document.body.style.overflow = ''; };
     }, []);
+
+    // Guardar progreso automáticamente
+    useEffect(() => {
+        localStorage.setItem(storageKey, currentPage.toString());
+    }, [currentPage, storageKey]);
 
     useEffect(() => {
         const handleKey = (e) => {
@@ -270,23 +279,23 @@ const ComicReader = ({ comic, onClose }) => {
                         <span className="fw-bold fs-5">{comic.series || comic.title} {comic.issue}</span>
                     </div>
 
-                    <div className="comic-reader-controls d-none d-md-flex align-items-center gap-3">
-                        <button className="btn btn-sm btn-outline-light" onClick={handleZoomOut} disabled={scale === 1}>
-                            <i className="fas fa-search-minus"></i>
-                        </button>
-                        <span className="text-white-50">{Math.round(scale * 100)}%</span>
-                        <button className="btn btn-sm btn-outline-light" onClick={handleZoomIn} disabled={scale === 3}>
-                            <i className="fas fa-search-plus"></i>
-                        </button>
-                    </div>
 
-                    <div className="comic-reader-page-info px-3 py-1 bg-dark rounded-pill border border-secondary">
-                        {currentPage + 1} / {totalPages}
-                    </div>
                     <button className="btn btn-danger rounded-circle d-flex align-items-center justify-content-center"
                         style={{ width: '40px', height: '40px' }} onClick={onClose}>
                         <i className="fas fa-times"></i>
                     </button>
+                </div>
+
+                {/* Mobile Sub-Header (Only visible on mobile) */}
+                <div className="comic-reader-sub-header d-flex d-md-none align-items-center justify-content-center bg-black py-2" style={{ borderBottom: '1px solid #333' }}>
+                        <div className="comic-reader-controls d-flex align-items-center gap-3">
+                            <button className="btn btn-sm btn-outline-light border-0" onClick={handleZoomOut} disabled={scale === 1}>
+                                <i className="fas fa-search-minus"></i>
+                            </button>
+                            <button className="btn btn-sm btn-outline-light border-0" onClick={handleZoomIn} disabled={scale === 3}>
+                                <i className="fas fa-search-plus"></i>
+                            </button>
+                        </div>
                 </div>
 
                 {/* Progress Bar */}
@@ -338,7 +347,6 @@ const ComicReader = ({ comic, onClose }) => {
                                             position: 'absolute',
                                             left: dialogue.x,
                                             top: dialogue.y,
-                                            maxWidth: '200px',
                                             zIndex: 10,
                                             pointerEvents: 'none'
                                         }}
@@ -385,10 +393,10 @@ const ComicsPage = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [readingComic, setReadingComic] = useState(null);
     const { user, setIsAuthOpen } = useContext(AuthContext);
-    const [favorites, setFavorites] = useState([]);
+    const { favorites, toggleFavorite, isFavorite } = useFavorites();
     const [dbComics, setDbComics] = useState([]);
 
-    // Fetch Comics and Favorites from Supabase (only if configured)
+    // Fetch Comics from Supabase (only if configured)
     useEffect(() => {
         if (!isSupabaseConfigured) return;
 
@@ -401,18 +409,6 @@ const ComicsPage = () => {
                 } else if (comics && comics.length > 0) {
                     setDbComics(comics);
                 }
-
-                // Fetch Favorites if user is logged in
-                if (user) {
-                    const { data: favs, error: favsError } = await supabase
-                        .from('favorites')
-                        .select('comic_id')
-                        .eq('user_id', user.id);
-                    if (favsError) console.error('Error fetching favorites:', favsError);
-                    else setFavorites(favs?.map(f => f.comic_id) || []);
-                } else {
-                    setFavorites([]);
-                }
             } catch (err) {
                 console.error('Error connecting to Supabase:', err);
             }
@@ -422,7 +418,7 @@ const ComicsPage = () => {
         };
 
         fetchData();
-    }, [user]);
+    }, []);
 
     // Seed missing comics to Supabase (matches your table: id, title, issue_number, description, cover_url)
     useEffect(() => {
@@ -463,38 +459,14 @@ const ComicsPage = () => {
         window.scrollTo(0, 0);
     }, []);
 
-    const toggleFavorite = useCallback(async (e, comicId) => {
+    const handleToggleFavorite = useCallback((e, comicId) => {
         e.stopPropagation();
-
         if (!user) {
             setIsAuthOpen(true);
             return;
         }
-
-        if (!isSupabaseConfigured) return;
-
-        const isFav = favorites.includes(comicId);
-
-        try {
-            if (isFav) {
-                const { error } = await supabase
-                    .from('favorites')
-                    .delete()
-                    .eq('user_id', user.id)
-                    .eq('comic_id', comicId);
-                if (!error) setFavorites(prev => prev.filter(id => id !== comicId));
-            } else {
-                const { error } = await supabase
-                    .from('favorites')
-                    .insert([{ user_id: user.id, comic_id: comicId }]);
-                if (!error) setFavorites(prev => [...prev, comicId]);
-            }
-        } catch (err) {
-            console.error('Error toggling favorite:', err);
-        }
-    }, [user, favorites, setIsAuthOpen]);
-
-    const isFavorite = (comicId) => favorites.includes(comicId);
+        toggleFavorite(comicId);
+    }, [user, toggleFavorite, setIsAuthOpen]);
 
     // Always use local comicsData — it has the actual image imports
     // dbComics from Supabase won't have working image references
@@ -544,18 +516,9 @@ const ComicsPage = () => {
         <div className="comics-page">
             {/* Hero Banner */}
             <section className="comics-hero" style={{
-                backgroundImage: `url(${heroBannerImg})`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center 105%',
-                backgroundAttachment: 'fixed'
+                backgroundImage: `url(${heroBannerImg})`
             }}>
-                <div className="comics-hero-overlay" style={{
-                    position: 'absolute',
-                    top: 0, left: 0, right: 0, bottom: 0,
-                    height: '100%',
-                    background: 'linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.4) 60%, var(--bg-primary) 100%)',
-                    zIndex: 1
-                }}></div>
+                <div className="comics-hero-overlay"></div>
                 <div className="container position-relative" style={{ zIndex: 2 }}>
                     <Link to="/" className="comics-back-link" data-aos="fade-right">
                         <i className="fas fa-arrow-left me-2"></i> Volver al Inicio
@@ -594,7 +557,7 @@ const ComicsPage = () => {
                             </div>
 
                             <button
-                                className="comics-sort-btn"
+                                className="comics-sort-btn me-2"
                                 onClick={() => {
                                     const orders = ['newest', 'oldest', 'az', 'za'];
                                     const idx = orders.indexOf(sortOrder);
@@ -658,7 +621,7 @@ const ComicsPage = () => {
 
                                     <button
                                         className={`comic-fav-btn ${isFavorite(comic.id) ? 'active' : ''}`}
-                                        onClick={(e) => toggleFavorite(e, comic.id)}
+                                        onClick={(e) => handleToggleFavorite(e, comic.id)}
                                         aria-label={isFavorite(comic.id) ? 'Quitar de favoritos' : 'Agregar a favoritos'}
                                         title={isFavorite(comic.id) ? 'Quitar de favoritos' : 'Agregar a favoritos'}
                                     >
@@ -716,7 +679,7 @@ const ComicsPage = () => {
                                 <i className="fas fa-chevron-right"></i>
                             </button>
 
-                            <span className="page-info">
+                            <span className="page-info d-none d-sm-inline">
                                 Página {safePage} de {totalPages}
                             </span>
                         </nav>

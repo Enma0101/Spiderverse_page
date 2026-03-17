@@ -97,6 +97,7 @@ const Navbar = ({ onOpenAuth }) => {
         { name: 'Juegos', href: '#3d-suits' },
         { name: 'Características', href: '#features' },
         { name: 'Galería', href: '#gallery' },
+        { name: 'Universo', href: '/universe', isRoute: true },
         { name: 'Cómics', href: '/comics', isRoute: true },
     ];
 
@@ -121,14 +122,18 @@ const Navbar = ({ onOpenAuth }) => {
                         </Link>
 
                         <button
-                            className="navbar-toggler"
+                            className={`navbar-toggler custom-toggler ${isOpen ? 'active' : ''}`}
                             type="button"
                             onClick={() => setIsOpen(!isOpen)}
                             aria-expanded={isOpen}
                             aria-label="Toggle navigation"
-                            style={{ zIndex: 10001 }} // Force clickable
+                            style={{ zIndex: 10001, border: 'none', background: 'transparent', outline: 'none' }}
                         >
-                            <span className="navbar-toggler-icon"></span>
+                            <div className="hamburger-box">
+                                <span className="hamburger-inner"></span>
+                                <span className="hamburger-inner"></span>
+                                <span className="hamburger-inner"></span>
+                            </div>
                         </button>
 
                         {/*
@@ -137,7 +142,7 @@ const Navbar = ({ onOpenAuth }) => {
             */}
                         <div className={`collapse navbar-collapse ${isOpen ? 'show' : ''}`} id="navbarNav">
                             <ul className="navbar-nav ms-auto align-items-center">
-                                {navLinks.map((link) => {
+                                {navLinks.map((link, index) => {
                                     let isActive = false;
                                     if (link.href.startsWith('#')) {
                                         isActive = isHomePage && link.href === `#${activeSection}`;
@@ -146,7 +151,7 @@ const Navbar = ({ onOpenAuth }) => {
                                     }
 
                                     return (
-                                        <li className="nav-item" key={link.name}>
+                                        <li className="nav-item" key={link.name} style={{ '--i': index }}>
                                             <a
                                                 className={`nav-link ${isActive ? 'active' : ''}`}
                                                 href={link.href}
@@ -168,7 +173,7 @@ const Navbar = ({ onOpenAuth }) => {
                                 </li>
 
                                 {/* Toggle de tema */}
-                                <li className="nav-item">
+                                <li className="nav-item" style={{ '--i': navLinks.length }}>
                                     <button
                                         id="themeToggle"
                                         className={`spider-switch ${theme}`}
@@ -183,7 +188,7 @@ const Navbar = ({ onOpenAuth }) => {
                                 </li>
 
                                 {/* Botón de Auth / Usuario */}
-                                <li className="nav-item" style={{ marginLeft: '16px' }}>
+                                <li className="nav-item auth-nav-item" style={{ marginLeft: '16px', '--i': navLinks.length + 1 }}>
                                     {user ? (
                                         <div className="d-flex align-items-center gap-2">
                                             <div className="d-flex align-items-center gap-2" style={{ padding: '4px 12px', borderRadius: '20px', background: 'var(--bg-tertiary)', color: 'var(--text-primary)' }}>
@@ -212,6 +217,7 @@ const Navbar = ({ onOpenAuth }) => {
                                                 onOpenAuth();
                                                 setIsOpen(false);
                                             }}
+                                            style={{ height: '32px', display: 'flex', alignItems: 'center' }}
                                         >
                                             <i className="fas fa-user me-2"></i>Acceder
                                         </button>

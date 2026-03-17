@@ -53,15 +53,11 @@ export default defineConfig({
         display: 'standalone',
         icons: [
           {
-            src: '/spider-icon-192.png',
-            sizes: '192x192',
-            type: 'image/png',
-          },
-          {
-            src: '/spider-icon-512.png',
-            sizes: '512x512',
-            type: 'image/png',
-          },
+            src: '/spider.svg',
+            sizes: 'any',
+            type: 'image/svg+xml',
+            purpose: 'any maskable'
+          }
         ],
       },
     }),
