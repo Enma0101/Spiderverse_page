@@ -279,12 +279,6 @@ const ComicReader = ({ comic, onClose }) => {
                         <span className="fw-bold fs-5">{comic.series || comic.title} {comic.issue}</span>
                     </div>
 
-                    {/* Desktop Actions (Hidden on mobile) */}
-                    <div className="comic-reader-actions d-none d-md-flex align-items-center gap-3">
-                        <div className="comic-reader-page-info px-3 py-1 bg-dark rounded-pill border border-secondary small">
-                            {currentPage + 1} / {totalPages}
-                        </div>
-                    </div>
 
                     <button className="btn btn-danger rounded-circle d-flex align-items-center justify-content-center"
                         style={{ width: '40px', height: '40px' }} onClick={onClose}>
@@ -294,7 +288,6 @@ const ComicReader = ({ comic, onClose }) => {
 
                 {/* Mobile Sub-Header (Only visible on mobile) */}
                 <div className="comic-reader-sub-header d-flex d-md-none align-items-center justify-content-center bg-black py-2" style={{ borderBottom: '1px solid #333' }}>
-                    <div className="comic-reader-actions d-flex align-items-center gap-4">
                         <div className="comic-reader-controls d-flex align-items-center gap-3">
                             <button className="btn btn-sm btn-outline-light border-0" onClick={handleZoomOut} disabled={scale === 1}>
                                 <i className="fas fa-search-minus"></i>
@@ -303,10 +296,6 @@ const ComicReader = ({ comic, onClose }) => {
                                 <i className="fas fa-search-plus"></i>
                             </button>
                         </div>
-                        <div className="comic-reader-page-info px-3 py-1 bg-dark rounded-pill border border-secondary small">
-                            {currentPage + 1} / {totalPages}
-                        </div>
-                    </div>
                 </div>
 
                 {/* Progress Bar */}

@@ -28,7 +28,7 @@ const SpiderFacts = () => {
             <div className="fact-card neomorph">
                 <div className="fact-header">
                     <i className="fas fa-spider fact-icon"></i>
-                    <span className="fact-label fs-5">¿SABÍAS QUE...?</span>
+                    <span className="fact-label brutalist-text section-title fs-5">¿SABÍAS QUE...?</span>
                 </div>
                 <div className="fact-content">
                     <AnimatePresence mode="wait">

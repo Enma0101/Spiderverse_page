@@ -1,12 +1,11 @@
 .spider-facts-container {
-    margin-top: 3rem;
-    padding: 0 1rem;
+    padding: 0;
     width: 100%;
 }
 
 .fact-card {
     max-width: 600px;
-    margin: 0 auto;
+    margin: 0 0 0 auto;
     padding: 2rem;
     position: relative;
     overflow: hidden;

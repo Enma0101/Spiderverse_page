@@ -11,19 +11,31 @@ const timelineEvents = [
 
 const UniverseTimeline = () => {
     return (
-        <section className="universe-timeline py-4">
-            <h3 className="brutalist-text mb-4 text-white">CRONOLOGÍA ARÁCNIDA</h3>
-            <div className="timeline-container">
-                {timelineEvents.map((event, index) => (
-                    <div key={index} className="timeline-item" data-aos="fade-left" data-aos-delay={index * 100}>
-                        <div className="timeline-dot"></div>
-                        <div className="timeline-content neomorph">
-                            <span className="timeline-year">{event.year}</span>
-                            <h4 className="timeline-title">{event.title}</h4>
-                            <p className="timeline-desc small text-muted mb-0">{event.desc}</p>
+        <section className="universe-timeline pt-5 pb-10">
+            <div className="container">
+                <h3 className="brutalist-text section-title mt-10 pt-7 mb-7 text-white">CRONOLOGÍA ARÁCNIDA</h3>
+                <div className="timeline-container">
+                    {timelineEvents.map((event, index) => (
+                        <div key={index} className="timeline-item" data-aos="fade-left" data-aos-delay={index * 100}>
+                            <div className="timeline-dot-wrapper">
+                                <div className="timeline-dot">
+                                    <i className={`fas ${
+                                        event.category === 'comic' ? 'fa-book-open' : 
+                                        event.category === 'movie' ? 'fa-film' : 
+                                        'fa-gamepad'
+                                    }`}></i>
+                                </div>
+                            </div>
+                            <div className="timeline-content neomorph">
+                                <div className="timeline-header">
+                                    <span className="timeline-year">{event.year}</span>
+                                </div>
+                                <h4 className="timeline-title">{event.title}</h4>
+                                <p className="timeline-desc small mb-0">{event.desc}</p>
+                            </div>
                         </div>
-                    </div>
-                ))}
+                    ))}
+                </div>
             </div>
         </section>
     );

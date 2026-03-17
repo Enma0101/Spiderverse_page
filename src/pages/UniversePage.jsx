@@ -18,41 +18,34 @@ const UniversePage = () => {
         <div className="universe-page">
             {/* Cabecera temática */}
             <header className="universe-hero py-5">
-                <div className="container text-center pt-5">
-                    <h1 className="display-1 brutalist-text text-white mb-3" data-aos="fade-up">
-                        EXPLORA EL UNIVERSO
-                    </h1>
-                    <p className="lead text-white-50" data-aos="fade-up" data-aos-delay="100">
-                        Sumérgete en el lore, la historia y los secretos de tus arácnidos favoritos.
-                    </p>
+                <div className="container pt-10">
+                    <div className="row align-items-center g-4">
+                        <div className="col-lg-7 text-start">
+                            <h1 className="display-3 brutalist-text text-white mb-3" data-aos="fade-up">
+                                EXPLORA EL UNIVERSO
+                            </h1>
+                            <p className="lead text-white mb-4" data-aos="fade-up" data-aos-delay="100">
+                                Sumérgete en el lore, la historia y los secretos de tus arácnidos favoritos.
+                            </p>
+                        </div>
+                        <div className="col-lg-5 d-flex justify-content-end" data-aos="fade-left" data-aos-delay="200">
+                            <SpiderFacts />
+                        </div>
+                    </div>
                 </div>
             </header>
 
-            <main className="container py-5">
-                <div className="row g-5">
-                    {/* Spider Facts Side */}
-                    <div className="col-lg-5" data-aos="fade-right">
-                        <div className="sticky-top" style={{ top: '120px' }}>
-                            <SpiderFacts />
-                            
-                            <div className="info-promo neomorph p-4 mt-4">
-                                <h4 className="brutalist-text mb-3">CONEXIÓN ARÁCNIDA</h4>
-                                <p className="small text-muted">
-                                    Esta sección se actualiza periódicamente con nuevos datos del multiverso.
-                                    ¡Vuelve pronto para más revelaciones!
-                                </p>
-                            </div>
-                        </div>
-                    </div>
+            <main className="universe-main">
+                <div className="bg-secondary">
+                    <CharacterBios />
+                </div>
 
-                    {/* Main Content Area */}
-                    <div className="col-lg-7">
-                        <CharacterBios />
-                        
-                        <UniverseTimeline />
+                <div className="bg-console-section">
+                    <UniverseTimeline />
+                </div>
 
-                        <UniverseWallpapers />
-                    </div>
+                <div className="bg-primary">
+                    <UniverseWallpapers />
                 </div>
             </main>
         </div>

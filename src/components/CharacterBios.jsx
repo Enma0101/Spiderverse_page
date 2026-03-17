@@ -6,8 +6,8 @@ const characters = [
     {
         name: "Peter Parker",
         alias: "Spider-Man",
-        color: "#e50914",
-        image: "https://hniltpsdlatokfdrwmtm.supabase.co/storage/v1/object/public/image/images/spiderman.webp",
+        color: "#E50914",
+        image: "/piterparker.jpg",
         description: "El Spider-Man original. Después de ser mordido por una araña radiactiva, Peter dedica su vida a proteger Nueva York bajo el mantra: 'Un gran poder conlleva una gran responsabilidad'.",
         powers: ["Sentido Arácnido", "Fuerza Proporcional", "Adherencia a muros"]
     },
@@ -15,7 +15,7 @@ const characters = [
         name: "Miles Morales",
         alias: "Spider-Man",
         color: "#000000",
-        image: "https://hniltpsdlatokfdrwmtm.supabase.co/storage/v1/object/public/image/images/spiderman.webp", // Fallback to same as I don't have Miles URL handy
+        image: "/mikemorales.webp",
         description: "Protegiendo su propio rincón de Brooklyn, Miles posee habilidades únicas que lo diferencian de Peter, incluyendo el camuflaje y ataques bio-eléctricos.",
         powers: ["Golpe Veneno", "Camuflaje", "Ráfaga de Energía"]
     },
@@ -23,7 +23,7 @@ const characters = [
         name: "Gwen Stacy",
         alias: "Spider-Gwen",
         color: "#ff69b4",
-        image: "https://hniltpsdlatokfdrwmtm.supabase.co/storage/v1/object/public/image/images/spiderman.webp",
+        image: "/gwenstacy.jpg",
         description: "En su universo, fue ella quien recibió la mordida arácnida. Una baterista talentosa que lucha contra el crimen con elegancia y agilidad única.",
         powers: ["Agilidad Extrema", "Viaje Dimensional", "Sentido Refinado"]
     }
@@ -31,37 +31,45 @@ const characters = [
 
 const CharacterBios = () => {
     return (
-        <section id="bios" className="character-bios-section py-5">
+        <section id="bios" className="character-bios-section pt-5 pb-10">
             <div className="container">
-                <div className="text-center mb-5" data-aos="fade-up">
-                    <h2 className="section-title brutalist-text text-white">RED DE HÉROES</h2>
-                    <p className="text-muted mt-3">Conoce a los rostros detrás de la máscara</p>
-                </div>
-
-                <div className="row g-4">
-                    {characters.map((char, index) => (
-                        <div className="col-lg-4" key={char.name} data-aos="fade-up" data-aos-delay={index * 100}>
-                            <motion.div 
-                                className="char-card neomorph"
-                                whileHover={{ scale: 1.02 }}
-                                transition={{ type: "spring", stiffness: 300 }}
-                            >
-                                <div className="char-image-container" style={{ '--char-color': char.color }}>
-                                    <img src={char.image} alt={char.name} className="char-image" />
-                                    <div className="char-alias-badge">{char.alias}</div>
-                                </div>
-                                <div className="char-info p-4">
-                                    <h3 className="brutalist-text h4 mb-2">{char.name}</h3>
-                                    <p className="small text-muted mb-3">{char.description}</p>
-                                    <div className="char-powers d-flex flex-wrap gap-2">
-                                        {char.powers.map(power => (
-                                            <span key={power} className="power-tag">{power}</span>
-                                        ))}
-                                    </div>
-                                </div>
-                            </motion.div>
+                <div className="row justify-content-center">
+                    <div className="col-lg-11 pt-7 mt-10"> {/* Significantly increased top spacing */}
+                        <div className="text-start mb-7" data-aos="fade-up">
+                            <h2 className="section-title brutalist-text text-white">RED DE HÉROES</h2>
+                            <p className="lead text-white mt-3">Conoce a los rostros detrás de la máscara</p>
                         </div>
-                    ))}
+
+                        <div className="row g-4">
+                            {characters.map((char, index) => (
+                                <div className="col-lg-4 col-md-6 mb-4" key={char.name} data-aos="fade-up" data-aos-delay={index * 100}>
+                                    <article className="game-card neomorph">
+                                        <div className="game-media-wrapper">
+                                            <img
+                                                src={char.image}
+                                                alt={char.name}
+                                                className="game-image"
+                                            />
+                                            <div className="game-platform">
+                                                <span className="badge neomorph">
+                                                    {char.alias}
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div className="game-content">
+                                            <h3 className="brutalist-text">{char.name}</h3>
+                                            <p>{char.description}</p>
+                                            <div className="game-features">
+                                                {char.powers.map((power, i) => (
+                                                    <span className="feature-badge" key={i}>{power}</span>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    </article>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
