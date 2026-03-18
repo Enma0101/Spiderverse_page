@@ -48,10 +48,6 @@ const UniversePage = () => {
                 <div className="bg-console-section">
                     <UniverseTimeline />
                 </div>
-
-                <div className="bg-primary">
-                    <UniverseWallpapers />
-                </div>
             </main>
         </div>
     );

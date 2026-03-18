@@ -26,6 +26,11 @@
     border-bottom: 2px solid var(--accent-primary);
 }
 
+/* Override text-white natively from Bootstrap/Index in light mode */
+[data-theme="light"] .universe-hero .text-white {
+    color: var(--text-primary) !important;
+}
+
 .bg-primary { background-color: var(--bg-primary) !important; }
 .bg-secondary { background-color: var(--bg-secondary) !important; }
 .bg-console-section { background-color: var(--bg-console-section) !important; }
