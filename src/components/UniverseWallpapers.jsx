@@ -50,10 +50,10 @@ const WallpaperSection = ({ wallpaper, progress, index, total }) => {
     // We add a tiny epsilon to ensure no two points are identical
     const eps = 0.001; 
     
-    const entryStart = isFirst ? -0.1 : start;
-    const entryEnd = isFirst ? 0 : start + (0.1 / total);
-    const exitStart = isLast ? 1.1 : end - (0.1 / total);
-    const exitEnd = end;
+    const entryStart = Math.max(0, isFirst ? 0 : start);
+    const entryEnd = Math.max(0, isFirst ? 0 : start + (0.1 / total));
+    const exitStart = Math.min(1, isLast ? 1 : end - (0.1 / total));
+    const exitEnd = Math.min(1, isLast ? 1 : end);
 
     const x = useTransform(
         progress, 
@@ -76,7 +76,7 @@ const WallpaperSection = ({ wallpaper, progress, index, total }) => {
     // Layering: higher index = higher layer during its active time
     const zIndex = useTransform(
         progress,
-        [start - eps, start, end, end + eps],
+        [Math.max(0, start - eps), start, end, Math.min(1, end + eps)],
         [1, index + 10, index + 10, 1]
     );
 

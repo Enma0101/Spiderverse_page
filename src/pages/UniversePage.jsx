@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import SpiderFacts from '../components/SpiderFacts';
 import CharacterBios from '../components/CharacterBios';
-import SpotifyPlayer from '../components/SpotifyPlayer';
+import SoundtrackCards from '../components/SoundtrackCards';
 import UniverseTimeline from '../components/UniverseTimeline';
 import UniverseWallpapers from '../components/UniverseWallpapers';
 import AOS from 'aos';
@@ -38,6 +38,11 @@ const UniversePage = () => {
             <main className="universe-main">
                 <div className="bg-secondary">
                     <CharacterBios />
+                </div>
+
+                {/* Integrating the new SoundtrackCards section */}
+                <div style={{ backgroundColor: 'var(--bg-primary)' }}>
+                    <SoundtrackCards />
                 </div>
 
                 <div className="bg-console-section">

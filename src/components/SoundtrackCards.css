@@ -1,0 +1,224 @@
+/* SoundtrackCards.css */
+
+.soundtrack-section {
+    padding: 80px 0;
+    transition: background-color 0.5s ease;
+}
+
+.slideC {
+    position: relative;
+    perspective: 1000px;
+    transform-style: preserve-3d;
+    width: 360px;
+    height: 520px;
+    margin: 40px auto;
+}
+
+@media (min-width: 768px) {
+    .slideC {
+        width: 380px;
+        height: 580px;
+    }
+}
+
+.slide-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transition: transform 500ms ease 0s, opacity 500ms ease 0s, visibility 500ms ease 0s;
+    user-select: none;
+    border-radius: 32px;
+}
+
+/* 3D reflection effect */
+.reflection {
+    position: absolute;
+    width: 100%;
+    height: 80px;
+    bottom: -90px;
+    border-radius: 32px;
+    transition: transform 500ms ease 0s, opacity 500ms ease 0s, visibility 500ms ease 0s;
+    pointer-events: none;
+    mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1), transparent);
+}
+
+.soundtrack-card {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    border-radius: 32px !important;
+    position: relative;
+    transition: border-color 0.3s ease;
+    backdrop-filter: blur(10px);
+}
+
+.playback-card-inner {
+    padding: 1.5rem !important;
+}
+
+.track-info-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.playback-section {
+    padding: 0 0.5rem;
+}
+
+/* Gimme Gummy Button Effect */
+.gimme-gummy-btn {
+    transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    background-image: linear-gradient(145deg, rgba(255, 255, 255, 0.2) 0%, rgba(0, 0, 0, 0.05) 50%, rgba(0, 0, 0, 0.1) 100%);
+    border: none !important;
+}
+
+.dark .gimme-gummy-btn {
+    background-image: linear-gradient(145deg, rgba(255, 255, 255, 0.3) 0%, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0.2) 100%);
+}
+
+.gimme-gummy-btn:hover {
+    filter: brightness(1.1);
+}
+
+.carousel-btns {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin-top: 100px;
+}
+
+.carousel-btn {
+    border: 1px solid;
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
+    backdrop-filter: blur(5px);
+}
+
+.carousel-btn:hover {
+    transform: scale(1.15);
+}
+
+.carousel-btn:active {
+    transform: scale(0.9);
+}
+
+/* Glitch Pseudo-Effect on Hover */
+.dark .soundtrack-card:hover .glitch-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: inherit;
+    mix-blend-mode: screen;
+    pointer-events: none;
+    z-index: 2;
+    animation: glitch-anim-1 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both infinite;
+    transform: translate(-3px, 2px);
+    filter: hue-rotate(90deg) saturate(150%);
+    opacity: 0.6;
+}
+
+@keyframes glitch-anim-1 {
+    0% {
+        clip-path: polygon(0 2%, 100% 2%, 100% 5%, 0 5%);
+    }
+
+    20% {
+        clip-path: polygon(0 15%, 100% 15%, 100% 15%, 0 15%);
+    }
+
+    40% {
+        clip-path: polygon(0 10%, 100% 10%, 100% 20%, 0 20%);
+    }
+
+    60% {
+        clip-path: polygon(0 1%, 100% 1%, 100% 2%, 0 2%);
+    }
+
+    80% {
+        clip-path: polygon(0 33%, 100% 33%, 100% 33%, 0 33%);
+    }
+
+    100% {
+        clip-path: polygon(0 44%, 100% 44%, 100% 44%, 0 44%);
+    }
+}
+
+/* --- LIGHT MODE OVERRIDES --- */
+[data-theme="light"] .soundtrack-section {
+    background-color: var(--bg-primary) !important;
+}
+
+[data-theme="light"] .soundtrack-card {
+    background: rgba(255, 255, 255, 0.9) !important;
+    border-color: rgba(0, 0, 0, 0.05) !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05) !important;
+    backdrop-filter: blur(15px) !important;
+}
+
+[data-theme="light"] .track-info-section h3 {
+    text-shadow: none !important;
+    color: var(--text-primary) !important;
+}
+
+[data-theme="light"] .track-info-section p {
+    color: var(--text-muted) !important;
+}
+
+[data-theme="light"] .track-info-section span {
+    background-color: rgba(0, 0, 0, 0.05) !important;
+    border-color: rgba(0, 0, 0, 0.1) !important;
+    color: var(--text-primary) !important;
+}
+
+[data-theme="light"] .playback-section .progress-bar-bg {
+    background-color: rgba(0, 0, 0, 0.1) !important;
+}
+
+[data-theme="light"] .playback-section .progress-bar-fill {
+    background-color: var(--accent-primary) !important;
+}
+
+[data-theme="light"] .playback-section span {
+    color: var(--text-muted) !important;
+}
+
+[data-theme="light"] .carousel-btn {
+    background: white !important;
+    border-color: rgba(0, 0, 0, 0.1) !important;
+    color: var(--text-primary) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05) !important;
+}
+
+[data-theme="light"] .carousel-btn:hover {
+    background: #f8f9fa !important;
+}
+
+[data-theme="light"] .play-pause-btn {
+    background-color: var(--text-primary) !important;
+    color: var(--bg-primary) !important;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15) !important;
+}
+
+[data-theme="light"] .skip-btn.cursor-pointer {
+    color: var(--text-primary) !important;
+}
+[data-theme="light"] .skip-btn.cursor-default {
+    color: rgba(0, 0, 0, 0.2) !important;
+}
+
+[data-theme="light"] .reflection {
+    opacity: 0 !important;
+}

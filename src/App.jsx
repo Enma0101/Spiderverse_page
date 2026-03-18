@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Suspense } from 'react';
+import React, { useEffect, Suspense } from 'react';
 import { useLocation } from 'react-router-dom';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
@@ -13,7 +13,6 @@ import Features from './components/Features';
 import Gallery from './components/Gallery';
 import AuthModal from './components/AuthModal';
 import Chatbot from './components/chatbot/Chatbot';
-import SpotifyPlayer from './components/SpotifyPlayer';
 
 // Heavy 3D component — lazy loaded to avoid blocking initial render
 const Carousel3D = React.lazy(() => import('./components/Carousel3D'));
@@ -107,7 +106,6 @@ function App() {
       </div>
 
       <Chatbot />
-      <SpotifyPlayer />
       <AuthModal isOpen={isAuthOpen} onClose={() => setIsAuthOpen(false)} />
     </Layout>
   );
