@@ -18,13 +18,13 @@ const UniversePage = () => {
         <div className="universe-page">
             {/* Cabecera temática */}
             <header className="universe-hero py-5">
-                <div className="container pt-10">
+                <div className="container hero-content-inner">
                     <div className="row align-items-center g-4">
                         <div className="col-lg-7 text-start">
-                            <h1 className="display-3 brutalist-text text-white mb-3" data-aos="fade-up">
-                                EXPLORA EL UNIVERSO
+                            <h1 className="universe-title brutalist-text text-white" data-aos="fade-up">
+                                EXPLORA EL <br /> SPIDER-VERSE
                             </h1>
-                            <p className="lead text-white mb-4" data-aos="fade-up" data-aos-delay="100">
+                            <p className="universe-subtitle text-white" data-aos="fade-up" data-aos-delay="100">
                                 Sumérgete en el lore, la historia y los secretos de tus arácnidos favoritos.
                             </p>
                         </div>

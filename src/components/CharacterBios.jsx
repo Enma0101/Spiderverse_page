@@ -1,5 +1,4 @@
 import React from 'react';
-import { motion } from 'framer-motion';
 import './CharacterBios.css';
 
 const characters = [
@@ -7,7 +6,8 @@ const characters = [
         name: "Peter Parker",
         alias: "Spider-Man",
         color: "#E50914",
-        image: "/piterparker.jpg",
+        image: "/Peter_Parker_BIO.png",
+        objectPosition: "center",
         description: "El Spider-Man original. Después de ser mordido por una araña radiactiva, Peter dedica su vida a proteger Nueva York bajo el mantra: 'Un gran poder conlleva una gran responsabilidad'.",
         powers: ["Sentido Arácnido", "Fuerza Proporcional", "Adherencia a muros"]
     },
@@ -16,6 +16,7 @@ const characters = [
         alias: "Spider-Man",
         color: "#000000",
         image: "/mikemorales.webp",
+        objectPosition: "center",
         description: "Protegiendo su propio rincón de Brooklyn, Miles posee habilidades únicas que lo diferencian de Peter, incluyendo el camuflaje y ataques bio-eléctricos.",
         powers: ["Golpe Veneno", "Camuflaje", "Ráfaga de Energía"]
     },
@@ -24,6 +25,7 @@ const characters = [
         alias: "Spider-Gwen",
         color: "#ff69b4",
         image: "/gwenstacy.jpg",
+        objectPosition: "top",
         description: "En su universo, fue ella quien recibió la mordida arácnida. Una baterista talentosa que lucha contra el crimen con elegancia y agilidad única.",
         powers: ["Agilidad Extrema", "Viaje Dimensional", "Sentido Refinado"]
     }
@@ -36,8 +38,8 @@ const CharacterBios = () => {
                 <div className="row justify-content-center">
                     <div className="col-lg-11 pt-7 mt-10"> {/* Significantly increased top spacing */}
                         <div className="text-start mb-7" data-aos="fade-up">
-                            <h2 className="section-title brutalist-text text-white">RED DE HÉROES</h2>
-                            <p className="lead text-white mt-3">Conoce a los rostros detrás de la máscara</p>
+                            <h2 className="section-title brutalist-text">RED DE HÉROES</h2>
+                            <p className="lead mt-3">Conoce a los rostros detrás de la máscara</p>
                         </div>
 
                         <div className="row g-4">
@@ -49,6 +51,7 @@ const CharacterBios = () => {
                                                 src={char.image}
                                                 alt={char.name}
                                                 className="game-image"
+                                                style={{ objectPosition: char.objectPosition }}
                                             />
                                             <div className="game-platform">
                                                 <span className="badge neomorph">

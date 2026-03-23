@@ -10,14 +10,14 @@
     perspective: 1000px;
     transform-style: preserve-3d;
     width: 360px;
-    height: 520px;
+    height: 560px;
     margin: 40px auto;
 }
 
 @media (min-width: 768px) {
     .slideC {
         width: 380px;
-        height: 580px;
+        height: 620px;
     }
 }
 
@@ -63,6 +63,14 @@
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
+}
+
+.track-info-section h3 {
+    color: #ffffff;
+}
+
+.track-info-section .artist-name {
+    color: rgba(255, 255, 255, 0.6);
 }
 
 .playback-section {
@@ -173,7 +181,7 @@
     color: var(--text-primary) !important;
 }
 
-[data-theme="light"] .track-info-section p {
+[data-theme="light"] .track-info-section .artist-name {
     color: var(--text-muted) !important;
 }
 
@@ -215,6 +223,7 @@
 [data-theme="light"] .skip-btn.cursor-pointer {
     color: var(--text-primary) !important;
 }
+
 [data-theme="light"] .skip-btn.cursor-default {
     color: rgba(0, 0, 0, 0.2) !important;
 }

@@ -97,7 +97,7 @@ const Navbar = ({ onOpenAuth }) => {
         { name: 'Juegos', href: '#3d-suits' },
         { name: 'Características', href: '#features' },
         { name: 'Galería', href: '#gallery' },
-        { name: 'Universo', href: '/universe', isRoute: true },
+        { name: 'Spider-Verse', href: '/universe', isRoute: true },
         { name: 'Cómics', href: '/comics', isRoute: true },
     ];
 

@@ -1,17 +1,17 @@
 .universe-page {
     min-height: 100vh;
+    background-color: var(--bg-primary);
 }
 
 .universe-hero {
-    background: linear-gradient(rgba(10, 14, 26, 0.4), rgba(10, 14, 26, 0.7)), 
-                linear-gradient(90deg, #480100 0%, #8E0202 15%, #8E0202 30%, #8E0202 50%, #8E0202 70%, #8E0202 85%, #480100 100%),
-                url('/baner universo.webp');
+    background: linear-gradient(rgba(10, 14, 26, 0.7), rgba(10, 14, 26, 0.4)), 
+                url('/hero_spider_verse_2.jpg');
     background-size: cover;
     background-position: center;
-    background-blend-mode: soft-light;
+    background-blend-mode: multiply;
     border-bottom: 2px solid var(--accent-primary);
     margin-top: var(--navbar-height);
-    padding: 10rem 0 6rem 0;   /* Increased top padding to lower content */
+    padding: 10rem 0 6rem 0;
     min-height: 600px; 
     display: flex;
     align-items: center;
@@ -19,16 +19,22 @@
 }
 
 [data-theme="light"] .universe-hero {
-    background: linear-gradient(rgba(240, 236, 228, 0.6), rgba(240, 236, 228, 0.8)), 
-                linear-gradient(90deg, #480100 0%, #8E0202 15%, #8E0202 30%, #8E0202 50%, #8E0202 70%, #8E0202 85%, #480100 100%),
-                url('/baner universo.webp');
-    background-blend-mode: soft-light;
+    background: linear-gradient(rgba(240, 236, 228, 0.8), rgba(240, 236, 228, 0.5)), 
+                url('/hero_spider_verse_2.jpg');
+    background-size: cover;
+    background-position: center;
+    background-blend-mode: overlay;
     border-bottom: 2px solid var(--accent-primary);
+}
+
+.universe-hero .text-white {
+    text-shadow: 0 4px 12px rgba(0, 0, 0, 0.8);
 }
 
 /* Override text-white natively from Bootstrap/Index in light mode */
 [data-theme="light"] .universe-hero .text-white {
     color: var(--text-primary) !important;
+    text-shadow: none !important;
 }
 
 .bg-primary { background-color: var(--bg-primary) !important; }
@@ -54,9 +60,28 @@
 
 .mb-7 {
     margin-bottom: 4rem !important;
+}.universe-title {
+    font-size: clamp(3.2rem, 8vw, 6.2rem) !important;
+    font-weight: 900 !important;
+    line-height: 0.9 !important;
+    letter-spacing: -2px !important;
+    margin-bottom: 2rem !important;
+    text-transform: uppercase;
 }
 
+.universe-subtitle {
+    font-size: clamp(1.2rem, 2.5vw, 1.6rem) !important;
+    max-width: 550px;
+    opacity: 0.9;
+    line-height: 1.5 !important;
+}
 
+@media (max-width: 991px) {
+    .universe-title {
+        font-size: 3.5rem !important;
+    }
+}
 
-
-
+.hero-content-inner {
+    padding-top: 5rem !important;
+}

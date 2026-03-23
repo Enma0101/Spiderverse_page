@@ -33,6 +33,9 @@ const soundtracks = [
     colorUrl: 'linear-gradient(180deg, rgba(123,44,191,0.4) 0%, rgba(20,20,20,1) 100%)',
     bgColor: '#7b2cb1',
     imageSrc: '/images_png/AM_I_DREAMING.png',
+    imageFit: 'contain',
+    imagePosition: 'center center',
+    imageZoom: 1.28,
     audioSrc: '/audios/AmIDreaming.mp3',
     playlist: 'Spider-Man: Across the Spider-Verse',
     duration: '4:16',
@@ -58,24 +61,34 @@ const SoundtrackCard = ({ track, isActive, isPlaying, progress, currentTime, onT
       className="soundtrack-card border-[3px] border-white/40 group overflow-hidden"
       style={{ background: track.colorUrl }}
     >
-      <div className="p-6 md:p-8 flex flex-col h-full text-white playback-card-inner">
+      <div className="p-5 md:p-6 flex flex-col h-full playback-card-inner">
         {/* Cover Art Stage */}
-        <div className="w-full aspect-square rounded-[20px] shadow-2xl mb-8 flex items-center justify-center relative overflow-hidden bg-black">
-          <img src={track.imageSrc} alt={`${track.title} Cover`} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 pointer-events-none" />
+        <div className="w-full aspect-square rounded-[20px] shadow-2xl flex items-center justify-center relative overflow-hidden bg-black flex-shrink-0">
+          <div
+            className="w-full h-full flex items-center justify-center"
+            style={{ transform: `scale(${track.imageZoom || 1})`, transformOrigin: 'center' }}
+          >
+            <img
+              src={track.imageSrc}
+              alt={`${track.title} Cover`}
+              className={`w-full h-full ${track.imageFit === 'contain' ? 'object-contain' : 'object-cover'} group-hover:scale-105 transition-transform duration-500 pointer-events-none`}
+              style={{ objectPosition: track.imagePosition || 'center' }}
+            />
+          </div>
           <div className="absolute inset-0 shadow-[inset_0_0_30px_rgba(0,0,0,0.7)] pointer-events-none rounded-[20px]"></div>
         </div>
 
         {/* Textual Hierarchy */}
-        <div className="flex flex-col items-center justify-center text-center px-2 mb-6 mt-2 track-info-section gap-2">
-          <h3 className="text-[24px] md:text-[28px] leading-[1.2] font-black truncate w-full mb-1 tracking-tight text-white">{track.title}</h3>
-          <div className="flex items-center justify-center gap-3">
-            <span className="bg-white/15 text-[10px] px-2 py-0.5 rounded-sm text-white font-black border border-white/10 uppercase tracking-widest">E</span>
-            <p className="text-white/60 text-sm font-semibold tracking-widest uppercase truncate">{track.artist}</p>
+        <div className="flex flex-col items-center justify-center text-center px-2 mt-5 md:mt-7 track-info-section gap-1 w-full">
+          <h3 className="text-[24px] md:text-[28px] leading-[1.2] font-black truncate w-full mb-1 tracking-tight">{track.title}</h3>
+          <div className="flex items-center justify-center gap-2 max-w-full mb-2">
+            <span className="bg-white/15 text-[10px] px-2 py-[2px] rounded-sm font-black border border-white/10 uppercase tracking-widest flex-shrink-0">E</span>
+            <p className="artist-name text-sm font-semibold tracking-widest uppercase truncate">{track.artist}</p>
           </div>
         </div>
 
         {/* Progress System */}
-        <div className="w-full px-2 mb-8 playback-section">
+        <div className="w-full px-2 mb-6 playback-section">
           <div
             className={`w-full bg-white/10 rounded-full h-[4px] relative overflow-hidden transition-all progress-bar-bg ${isActive ? 'cursor-pointer hover:h-[6px]' : 'cursor-default'}`}
             ref={progressBarRef}
@@ -289,13 +302,17 @@ const SoundtrackCards = () => {
   };
 
   return (
-    <section className="soundtrack-section bg-black transition-colors duration-500">
+    <section className="soundtrack-section transition-colors duration-500">
       <div className="container mx-auto">
-        <div className="text-center mb-16" data-aos="fade-up">
-          <h2 className="section-title brutalist-text text-white text-4xl md:text-5xl mb-4 tracking-tighter uppercase font-black">
-            Spider-Verse <span style={{color: 'var(--accent-primary)'}}>Sonic</span> Archive
+        <div className="flex flex-col items-center justify-center mb-16" data-aos="fade-up">
+          <h2 className="section-title brutalist-text text-center text-4xl md:text-5xl mb-4 tracking-tighter uppercase font-black">
+            Spider-Verse <span style={{ color: 'var(--accent-primary)' }}>Sonic</span> Archive
           </h2>
-          <p className="lead text-white/50 uppercase tracking-[4px] text-xs md:text-sm font-bold">Inmersive Dimension Playlist</p>
+          <div className="w-full flex justify-center">
+            <p className="lead uppercase tracking-[4px] text-xs md:text-sm font-bold text-center m-0">
+              Inmersive Dimension Playlist
+            </p>
+          </div>
         </div>
 
         <div className="slideC">

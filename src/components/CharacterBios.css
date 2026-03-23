@@ -4,8 +4,8 @@
 }
 
 .character-bios-section .game-image {
-    object-position: top center; /* Help prevent cutting portraits */
-    /* Ensure portraits look good in the wrapper */
+    object-position: center; 
+    object-fit: cover;
     height: 100%;
     width: 100%;
 }

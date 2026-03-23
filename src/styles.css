@@ -753,6 +753,7 @@ body {
 }
 
 [data-theme="light"] .lead {
+  color: var(--text-primary);
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
 
