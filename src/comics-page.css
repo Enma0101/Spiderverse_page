@@ -10,8 +10,10 @@
     min-height: 500px;
     display: flex;
     align-items: center;
+    justify-content: flex-start;
+    text-align: left;
     background-size: cover;
-    background-position: center 100%;
+    background-position: 20% 100%;
     background-attachment: fixed;
 }
 
@@ -66,8 +68,10 @@
 .comics-hero-title {
     font-size: clamp(3.5rem, 10vw, 7rem);
     color: white;
+    margin-top: 0;
     margin-bottom: 1rem;
     line-height: 1;
+    text-align: left;
     text-shadow: 0 4px 30px rgba(0, 0, 0, 0.7), 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
@@ -75,7 +79,9 @@
     color: rgba(255, 255, 255, 0.95);
     font-size: clamp(1rem, 2vw, 1.25rem);
     max-width: 600px;
-    margin: 0;
+    margin-left: 0;
+    margin-right: auto;
+    text-align: left;
     text-shadow: 0 2px 15px rgba(0, 0, 0, 0.8), 0 0 5px rgba(0, 0, 0, 0.5);
     font-weight: 500;
 }

@@ -122,7 +122,6 @@
     transition: transform 500ms ease 0s, opacity 500ms ease 0s, visibility 500ms ease 0s;
     user-select: none;
     border-radius: 32px;
-    border: 2px solid rgba(255, 255, 255, 0.15);
 }
 
 .compact-soundtrack-card {
@@ -220,12 +219,14 @@
 /* Force dark style + glass for cards in light mode */
 [data-theme="light"] .compact-soundtrack-card {
     --compact-card-bg: var(--card-solid) !important;
-    background: color-mix(in srgb, var(--compact-card-bg) 85%, transparent) !important;
+    background: color-mix(in srgb, var(--compact-card-bg) 80%, transparent) !important;
     color: white !important;
-    border: 1px solid rgba(255, 255, 255, 0.25) !important;
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
-    backdrop-filter: blur(12px) saturate(1.4) !important;
-    -webkit-backdrop-filter: blur(12px) saturate(1.4) !important;
+    border: 1px solid rgba(255, 255, 255, 0.45) !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.8) !important;
+    border-left: 1px solid rgba(255, 255, 255, 0.8) !important;
+    backdrop-filter: blur(25px) saturate(1.8) !important;
+    -webkit-backdrop-filter: blur(25px) saturate(1.8) !important;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15) !important;
 }
 
 [data-theme="light"] .compact-slide-wrapper {
@@ -234,11 +235,12 @@
 
 [data-theme="light"] .compact-soundtrack-card .track-info-section.track-info-section h3 {
     color: white !important;
-    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3) !important;
+    text-shadow: 0 4px 15px rgba(0, 0, 0, 0.5) !important;
 }
 
 [data-theme="light"] .compact-soundtrack-card .track-info-section.track-info-section .artist-name {
-    color: rgba(255, 255, 255, 0.7) !important;
+    color: rgba(255, 255, 255, 0.85) !important;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4) !important;
 }
 
 [data-theme="light"] .compact-soundtrack-card .track-info-section.track-info-section span {
@@ -259,6 +261,20 @@
     color: rgba(255, 255, 255, 0.5) !important;
     background-color: transparent !important;
     border-color: transparent !important;
+}
+
+/* Draggable Progress Bar Fixes */
+.progress-bar-bg {
+    overflow: visible !important;
+}
+
+.progress-bar-knob {
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    z-index: 10;
+}
+
+.dark .progress-bar-knob {
+    box-shadow: 0 0 15px var(--card-solid), 0 0 5px white;
 }
 
 [data-theme="light"] .compact-carousel-btn {

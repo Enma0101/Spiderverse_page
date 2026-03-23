@@ -288,14 +288,14 @@ const ComicReader = ({ comic, onClose }) => {
 
                 {/* Mobile Sub-Header (Only visible on mobile) */}
                 <div className="comic-reader-sub-header d-flex d-md-none align-items-center justify-content-center bg-black py-2" style={{ borderBottom: '1px solid #333' }}>
-                        <div className="comic-reader-controls d-flex align-items-center gap-3">
-                            <button className="btn btn-sm btn-outline-light border-0" onClick={handleZoomOut} disabled={scale === 1}>
-                                <i className="fas fa-search-minus"></i>
-                            </button>
-                            <button className="btn btn-sm btn-outline-light border-0" onClick={handleZoomIn} disabled={scale === 3}>
-                                <i className="fas fa-search-plus"></i>
-                            </button>
-                        </div>
+                    <div className="comic-reader-controls d-flex align-items-center gap-3">
+                        <button className="btn btn-sm btn-outline-light border-0" onClick={handleZoomOut} disabled={scale === 1}>
+                            <i className="fas fa-search-minus"></i>
+                        </button>
+                        <button className="btn btn-sm btn-outline-light border-0" onClick={handleZoomIn} disabled={scale === 3}>
+                            <i className="fas fa-search-plus"></i>
+                        </button>
+                    </div>
                 </div>
 
                 {/* Progress Bar */}
@@ -524,10 +524,10 @@ const ComicsPage = () => {
                         <i className="fas fa-arrow-left me-2"></i> Volver al Inicio
                     </Link>
                     <h1 className="comics-hero-title brutalist-text" data-aos="fade-up">
-                        SPIDER-MAN: CÓMICS
+                        CÓMICS
                     </h1>
                     <p className="comics-hero-subtitle" data-aos="fade-up" data-aos-delay="100">
-                        Explora la colección completa de cómics del universo de Spider-Man
+                        Explora los cómics del universo de Spider-Man
                     </p>
                 </div>
             </section>

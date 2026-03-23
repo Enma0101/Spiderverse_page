@@ -1,9 +1,10 @@
-import React, { useContext, useRef } from 'react';
+import React, { useContext, useRef, useState, useEffect } from 'react';
 import { Play, Pause, SkipBack, SkipForward, ChevronLeft, ChevronRight } from 'lucide-react';
 import { AudioContext } from '../context/AudioContext';
 import './SoundtrackCards.css';
 
 const SoundtrackCard = ({ track, isActive, isPlaying, progress, currentTime, onTogglePlay, onSeek, onSkipForward, onSkipBackward }) => {
+  const [isDragging, setIsDragging] = useState(false);
   const progressBarRef = useRef(null);
 
   const handleProgressClick = (e) => {
@@ -16,6 +17,35 @@ const SoundtrackCard = ({ track, isActive, isPlaying, progress, currentTime, onT
     const percentage = Math.max(0, Math.min(100, (x / rect.width) * 100));
     onSeek(percentage);
   };
+
+  const handleMouseDown = (e) => {
+    if (!isActive) return;
+    setIsDragging(true);
+    handleProgressClick(e);
+  };
+
+  useEffect(() => {
+    if (!isDragging || !isActive) return;
+
+    const handleMouseMove = (e) => {
+      if (!progressBarRef.current) return;
+      const rect = progressBarRef.current.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const percentage = Math.max(0, Math.min(100, (x / rect.width) * 100));
+      onSeek(percentage);
+    };
+
+    const handleMouseUp = () => {
+      setIsDragging(false);
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mouseup', handleMouseUp);
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mouseup', handleMouseUp);
+    };
+  }, [isDragging, isActive, onSeek]);
 
   return (
     <div
@@ -55,11 +85,19 @@ const SoundtrackCard = ({ track, isActive, isPlaying, progress, currentTime, onT
         {/* Progress System */}
         <div className="w-full px-2 mb-6 playback-section">
           <div
-            className={`w-full bg-white/10 rounded-full h-[4px] relative overflow-hidden transition-all progress-bar-bg ${isActive ? 'cursor-pointer hover:h-[6px]' : 'cursor-default'}`}
+            className={`w-full bg-white/10 rounded-full h-[4px] relative progress-bar-bg ${isActive ? 'cursor-pointer hover:h-[6px]' : 'cursor-default'}`}
             ref={progressBarRef}
-            onClick={handleProgressClick}
+            onMouseDown={handleMouseDown}
           >
-            <div className="h-full bg-white rounded-full relative pointer-events-none progress-bar-fill" style={{ width: `${progress}%`, transition: 'width 0.1s linear' }} />
+            <div 
+              className="h-full bg-white rounded-full relative pointer-events-none progress-bar-fill" 
+              style={{ 
+                width: `${progress}%`, 
+                transition: isDragging ? 'none' : 'width 0.1s linear' 
+              }} 
+            >
+              {isActive && <div className="progress-bar-knob absolute right-0 top-1/2 -translate-y-1/2 w-3 h-3 md:w-4 md:h-4 bg-white rounded-full shadow-lg scale-0 group-hover:scale-100 transition-transform duration-200 pointer-events-none" />}
+            </div>
           </div>
           <div className="flex justify-between text-[11px] text-white/40 font-black mt-3 pointer-events-none tracking-[2px] uppercase">
             <span>{currentTime}</span>

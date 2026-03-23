@@ -189,7 +189,7 @@
 
 [data-theme="light"] .track-info-section h3 {
     color: white !important;
-    text-shadow: 0 2px 10px rgba(0,0,0,0.3) !important;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3) !important;
 }
 
 [data-theme="light"] .track-info-section .artist-name {
@@ -212,6 +212,20 @@
 
 [data-theme="light"] .playback-section span {
     color: rgba(255, 255, 255, 0.5) !important;
+}
+
+/* Draggable Progress Bar Fixes */
+.progress-bar-bg {
+    overflow: visible !important;
+}
+
+.progress-bar-knob {
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    z-index: 10;
+}
+
+.dark .progress-bar-knob {
+    box-shadow: 0 0 15px var(--card-solid), 0 0 5px white;
 }
 
 [data-theme="light"] .carousel-btn {
@@ -244,5 +258,5 @@
 }
 
 [data-theme="light"] .reflection {
-    opacity: 0 !important;
+    opacity: 1 !important;
 }

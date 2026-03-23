@@ -7,7 +7,7 @@ export const soundtracks = [
     id: 'sunflower',
     title: 'Sunflower',
     artist: 'Post Malone, Swae Lee',
-    colorUrl: 'linear-gradient(180deg, rgba(237,143,3,0.4) 0%, rgba(20,20,20,1) 100%)',
+    colorUrl: 'linear-gradient(180deg, rgba(237,143,3,0.8) 0%, rgba(20,20,20,1) 100%)',
     bgColor: '#ed8f03',
     imageSrc: '/images_png/SUNFLOWER.png',
     audioSrc: '/audios/Sunflower.mp3',
@@ -18,7 +18,7 @@ export const soundtracks = [
     id: 'danger',
     title: "What's Up Danger",
     artist: 'Blackway & Black Caviar',
-    colorUrl: 'linear-gradient(180deg, rgba(255,0,60,0.4) 0%, rgba(20,20,20,1) 100%)',
+    colorUrl: 'linear-gradient(180deg, rgba(255,0,60,0.8) 0%, rgba(20,20,20,1) 100%)',
     bgColor: '#ff003c',
     imageSrc: '/images_png/WHATS_UP_DANGER.png',
     audioSrc: '/audios/WhatsUpDanger.mp3',
@@ -29,7 +29,7 @@ export const soundtracks = [
     id: 'dreaming',
     title: 'Am I Dreaming',
     artist: 'Metro Boomin, A$AP Rocky',
-    colorUrl: 'linear-gradient(180deg, rgba(123,44,191,0.4) 0%, rgba(20,20,20,1) 100%)',
+    colorUrl: 'linear-gradient(180deg, rgba(123,44,191,0.8) 0%, rgba(20,20,20,1) 100%)',
     bgColor: '#7b2cb1',
     imageSrc: '/images_png/AM_I_DREAMING.png',
     imageFit: 'contain',
@@ -51,7 +51,7 @@ export const AudioProvider = ({ children }) => {
   // Initialize audio object once
   useEffect(() => {
     if (!audioRef.current) {
-        audioRef.current = new Audio();
+      audioRef.current = new Audio();
     }
     const audio = audioRef.current;
 
@@ -139,42 +139,42 @@ export const AudioProvider = ({ children }) => {
   const handleSlideChange = (index) => {
     setActiveSlide(index);
     const audio = audioRef.current;
-    
+
     const wasPlaying = isPlaying;
     audio.pause();
-    
+
     audio.src = soundtracks[index].audioSrc;
     audio.load();
     setIsPlaying(false);
     setProgress(0);
     setCurrentTimeFormatted("0:00");
-    
+
     if (wasPlaying) {
-        handleTogglePlay(index, true);
+      handleTogglePlay(index, true);
     }
   };
 
   const skipForward = () => {
-      if (audioRef.current) audioRef.current.currentTime += 15;
+    if (audioRef.current) audioRef.current.currentTime += 15;
   };
 
   const skipBackward = () => {
-      if (audioRef.current) audioRef.current.currentTime -= 15;
+    if (audioRef.current) audioRef.current.currentTime -= 15;
   };
 
   const value = {
-      soundtracks,
-      activeSlide,
-      isPlaying,
-      progress,
-      currentTimeFormatted,
-      handleTogglePlay,
-      handleSeek,
-      next,
-      prev,
-      handleSlideChange,
-      skipForward,
-      skipBackward
+    soundtracks,
+    activeSlide,
+    isPlaying,
+    progress,
+    currentTimeFormatted,
+    handleTogglePlay,
+    handleSeek,
+    next,
+    prev,
+    handleSlideChange,
+    skipForward,
+    skipBackward
   };
 
   return (
