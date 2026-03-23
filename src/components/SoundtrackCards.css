@@ -169,38 +169,49 @@
     background-color: var(--bg-primary) !important;
 }
 
+/* Default: use gradient */
+.soundtrack-card {
+    --soundtrack-card-bg: var(--card-gradient);
+}
+
+/* Light mode: switch to solid + glass effect */
 [data-theme="light"] .soundtrack-card {
-    background: rgba(255, 255, 255, 0.9) !important;
-    border-color: rgba(0, 0, 0, 0.05) !important;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05) !important;
-    backdrop-filter: blur(15px) !important;
+    --soundtrack-card-bg: var(--card-solid) !important;
+    background: color-mix(in srgb, var(--soundtrack-card-bg) 85%, transparent) !important;
+    border-color: rgba(255, 255, 255, 0.25) !important;
+    backdrop-filter: blur(12px) saturate(1.4) !important;
+    -webkit-backdrop-filter: blur(12px) saturate(1.4) !important;
+}
+
+[data-theme="light"] .slide-wrapper {
+    border-color: transparent !important;
 }
 
 [data-theme="light"] .track-info-section h3 {
-    text-shadow: none !important;
-    color: var(--text-primary) !important;
+    color: white !important;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.3) !important;
 }
 
 [data-theme="light"] .track-info-section .artist-name {
-    color: var(--text-muted) !important;
+    color: rgba(255, 255, 255, 0.7) !important;
 }
 
 [data-theme="light"] .track-info-section span {
-    background-color: rgba(0, 0, 0, 0.05) !important;
-    border-color: rgba(0, 0, 0, 0.1) !important;
-    color: var(--text-primary) !important;
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    border-color: rgba(255, 255, 255, 0.15) !important;
+    color: white !important;
 }
 
 [data-theme="light"] .playback-section .progress-bar-bg {
-    background-color: rgba(0, 0, 0, 0.1) !important;
+    background-color: rgba(255, 255, 255, 0.2) !important;
 }
 
 [data-theme="light"] .playback-section .progress-bar-fill {
-    background-color: var(--accent-primary) !important;
+    background-color: white !important;
 }
 
 [data-theme="light"] .playback-section span {
-    color: var(--text-muted) !important;
+    color: rgba(255, 255, 255, 0.5) !important;
 }
 
 [data-theme="light"] .carousel-btn {
@@ -215,17 +226,21 @@
 }
 
 [data-theme="light"] .play-pause-btn {
-    background-color: var(--text-primary) !important;
-    color: var(--bg-primary) !important;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15) !important;
+    background-color: white !important;
+    color: black !important;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3) !important;
 }
 
 [data-theme="light"] .skip-btn.cursor-pointer {
-    color: var(--text-primary) !important;
+    color: rgba(255, 255, 255, 0.6) !important;
+}
+
+[data-theme="light"] .skip-btn.cursor-pointer:hover {
+    color: white !important;
 }
 
 [data-theme="light"] .skip-btn.cursor-default {
-    color: rgba(0, 0, 0, 0.2) !important;
+    color: rgba(255, 255, 255, 0.15) !important;
 }
 
 [data-theme="light"] .reflection {

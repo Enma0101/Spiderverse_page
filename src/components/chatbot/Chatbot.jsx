@@ -48,8 +48,7 @@ const CHATBOT_OPTIONS = [
 
 const WELCOME_MESSAGE = '¡Hola, héroe! 🕷️ Soy el asistente de Comics Spider. ¿En qué puedo ayudarte hoy?';
 
-const Chatbot = () => {
-    const [isOpen, setIsOpen] = useState(false);
+const Chatbot = ({ isOpen, onToggle }) => {
     const [messages, setMessages] = useState([]);
     const [isTyping, setIsTyping] = useState(false);
     const [hasOpened, setHasOpened] = useState(false);
@@ -66,11 +65,10 @@ const Chatbot = () => {
     }, [messages, isTyping, isOpen]);
 
     const toggleChat = () => {
-        const nextOpen = !isOpen;
-        setIsOpen(nextOpen);
+        onToggle();
 
         // Show welcome message on first open
-        if (nextOpen && !hasOpened) {
+        if (!isOpen && !hasOpened) {
             setHasOpened(true);
             setMessages([{ type: 'bot', text: WELCOME_MESSAGE }]);
         }
@@ -170,7 +168,7 @@ const Chatbot = () => {
                     </div>
                     <button
                         className="chatbot-close"
-                        onClick={() => setIsOpen(false)}
+                        onClick={onToggle}
                         aria-label="Cerrar chat"
                     >
                         <i className="fas fa-times"></i>

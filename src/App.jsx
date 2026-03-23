@@ -1,4 +1,4 @@
-import React, { useEffect, Suspense } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import { useLocation } from 'react-router-dom';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
@@ -13,6 +13,8 @@ import Features from './components/Features';
 import Gallery from './components/Gallery';
 import AuthModal from './components/AuthModal';
 import Chatbot from './components/chatbot/Chatbot';
+import FloatingAudioPlayer from './components/FloatingAudioPlayer';
+import { AudioProvider } from './context/AudioContext';
 
 // Heavy 3D component — lazy loaded to avoid blocking initial render
 const Carousel3D = React.lazy(() => import('./components/Carousel3D'));
@@ -47,6 +49,7 @@ function HomePage() {
 
 function App() {
   const { isAuthOpen, setIsAuthOpen } = useContext(AuthContext);
+  const [activeWidget, setActiveWidget] = useState(null);
   const location = useLocation();
   const isComicsRoute = location.pathname === '/comics';
   const isUniverseRoute = location.pathname === '/universe';
@@ -78,36 +81,45 @@ function App() {
   }, [location.pathname]);
 
   return (
-    <Layout onOpenAuth={() => setIsAuthOpen(true)} showTicker={isUniverseRoute}>
-      {/* 
-        CRITICAL OPTIMIZATION: 
-        We use 'display: none' instead of Routes to prevent the 3D Canvas (WebGL context) 
-        from being destroyed and recreated when navigating between Home and Comics.
-        This provides a 0ms instant transition.
-      */}
-      <div style={{ display: isComicsRoute || isUniverseRoute ? 'none' : 'block' }}>
-        <HomePage />
-      </div>
+    <AudioProvider>
+      <Layout onOpenAuth={() => setIsAuthOpen(true)} showTicker={isUniverseRoute}>
+        {/* 
+          CRITICAL OPTIMIZATION: 
+          We use 'display: none' instead of Routes to prevent the 3D Canvas (WebGL context) 
+          from being destroyed and recreated when navigating between Home and Comics.
+          This provides a 0ms instant transition.
+        */}
+        <div style={{ display: isComicsRoute || isUniverseRoute ? 'none' : 'block' }}>
+          <HomePage />
+        </div>
 
-      <div style={{ display: isComicsRoute ? 'block' : 'none' }}>
-        {isComicsRoute && (
-          <Suspense fallback={<PageLoader />}>
-            <ComicsPage />
-          </Suspense>
-        )}
-      </div>
+        <div style={{ display: isComicsRoute ? 'block' : 'none' }}>
+          {isComicsRoute && (
+            <Suspense fallback={<PageLoader />}>
+              <ComicsPage />
+            </Suspense>
+          )}
+        </div>
 
-      <div style={{ display: isUniverseRoute ? 'block' : 'none' }}>
-        {isUniverseRoute && (
-          <Suspense fallback={<PageLoader />}>
-            <UniversePage />
-          </Suspense>
-        )}
-      </div>
+        <div style={{ display: isUniverseRoute ? 'block' : 'none' }}>
+          {isUniverseRoute && (
+            <Suspense fallback={<PageLoader />}>
+              <UniversePage />
+            </Suspense>
+          )}
+        </div>
 
-      <Chatbot />
-      <AuthModal isOpen={isAuthOpen} onClose={() => setIsAuthOpen(false)} />
-    </Layout>
+        <Chatbot 
+          isOpen={activeWidget === 'chatbot'} 
+          onToggle={() => setActiveWidget(prev => prev === 'chatbot' ? null : 'chatbot')} 
+        />
+        <FloatingAudioPlayer 
+          isOpen={activeWidget === 'audio'} 
+          onToggle={() => setActiveWidget(prev => prev === 'audio' ? null : 'audio')} 
+        />
+        <AuthModal isOpen={isAuthOpen} onClose={() => setIsAuthOpen(false)} />
+      </Layout>
+    </AudioProvider>
   );
 }
 

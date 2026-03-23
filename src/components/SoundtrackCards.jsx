@@ -1,46 +1,7 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useContext, useRef } from 'react';
 import { Play, Pause, SkipBack, SkipForward, ChevronLeft, ChevronRight } from 'lucide-react';
+import { AudioContext } from '../context/AudioContext';
 import './SoundtrackCards.css';
-
-const soundtracks = [
-  {
-    id: 'sunflower',
-    title: 'Sunflower',
-    artist: 'Post Malone, Swae Lee',
-    colorUrl: 'linear-gradient(180deg, rgba(237,143,3,0.4) 0%, rgba(20,20,20,1) 100%)',
-    bgColor: '#0313edff',
-    imageSrc: '/images_png/SUNFLOWER.png',
-    audioSrc: '/audios/Sunflower.mp3',
-    playlist: 'Spider-Man: Into the Spider-Verse',
-    duration: '2:38',
-  },
-  {
-    id: 'danger',
-    title: "What's Up Danger",
-    artist: 'Blackway & Black Caviar',
-    colorUrl: 'linear-gradient(180deg, rgba(255,0,60,0.4) 0%, rgba(20,20,20,1) 100%)',
-    bgColor: '#ff003c',
-    imageSrc: '/images_png/WHATS_UP_DANGER.png',
-    audioSrc: '/audios/WhatsUpDanger.mp3',
-    playlist: 'Spider-Man: Into the Spider-Verse',
-    duration: '3:42',
-  },
-  {
-    id: 'dreaming',
-    title: 'Am I Dreaming',
-    artist: 'Metro Boomin, A$AP Rocky',
-    colorUrl: 'linear-gradient(180deg, rgba(123,44,191,0.4) 0%, rgba(20,20,20,1) 100%)',
-    bgColor: '#7b2cb1',
-    imageSrc: '/images_png/AM_I_DREAMING.png',
-    imageFit: 'contain',
-    imagePosition: 'center center',
-    imageZoom: 1.28,
-    audioSrc: '/audios/AmIDreaming.mp3',
-    playlist: 'Spider-Man: Across the Spider-Verse',
-    duration: '4:16',
-  }
-];
 
 const SoundtrackCard = ({ track, isActive, isPlaying, progress, currentTime, onTogglePlay, onSeek, onSkipForward, onSkipBackward }) => {
   const progressBarRef = useRef(null);
@@ -59,7 +20,11 @@ const SoundtrackCard = ({ track, isActive, isPlaying, progress, currentTime, onT
   return (
     <div
       className="soundtrack-card border-[3px] border-white/40 group overflow-hidden"
-      style={{ background: track.colorUrl }}
+      style={{ 
+        '--card-gradient': track.colorUrl,
+        '--card-solid': track.bgColor,
+        background: 'var(--soundtrack-card-bg)' 
+      }}
     >
       <div className="p-5 md:p-6 flex flex-col h-full playback-card-inner">
         {/* Cover Art Stage */}
@@ -147,111 +112,20 @@ const SoundtrackCard = ({ track, isActive, isPlaying, progress, currentTime, onT
 };
 
 const SoundtrackCards = () => {
-  const [activeSlide, setActiveSlide] = useState(1);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [progress, setProgress] = useState(0);
-  const [currentTimeFormatted, setCurrentTimeFormatted] = useState("0:00");
-  const audioRef = useRef(new Audio());
-
-  // Fix: Initialize audio source for the starting active slide
-  useEffect(() => {
-    const audio = audioRef.current;
-
-    // Set initial source
-    if (!audio.src || audio.src === "") {
-      audio.src = soundtracks[activeSlide].audioSrc;
-      audio.load();
-    }
-
-    const updateProgress = () => {
-      if (audio.duration && !isNaN(audio.duration)) {
-        setProgress((audio.currentTime / audio.duration) * 100);
-        const m = Math.floor(audio.currentTime / 60);
-        const s = Math.floor(audio.currentTime % 60);
-        setCurrentTimeFormatted(`${m}:${s < 10 ? '0' : ''}${s}`);
-      }
-    };
-
-    const handleEnded = () => {
-      setIsPlaying(false);
-      setProgress(0);
-      setCurrentTimeFormatted("0:00");
-    };
-
-    audio.addEventListener('timeupdate', updateProgress);
-    audio.addEventListener('ended', handleEnded);
-    return () => {
-      audio.pause();
-      audio.removeEventListener('timeupdate', updateProgress);
-      audio.removeEventListener('ended', handleEnded);
-    };
-  }, []);
-
-  const handleTogglePlay = (index, forcePlay = false) => {
-    const audio = audioRef.current;
-    if (activeSlide === index) {
-      if (isPlaying && !forcePlay) {
-        audio.pause();
-        setIsPlaying(false);
-      } else {
-        // Validation: ensured source is set
-        if (!audio.src || !audio.src.includes(soundtracks[index].audioSrc)) {
-          audio.src = soundtracks[index].audioSrc;
-          audio.load();
-        }
-
-        // Handle play promise to avoid interruptions error
-        const playPromise = audio.play();
-        if (playPromise !== undefined) {
-          playPromise.then(() => {
-            setIsPlaying(true);
-          }).catch(error => {
-            console.error("Playback failed:", error);
-            setIsPlaying(false);
-          });
-        }
-      }
-    } else {
-      audio.pause();
-      audio.src = soundtracks[index].audioSrc;
-      audio.load();
-
-      const playPromise = audio.play();
-      if (playPromise !== undefined) {
-        playPromise.then(() => {
-          setActiveSlide(index);
-          setIsPlaying(true);
-          setProgress(0);
-          setCurrentTimeFormatted("0:00");
-        }).catch(error => {
-          console.error("Audio switch failed:", error);
-          setActiveSlide(index);
-          setIsPlaying(false);
-        });
-      }
-    }
-  };
-
-  const handleSeek = (percentage) => {
-    if (audioRef.current.duration) {
-      audioRef.current.currentTime = (percentage / 100) * audioRef.current.duration;
-    }
-  };
-
-  const next = () => activeSlide < soundtracks.length - 1 && handleSlideChange(activeSlide + 1);
-  const prev = () => activeSlide > 0 && handleSlideChange(activeSlide - 1);
-
-  const handleSlideChange = (index) => {
-    setActiveSlide(index);
-    const audio = audioRef.current;
-    audio.pause();
-    // Preload next audio
-    audio.src = soundtracks[index].audioSrc;
-    audio.load();
-    setIsPlaying(false);
-    setProgress(0);
-    setCurrentTimeFormatted("0:00");
-  };
+  const {
+    soundtracks,
+    activeSlide,
+    isPlaying,
+    progress,
+    currentTimeFormatted,
+    handleTogglePlay,
+    handleSeek,
+    next,
+    prev,
+    handleSlideChange,
+    skipForward,
+    skipBackward
+  } = useContext(AudioContext);
 
   const getStyles = (index) => {
     if (activeSlide === index)
@@ -332,10 +206,10 @@ const SoundtrackCards = () => {
                   isPlaying={activeSlide === i && isPlaying}
                   progress={activeSlide === i ? progress : 0}
                   currentTime={activeSlide === i ? currentTimeFormatted : "0:00"}
-                  onTogglePlay={(force) => handleTogglePlay(i, force)}
+                  onTogglePlay={() => handleTogglePlay(i)}
                   onSeek={handleSeek}
-                  onSkipForward={() => { audioRef.current.currentTime += 15; }}
-                  onSkipBackward={() => { audioRef.current.currentTime -= 15; }}
+                  onSkipForward={skipForward}
+                  onSkipBackward={skipBackward}
                 />
               </div>
               <div

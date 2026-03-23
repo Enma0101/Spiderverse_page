@@ -1,0 +1,314 @@
+/* FloatingAudioPlayer.css */
+
+.floating-audio-container {
+    position: fixed;
+    bottom: 2rem;
+    /* Beside chatbot */
+    right: 6.8rem;
+    z-index: 9998;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
+}
+
+.floating-audio-toggle {
+    pointer-events: auto;
+    width: 60px;
+    height: 60px;
+    padding: 0;
+    border-radius: 50%;
+    border: none;
+    background: var(--accent-primary);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(229, 9, 20, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: transform 0.2s, background 0.2s;
+}
+
+.floating-audio-toggle:hover {
+    transform: scale(1.05);
+    background: #ff1a2b;
+    /* Slightly lighter accent */
+}
+
+.floating-audio-toggle.playing {
+    animation: glowPulse 2s infinite;
+}
+
+@keyframes glowPulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(229, 9, 20, 0.4);
+    }
+
+    70% {
+        box-shadow: 0 0 0 10px rgba(229, 9, 20, 0);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgba(229, 9, 20, 0);
+    }
+}
+
+.music-label {
+    font-family: var(--font-display);
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+}
+
+.floating-player-card {
+    pointer-events: auto;
+    width: 380px;
+    padding: 1.5rem 1rem;
+    background: var(--bg-secondary);
+    border-radius: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.8);
+    animation: fadeInUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    backdrop-filter: blur(20px);
+
+    /* Position absolutely relative to window */
+    position: absolute;
+    bottom: calc(100% + 1rem);
+    right: -4.8rem;
+    /* Align horizontally with Chatbot window */
+    transform-origin: bottom right;
+}
+
+.floating-player-header {
+    margin-bottom: 2rem;
+    text-align: center;
+    width: 100%;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    padding-bottom: 1rem;
+}
+
+.floating-player-header .section-title {
+    font-size: 1.5rem !important;
+}
+
+.floating-player-header .section-title::after {
+    bottom: -6px;
+    height: 2px;
+}
+
+/* Compact 3D Carousel inside Floating Widget */
+.compact-slideC {
+    position: relative;
+    perspective: 800px;
+    transform-style: preserve-3d;
+    width: 260px;
+    height: 460px;
+    margin: 0 auto;
+}
+
+.compact-slide-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transition: transform 500ms ease 0s, opacity 500ms ease 0s, visibility 500ms ease 0s;
+    user-select: none;
+    border-radius: 32px;
+    border: 2px solid rgba(255, 255, 255, 0.15);
+}
+
+.compact-soundtrack-card {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    border-radius: 32px !important;
+    position: relative;
+    transition: border-color 0.3s ease;
+    color: white;
+    /* Theme-aware background */
+    --compact-card-bg: var(--card-gradient);
+}
+
+.playback-card-inner {
+    padding: 1rem !important;
+}
+
+.track-info-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.track-info-section h3 {
+    color: #ffffff;
+}
+
+.track-info-section .artist-name {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.playback-section {
+    padding: 0 0.25rem;
+}
+
+.compact-carousel-btns {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 24px;
+}
+
+.compact-carousel-btn {
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.05);
+    color: white;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+}
+
+.compact-carousel-btn:hover:not(:disabled) {
+    transform: scale(1.1);
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.compact-carousel-btn:active:not(:disabled) {
+    transform: scale(0.95);
+}
+
+.compact-carousel-btn:disabled {
+    opacity: 0.2;
+    cursor: not-allowed;
+}
+
+/* --- LIGHT MODE OVERRIDES --- */
+
+[data-theme="light"] .floating-player-card {
+    background: #f7f2e5;
+    /* Richer bone color */
+    border-color: rgba(0, 0, 0, 0.08);
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="light"] .floating-player-header {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+[data-theme="light"] .floating-player-header h4 {
+    color: var(--text-primary);
+}
+
+.floating-player-title {
+    color: white;
+}
+
+/* Force dark style + glass for cards in light mode */
+[data-theme="light"] .compact-soundtrack-card {
+    --compact-card-bg: var(--card-solid) !important;
+    background: color-mix(in srgb, var(--compact-card-bg) 85%, transparent) !important;
+    color: white !important;
+    border: 1px solid rgba(255, 255, 255, 0.25) !important;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
+    backdrop-filter: blur(12px) saturate(1.4) !important;
+    -webkit-backdrop-filter: blur(12px) saturate(1.4) !important;
+}
+
+[data-theme="light"] .compact-slide-wrapper {
+    border: none !important;
+}
+
+[data-theme="light"] .compact-soundtrack-card .track-info-section.track-info-section h3 {
+    color: white !important;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3) !important;
+}
+
+[data-theme="light"] .compact-soundtrack-card .track-info-section.track-info-section .artist-name {
+    color: rgba(255, 255, 255, 0.7) !important;
+}
+
+[data-theme="light"] .compact-soundtrack-card .track-info-section.track-info-section span {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    border-color: rgba(255, 255, 255, 0.15) !important;
+    color: white !important;
+}
+
+[data-theme="light"] .compact-soundtrack-card .playback-section.playback-section .progress-bar-bg {
+    background-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+[data-theme="light"] .compact-soundtrack-card .playback-section.playback-section .progress-bar-fill {
+    background-color: white !important;
+}
+
+[data-theme="light"] .compact-soundtrack-card .playback-section.playback-section span {
+    color: rgba(255, 255, 255, 0.5) !important;
+    background-color: transparent !important;
+    border-color: transparent !important;
+}
+
+[data-theme="light"] .compact-carousel-btn {
+    background: white !important;
+    border-color: rgba(0, 0, 0, 0.1) !important;
+    color: var(--text-primary) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05) !important;
+}
+
+[data-theme="light"] .compact-carousel-btn:hover:not(:disabled) {
+    background: #f8f9fa !important;
+}
+
+[data-theme="light"] .compact-soundtrack-card .play-pause-btn.play-pause-btn {
+    background-color: white !important;
+    color: black !important;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3) !important;
+}
+
+[data-theme="light"] .compact-soundtrack-card .skip-btn.skip-btn.cursor-pointer {
+    color: rgba(255, 255, 255, 0.6) !important;
+}
+
+[data-theme="light"] .compact-soundtrack-card .skip-btn.skip-btn.cursor-default {
+    color: rgba(255, 255, 255, 0.15) !important;
+}
+
+[data-theme="light"] .compact-soundtrack-card .skip-btn.skip-btn:hover:not(.cursor-default) {
+    color: white !important;
+}
+
+@media (max-width: 576px) {
+    .floating-audio-container {
+        bottom: 1rem;
+        right: 5.5rem;
+    }
+
+    .floating-audio-toggle {
+        width: 52px;
+        height: 52px;
+    }
+
+    .floating-player-card {
+        width: 320px;
+        padding: 1.25rem 0.5rem;
+        right: -4.5rem;
+    }
+
+    .compact-slideC {
+        width: 220px;
+        height: 400px;
+    }
+}
