@@ -1439,19 +1439,53 @@
         font-weight: 700;
         letter-spacing: 0.05em;
     }
+    }
 
-    .comic-reader-sub-header {
-        background: rgba(0, 0, 0, 0.3);
+/* ---- Comic Toolbar & Zoom Controls (Global) ---- */
+.comic-reader-sub-header {
+    background: rgba(0, 0, 0, 0.75);
         backdrop-filter: blur(15px);
         -webkit-backdrop-filter: blur(15px);
-        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         padding: 0.6rem;
         z-index: 50;
     }
 
-    .comic-reader-sub-header .btn-sm {
-        color: rgba(255, 255, 255, 0.8);
-        font-size: 1.1rem;
+    [data-theme="light"] .comic-reader-sub-header {
+        background: rgba(255, 255, 255, 0.95);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    }
+
+    .comic-zoom-btn {
+        color: rgba(255, 255, 255, 0.8) !important;
+        font-size: 1.6rem;
+        width: 44px;
+        height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: transparent !important;
+        transition: opacity 0.3s ease, color 0.3s ease, transform 0.2s;
+    }
+
+@media (min-width: 768px) {
+    .comic-zoom-btn {
+        width: 40px;
+        height: 40px;
+    }
+}
+
+    .comic-zoom-btn:active {
+        transform: scale(0.9);
+    }
+
+    .comic-zoom-btn:disabled {
+        opacity: 0.3 !important;
+        cursor: not-allowed;
+    }
+
+    [data-theme="light"] .comic-zoom-btn {
+        color: #111111 !important;
     }
 
     .comic-reader-viewport::before,
@@ -1460,6 +1494,7 @@
         height: 30px;
     }
 
+@media (max-width: 768px) {
     .comic-reader-page-container {
         padding: 0.5rem;
     }
