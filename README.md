@@ -54,3 +54,4 @@ npm run build
 ---
 
 Enmanuel Fuenmayor 2026
+Edymar Chacin 2026

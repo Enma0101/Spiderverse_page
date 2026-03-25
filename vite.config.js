@@ -63,4 +63,7 @@ export default defineConfig({
     }),
   ],
   assetsInclude: ['**/*.glb'],
+  optimizeDeps: {
+    include: ['three', '@react-three/fiber', '@react-three/drei', 'three-stdlib']
+  },
 })
