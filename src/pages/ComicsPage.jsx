@@ -287,12 +287,12 @@ const ComicReader = ({ comic, onClose }) => {
                 </div>
 
                 {/* Mobile Sub-Header (Only visible on mobile) */}
-                <div className="comic-reader-sub-header d-flex d-md-none align-items-center justify-content-center bg-black py-2" style={{ borderBottom: '1px solid #333' }}>
+                <div className="comic-reader-sub-header d-flex d-md-none align-items-center justify-content-center py-2">
                     <div className="comic-reader-controls d-flex align-items-center gap-3">
-                        <button className="btn btn-sm btn-outline-light border-0" onClick={handleZoomOut} disabled={scale === 1}>
+                        <button className="btn btn-sm comic-zoom-btn border-0" onClick={handleZoomOut} disabled={scale === 1}>
                             <i className="fas fa-search-minus"></i>
                         </button>
-                        <button className="btn btn-sm btn-outline-light border-0" onClick={handleZoomIn} disabled={scale === 3}>
+                        <button className="btn btn-sm comic-zoom-btn border-0" onClick={handleZoomIn} disabled={scale === 3}>
                             <i className="fas fa-search-plus"></i>
                         </button>
                     </div>
