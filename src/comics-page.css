@@ -10,8 +10,10 @@
     min-height: 500px;
     display: flex;
     align-items: center;
+    justify-content: flex-start;
+    text-align: left;
     background-size: cover;
-    background-position: center 100%;
+    background-position: 20% 100%;
     background-attachment: fixed;
 }
 
@@ -66,8 +68,10 @@
 .comics-hero-title {
     font-size: clamp(3.5rem, 10vw, 7rem);
     color: white;
+    margin-top: 0;
     margin-bottom: 1rem;
     line-height: 1;
+    text-align: left;
     text-shadow: 0 4px 30px rgba(0, 0, 0, 0.7), 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
@@ -75,7 +79,9 @@
     color: rgba(255, 255, 255, 0.95);
     font-size: clamp(1rem, 2vw, 1.25rem);
     max-width: 600px;
-    margin: 0;
+    margin-left: 0;
+    margin-right: auto;
+    text-align: left;
     text-shadow: 0 2px 15px rgba(0, 0, 0, 0.8), 0 0 5px rgba(0, 0, 0, 0.5);
     font-weight: 500;
 }
@@ -1008,6 +1014,27 @@
     border-color: rgba(0, 0, 0, 0.08);
 }
 
+[data-theme="light"] .comic-reader-sub-header .btn-outline-light {
+    color: #ffffff !important;
+    background: rgba(255, 255, 255, 0.1) !important;
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+}
+
+[data-theme="light"] .comic-reader-sub-header .btn-outline-light i {
+    color: #ffffff !important;
+}
+
+[data-theme="light"] .comic-reader-sub-header .btn-outline-light:hover:not(:disabled) {
+    background: rgba(255, 255, 255, 0.2) !important;
+    border-color: rgba(255, 255, 255, 0.5) !important;
+}
+
+[data-theme="light"] .comic-reader-sub-header .btn-outline-light:disabled {
+    color: rgba(255, 255, 255, 0.3) !important;
+    background: transparent !important;
+    border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
 [data-theme="light"] .comic-reader .text-white-50 {
     color: #555 !important;
     background: none;
@@ -1369,17 +1396,18 @@
     }
 
     .comic-reader-title {
-        font-size: 0.75rem;
+        font-size: 0.85rem;
         flex: 1;
         min-width: 0;
+        margin-right: 0.5rem;
     }
 
     .comic-reader-title span {
         display: block;
-        max-width: 120px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
+        max-width: 100%;
+        overflow: visible;
+        white-space: normal;
+        line-height: 1.2;
     }
 
     .comic-reader-actions {

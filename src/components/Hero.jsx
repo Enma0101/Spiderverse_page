@@ -31,7 +31,7 @@ const Hero = () => {
                         <h1 id="hero-title" className="display-1 brutalist-text mb-4">
                             <span className="text-gradient">TU VECINO <br /> AMIGABLE</span>
                         </h1>
-                        <p className="lead mb-5">
+                        <p className="lead mb-5 text-white">
                             Experimenta la emoción de ser Spider-Man con la trilogía completa
                             disponible en PlayStation 4 y PlayStation 5. Gráficos increíbles,
                             historia envolvente y acción sin límites.

@@ -58,6 +58,7 @@ const Footer = () => {
                             <li><a href="#3d-suits" onClick={(e) => handleAnchorLink(e, '3d-suits')}>Juegos de Consola</a></li>
                             <li><a href="#features" onClick={(e) => handleAnchorLink(e, 'features')}>Características</a></li>
                             <li><a href="#gallery" onClick={(e) => handleAnchorLink(e, 'gallery')}>Galería</a></li>
+                            <li><Link to="/universe">Spider-Verse</Link></li>
                             <li><Link to="/comics">Cómics</Link></li>
                         </ul>
                     </div>

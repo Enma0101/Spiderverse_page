@@ -1,0 +1,37 @@
+.character-bios-section .game-card {
+    border-top: 4px solid var(--char-color, var(--accent-primary));
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.character-bios-section .game-image {
+    object-position: center; 
+    object-fit: cover;
+    height: 100%;
+    width: 100%;
+}
+
+/* White text for descriptions as requested */
+.character-bios-section .game-content p {
+    color: #ffffff !important;
+    opacity: 0.9;
+    margin-bottom: 1.5rem;
+}
+
+[data-theme="light"] .character-bios-section .game-content p {
+    color: var(--text-primary) !important;
+    opacity: 1;
+}
+
+/* Ensure feature badges match Trilogy features */
+.character-bios-section .feature-badge {
+    background: var(--bg-secondary);
+    color: #ffffff !important;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    font-weight: 600;
+}
+
+[data-theme="light"] .character-bios-section .feature-badge {
+    background: var(--bg-tertiary);
+    color: var(--text-primary) !important;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}

@@ -217,7 +217,10 @@ const categories = [
 
 /* ---- Interactive Comic Reader Modal ---- */
 const ComicReader = ({ comic, onClose }) => {
-    const [currentPage, setCurrentPage] = useState(0);
+    // Persistencia de página usando localStorage
+    const storageKey = `comic-progress-${comic.id}`;
+    const savedPage = parseInt(localStorage.getItem(storageKey) || '0', 10);
+    const [currentPage, setCurrentPage] = useState(savedPage < (comic.pages?.length || 0) ? savedPage : 0);
     const [scale, setScale] = useState(1);
     const [isDragging, setIsDragging] = useState(false);
     const constraintsRef = useRef(null);
@@ -228,6 +231,11 @@ const ComicReader = ({ comic, onClose }) => {
         document.body.style.overflow = 'hidden';
         return () => { document.body.style.overflow = ''; };
     }, []);
+
+    // Guardar progreso automáticamente
+    useEffect(() => {
+        localStorage.setItem(storageKey, currentPage.toString());
+    }, [currentPage, storageKey]);
 
     useEffect(() => {
         const handleKey = (e) => {
@@ -271,22 +279,6 @@ const ComicReader = ({ comic, onClose }) => {
                         <span className="fw-bold fs-5">{comic.series || comic.title} {comic.issue}</span>
                     </div>
 
-                    {/* Desktop Actions (Hidden on mobile) */}
-                    <div className="comic-reader-actions d-none d-md-flex align-items-center gap-3">
-                        <div className="comic-reader-controls d-flex align-items-center gap-2">
-                            <button className="btn btn-sm btn-outline-light" onClick={handleZoomOut} disabled={scale === 1}>
-                                <i className="fas fa-search-minus"></i>
-                            </button>
-                            <span className="text-white-50" style={{ fontSize: '0.8rem' }}>{Math.round(scale * 100)}%</span>
-                            <button className="btn btn-sm btn-outline-light" onClick={handleZoomIn} disabled={scale === 3}>
-                                <i className="fas fa-search-plus"></i>
-                            </button>
-                        </div>
-
-                        <div className="comic-reader-page-info px-3 py-1 bg-dark rounded-pill border border-secondary small">
-                            {currentPage + 1} / {totalPages}
-                        </div>
-                    </div>
 
                     <button className="btn btn-danger rounded-circle d-flex align-items-center justify-content-center"
                         style={{ width: '40px', height: '40px' }} onClick={onClose}>
@@ -295,19 +287,14 @@ const ComicReader = ({ comic, onClose }) => {
                 </div>
 
                 {/* Mobile Sub-Header (Only visible on mobile) */}
-                <div className="comic-reader-sub-header d-flex d-md-none align-items-center justify-content-center">
-                    <div className="comic-reader-actions d-flex align-items-center gap-4">
-                        <div className="comic-reader-controls d-flex align-items-center gap-3">
-                            <button className="btn btn-sm btn-outline-light border-0" onClick={handleZoomOut} disabled={scale === 1}>
-                                <i className="fas fa-search-minus"></i>
-                            </button>
-                            <button className="btn btn-sm btn-outline-light border-0" onClick={handleZoomIn} disabled={scale === 3}>
-                                <i className="fas fa-search-plus"></i>
-                            </button>
-                        </div>
-                        <div className="comic-reader-page-info px-3 py-1 bg-dark rounded-pill border border-secondary small">
-                            {currentPage + 1} / {totalPages}
-                        </div>
+                <div className="comic-reader-sub-header d-flex d-md-none align-items-center justify-content-center bg-black py-2" style={{ borderBottom: '1px solid #333' }}>
+                    <div className="comic-reader-controls d-flex align-items-center gap-3">
+                        <button className="btn btn-sm btn-outline-light border-0" onClick={handleZoomOut} disabled={scale === 1}>
+                            <i className="fas fa-search-minus"></i>
+                        </button>
+                        <button className="btn btn-sm btn-outline-light border-0" onClick={handleZoomIn} disabled={scale === 3}>
+                            <i className="fas fa-search-plus"></i>
+                        </button>
                     </div>
                 </div>
 
@@ -537,10 +524,10 @@ const ComicsPage = () => {
                         <i className="fas fa-arrow-left me-2"></i> Volver al Inicio
                     </Link>
                     <h1 className="comics-hero-title brutalist-text" data-aos="fade-up">
-                        SPIDER-MAN: CÓMICS
+                        CÓMICS
                     </h1>
                     <p className="comics-hero-subtitle" data-aos="fade-up" data-aos-delay="100">
-                        Explora la colección completa de cómics del universo de Spider-Man
+                        Explora los cómics del universo de Spider-Man
                     </p>
                 </div>
             </section>
@@ -570,7 +557,7 @@ const ComicsPage = () => {
                             </div>
 
                             <button
-                                className="comics-sort-btn"
+                                className="comics-sort-btn me-2"
                                 onClick={() => {
                                     const orders = ['newest', 'oldest', 'az', 'za'];
                                     const idx = orders.indexOf(sortOrder);
@@ -692,7 +679,7 @@ const ComicsPage = () => {
                                 <i className="fas fa-chevron-right"></i>
                             </button>
 
-                            <span className="page-info">
+                            <span className="page-info d-none d-sm-inline">
                                 Página {safePage} de {totalPages}
                             </span>
                         </nav>

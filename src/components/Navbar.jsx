@@ -97,6 +97,7 @@ const Navbar = ({ onOpenAuth }) => {
         { name: 'Juegos', href: '#3d-suits' },
         { name: 'Características', href: '#features' },
         { name: 'Galería', href: '#gallery' },
+        { name: 'Spider-Verse', href: '/universe', isRoute: true },
         { name: 'Cómics', href: '/comics', isRoute: true },
     ];
 
@@ -216,6 +217,7 @@ const Navbar = ({ onOpenAuth }) => {
                                                 onOpenAuth();
                                                 setIsOpen(false);
                                             }}
+                                            style={{ height: '32px', display: 'flex', alignItems: 'center' }}
                                         >
                                             <i className="fas fa-user me-2"></i>Acceder
                                         </button>

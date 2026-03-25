@@ -1,0 +1,100 @@
+.spotify-widget-container {
+    position: fixed;
+    bottom: 6.5rem; /* Subido para estar sobre el chatbot */
+    right: 2rem;
+    z-index: 10001;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 1rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.spotify-toggle {
+    width: auto;
+    height: 48px;
+    padding: 0 1.5rem;
+    border-radius: 24px;
+    border: none;
+    background: #1DB954; /* Spotify Green */
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.8rem;
+    cursor: pointer;
+    box-shadow: 0 8px 24px rgba(29, 185, 84, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.spotify-toggle:hover {
+    transform: scale(1.05);
+    background: #1ed760;
+}
+
+.music-label {
+    font-family: var(--font-display);
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+}
+
+.spotify-player-card {
+    width: 380px;
+    padding: 1.5rem;
+    background: var(--bg-tertiary);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    animation: fadeInUp 0.4s ease-out;
+}
+
+.spotify-header {
+    margin-bottom: 1rem;
+}
+
+.soundtrack-selector {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+    overflow-x: auto;
+    padding-bottom: 0.5rem;
+}
+
+.track-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-primary);
+    padding: 0.3rem 0.8rem;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.track-btn:hover, .track-btn.active {
+    background: var(--accent-primary);
+    border-color: var(--accent-primary);
+    color: white;
+}
+
+[data-theme="light"] .spotify-player-card {
+    background: white;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+[data-theme="light"] .track-btn {
+    background: rgba(0, 0, 0, 0.05);
+    color: var(--text-primary);
+}
+
+@media (max-width: 576px) {
+    .spotify-widget-container {
+        bottom: 5rem; /* Subido en móvil también */
+        right: 1.5rem;
+    }
+    .spotify-player-card {
+        width: 300px;
+    }
+}
