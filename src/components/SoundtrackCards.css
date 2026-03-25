@@ -5,6 +5,12 @@
     transition: background-color 0.5s ease;
 }
 
+@media (max-width: 768px) {
+    .soundtrack-section {
+        padding: 40px 0;
+    }
+}
+
 .slideC {
     position: relative;
     perspective: 1000px;
@@ -12,6 +18,39 @@
     width: 360px;
     height: 560px;
     margin: 40px auto;
+}
+
+@media (max-width: 480px) {
+    .slideC {
+        width: 280px;
+        height: 470px;
+    }
+    
+    .playback-card-inner {
+        padding: 1rem !important;
+    }
+    .track-info-section, .playback-section {
+        margin-top: 0.5rem !important;
+        margin-bottom: 0.5rem !important;
+    }
+    .track-info-section h3 {
+        font-size: 1.3rem !important;
+    }
+    
+    /* Scale down playback controls proportionally */
+    .play-pause-btn {
+        width: 48px !important;
+        height: 48px !important;
+        margin-top: 0.5rem !important;
+    }
+    .play-pause-btn svg {
+        width: 24px !important;
+        height: 24px !important;
+    }
+    .skip-btn {
+        width: 24px !important;
+        height: 24px !important;
+    }
 }
 
 @media (min-width: 768px) {

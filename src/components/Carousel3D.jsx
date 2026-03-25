@@ -433,9 +433,16 @@ function Carousel3D() {
     const [selectedGame, setSelectedGame] = useState(null);
     const [isVisible, setIsVisible] = useState(false);
     const [allModelsParsed, setAllModelsParsed] = useState(false);
+    const [isMobile, setIsMobile] = useState(typeof window !== 'undefined' && window.innerWidth < 768);
 
     const sectionRef = useRef(null);
     const isPausedRef = useRef(false);
+
+    useEffect(() => {
+        const handleResize = () => setIsMobile(window.innerWidth < 768);
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
 
     // Step 1: Intersection observer — start loading when section is near viewport
     useEffect(() => {
@@ -475,14 +482,21 @@ function Carousel3D() {
 
     return (
         <section id="3d-suits" className="three-d-suits-section" ref={sectionRef} style={{ position: 'relative' }}>
-            <div className="container mb-1">
+            <div className={`container ${isMobile ? 'mb-0' : 'mb-1'}`}>
                 <h2 className="section-title text-center brutalist-text" data-aos="fade-up">
                     JUEGOS DE CONSOLA
                 </h2>
             </div>
 
             {/* Container for Loader and Canvas */}
-            <div style={{ position: 'relative', width: '120%', marginLeft: '-10%', height: '560px', overflow: 'hidden' }}>
+            <div style={{ 
+                position: 'relative', 
+                width: '120%', 
+                marginLeft: '-10%', 
+                height: isMobile ? '360px' : '560px', 
+                marginTop: isMobile ? '-1.5rem' : '0',
+                overflow: 'hidden' 
+            }}>
 
                 {/* 3D Canvas (always mounted, but hidden behind the solid overlay until ready) */}
                 {ready && (
@@ -493,8 +507,8 @@ function Carousel3D() {
                     }}>
                         <Canvas
                             camera={{
-                                position: typeof window !== 'undefined' && window.innerWidth < 768 ? [0, 0, 8.5] : [0, 0, 6.5],
-                                fov: typeof window !== 'undefined' && window.innerWidth < 768 ? 115 : 90
+                                position: isMobile ? [0, 0, 7.0] : [0, 0, 6.5],
+                                fov: isMobile ? 90 : 90
                             }}
                             dpr={[1, 1.5]}
                             gl={{ powerPreference: "high-performance", antialias: false, alpha: true }}
@@ -533,9 +547,9 @@ function Carousel3D() {
                 color: 'var(--text-muted)',
                 fontSize: '0.78rem',
                 letterSpacing: '0.06em',
-                marginTop: '0.5rem',
+                marginTop: isMobile ? '-0.5rem' : '0.5rem',
             }}>
-                Haz clic en los juegos del frente para ver detalles
+                Haz click en los juegos del frente para ver detalles
             </p>
 
             {selectedGame && (

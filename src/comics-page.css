@@ -1014,6 +1014,27 @@
     border-color: rgba(0, 0, 0, 0.08);
 }
 
+[data-theme="light"] .comic-reader-sub-header .btn-outline-light {
+    color: #ffffff !important;
+    background: rgba(255, 255, 255, 0.1) !important;
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+}
+
+[data-theme="light"] .comic-reader-sub-header .btn-outline-light i {
+    color: #ffffff !important;
+}
+
+[data-theme="light"] .comic-reader-sub-header .btn-outline-light:hover:not(:disabled) {
+    background: rgba(255, 255, 255, 0.2) !important;
+    border-color: rgba(255, 255, 255, 0.5) !important;
+}
+
+[data-theme="light"] .comic-reader-sub-header .btn-outline-light:disabled {
+    color: rgba(255, 255, 255, 0.3) !important;
+    background: transparent !important;
+    border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
 [data-theme="light"] .comic-reader .text-white-50 {
     color: #555 !important;
     background: none;
@@ -1375,17 +1396,18 @@
     }
 
     .comic-reader-title {
-        font-size: 0.75rem;
+        font-size: 0.85rem;
         flex: 1;
         min-width: 0;
+        margin-right: 0.5rem;
     }
 
     .comic-reader-title span {
         display: block;
-        max-width: 120px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
+        max-width: 100%;
+        overflow: visible;
+        white-space: normal;
+        line-height: 1.2;
     }
 
     .comic-reader-actions {

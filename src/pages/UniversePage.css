@@ -76,9 +76,12 @@
     line-height: 1.5 !important;
 }
 
-@media (max-width: 991px) {
+@media (max-width: 1020px) {
     .universe-title {
         font-size: 3.5rem !important;
+    }
+    .universe-subtitle {
+        max-width: 240px !important;
     }
 }
 

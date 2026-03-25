@@ -1,5 +1,24 @@
 /* FloatingAudioPlayer.css */
 
+.floating-audio-overlay {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    z-index: 9997;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+}
+
+.floating-audio-overlay.open {
+    opacity: 0.7;
+    pointer-events: auto;
+}
+
 .floating-audio-container {
     position: fixed;
     bottom: 2rem;
@@ -103,6 +122,43 @@
     height: 2px;
 }
 
+.close-music-btn {
+    border: none;
+    background: rgba(255, 255, 255, 0.08); /* Match arrow style opacity */
+    color: white;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5); /* Stronger shadow */
+    z-index: 100;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+}
+
+.close-music-btn:hover {
+    background: var(--accent-primary);
+    transform: scale(1.1);
+    box-shadow: 0 8px 20px rgba(229, 9, 20, 0.4);
+}
+
+[data-theme="light"] .close-music-btn {
+    background: rgba(229, 9, 20, 0.1) !important; /* Subtle red tint */
+    color: #e50914 !important; /* Bold red icon */
+    border-color: rgba(229, 9, 20, 0.2) !important;
+    box-shadow: 0 6px 18px rgba(229, 9, 20, 0.12) !important; 
+}
+
+[data-theme="light"] .close-music-btn:hover {
+    background: #e50914 !important;
+    color: white !important;
+    transform: scale(1.1);
+}
+
 /* Compact 3D Carousel inside Floating Widget */
 .compact-slideC {
     position: relative;
@@ -179,6 +235,7 @@
     color: white;
     transition: all 0.3s ease;
     backdrop-filter: blur(5px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4); /* Stronger shadow */
 }
 
 .compact-carousel-btn:hover:not(:disabled) {
@@ -281,7 +338,7 @@
     background: white !important;
     border-color: rgba(0, 0, 0, 0.1) !important;
     color: var(--text-primary) !important;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05) !important;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1) !important; /* Stronger light shadow */
 }
 
 [data-theme="light"] .compact-carousel-btn:hover:not(:disabled) {

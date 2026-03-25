@@ -155,6 +155,12 @@ const Chatbot = ({ isOpen, onToggle }) => {
 
     return (
         <>
+            {/* Overlay */}
+            <div 
+                className={`chatbot-overlay ${isOpen ? 'open' : ''}`} 
+                onClick={onToggle}
+            ></div>
+
             {/* Chat Window */}
             <div className={`chatbot-window ${isOpen ? 'open' : ''}`}>
                 {/* Header */}

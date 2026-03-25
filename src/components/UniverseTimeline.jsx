@@ -204,8 +204,8 @@ const UniverseTimeline = () => {
                     ))}
                 </div>
 
-                {/* Dynamic SVG Connecting Lines for Desktop */}
-                <svg className="web-connections d-none d-lg-block" style={{ width: '100%', height: '100%' }}>
+                {/* Dynamic SVG Connecting Lines */}
+                <svg className="web-connections" style={{ width: '100%', height: '100%' }}>
                     {lines.map(line => (
                         <line
                             key={line.id}
@@ -251,7 +251,7 @@ const UniverseTimeline = () => {
             </div>
 
             {/* Trivia Section */}
-            <div className="trivia-container container text-center mt-10" data-aos="fade-up">
+            <div className="trivia-container container text-center mt-4 mt-md-10" data-aos="fade-up">
                 {trivia && (
                     <div className="web-text-content neomorph mx-auto trivia-card" style={{ position: 'relative', width: '100%', maxWidth: '600px', top: 'auto', transform: 'none', opacity: 1, pointerEvents: 'auto', left: 'auto', right: 'auto' }}>
                         <h4 className="movie-title brutalist-text mb-3" style={{ fontSize: '1.4rem' }}>🔥 ALERTA DE ANOMALÍA 🔥</h4>

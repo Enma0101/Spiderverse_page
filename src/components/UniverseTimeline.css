@@ -222,8 +222,8 @@
         min-height: auto;
         display: flex;
         flex-direction: column;
-        gap: 5rem;
-        padding: 3rem 1rem;
+        gap: 2rem;
+        padding: 1rem 1rem;
     }
 
     .web-node-wrapper {
@@ -271,6 +271,9 @@
         0% { transform: none; opacity: 1; }
         20% { transform: rotate(15deg) scale(1.1); filter: grayscale(1) blur(2px); }
         100% { transform: translateY(500px) rotate(45deg) scale(0.5); opacity: 0; filter: grayscale(1) blur(10px); }
+    }
+    .trivia-container {
+        padding-bottom: 2.5rem !important;
     }
 }
 

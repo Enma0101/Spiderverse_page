@@ -25,7 +25,7 @@ const characters = [
         alias: "Spider-Gwen",
         color: "#ff69b4",
         image: "/gwenstacy.jpg",
-        objectPosition: "top",
+        objectPosition: "center 35%",
         description: "En su universo, fue ella quien recibió la mordida arácnida. Una baterista talentosa que lucha contra el crimen con elegancia y agilidad única.",
         powers: ["Agilidad Extrema", "Viaje Dimensional", "Sentido Refinado"]
     }

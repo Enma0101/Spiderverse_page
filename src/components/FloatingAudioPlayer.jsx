@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect, useRef } from 'react';
-import { Play, Pause, SkipBack, SkipForward, ChevronLeft, ChevronRight, Music } from 'lucide-react';
+import { Play, Pause, SkipBack, SkipForward, ChevronLeft, ChevronRight, Music, X } from 'lucide-react';
 import { AudioContext } from '../context/AudioContext';
 import './FloatingAudioPlayer.css';
 
@@ -216,23 +216,33 @@ const FloatingAudioPlayer = ({ isOpen, onToggle }) => {
   };
 
   return (
-    <div className={`floating-audio-container ${isOpen ? 'open' : 'closed'}`}>
-      <button
-        className={`floating-audio-toggle ${isPlaying ? 'playing' : ''}`}
-        onClick={onToggle}
-        title="Reproductor de Música"
-      >
-        <Music size={24} className={isPlaying ? 'animate-pulse' : ''} />
-      </button>
+    <>
+      <div className={`floating-audio-overlay ${isOpen ? 'open' : ''}`} onClick={onToggle} />
+      
+      <div className={`floating-audio-container ${isOpen ? 'open' : 'closed'}`}>
+        <button
+          className={`floating-audio-toggle ${isPlaying ? 'playing' : ''}`}
+          onClick={onToggle}
+          title="Reproductor de Música"
+        >
+          <Music size={24} className={isPlaying ? 'animate-pulse' : ''} />
+        </button>
 
-      {isOpen && (
-        <div className="floating-player-card">
-          <div className="floating-player-header">
-            <h4 className="section-title brutalist-text m-0 text-base tracking-tighter uppercase floating-player-title">
-              Spider-Verse <span style={{ color: 'var(--accent-primary)' }}>Sonic</span> Archive
-            </h4>
-
-          </div>
+        {isOpen && (
+          <div className="floating-player-card" onClick={(e) => e.stopPropagation()}>
+            <div className="floating-player-header">
+              <div className="flex justify-between items-center w-full px-2">
+                <h4 className="section-title brutalist-text m-0 text-base tracking-tighter uppercase floating-player-title">
+                  Spider-Verse <span style={{ color: 'var(--accent-primary)' }}>Sonic</span> Archive
+                </h4>
+                <button 
+                  className="close-music-btn p-1 hover:bg-white/10 rounded-full transition-colors"
+                  onClick={onToggle}
+                >
+                  <X size={20} />
+                </button>
+              </div>
+            </div>
 
           <div className="compact-slideC">
             {soundtracks.map((track, i) => (
@@ -272,6 +282,7 @@ const FloatingAudioPlayer = ({ isOpen, onToggle }) => {
         </div>
       )}
     </div>
+    </>
   );
 };
 
