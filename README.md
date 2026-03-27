@@ -52,5 +52,6 @@ npm run build
 ```
 
 ---
-
-Enmanuel Fuenmayor 2026
+Enmanuel Fuenmayor
+Edymar Chacin
+2026
